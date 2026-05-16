@@ -1,0 +1,360 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tất cả sản phẩm – VitaStore</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/variables.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/components.css}" />
+    <link rel="stylesheet" th:href="@{/css/pages.css}" />
+  </head>
+  <body>
+    <!-- Header -->
+    <div
+      th:replace="~{fragments/header :: header}"
+      th:with="currentPage='shop'"
+    ></div>
+
+    <main>
+      <div class="container" style="padding-top: 28px; padding-bottom: 64px">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+          <a th:href="@{/}">Trang chủ</a>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-current">Tất cả sản phẩm</span>
+        </nav>
+
+        <!-- Page Title -->
+        <div style="margin-bottom: 24px">
+          <h2 style="font-size: 1.6rem; font-weight: 700">Tất cả sản phẩm</h2>
+          <p
+            style="
+              color: var(--color-text-muted);
+              font-size: 0.875rem;
+              margin-top: 4px;
+            "
+          >
+            Khám phá hàng trăm sản phẩm vitamin và thực phẩm chức năng chính
+            hãng
+          </p>
+        </div>
+
+        <!-- Category Chips -->
+        <div class="category-row" style="margin-bottom: 24px">
+          <a
+            th:href="@{/shop}"
+            class="category-chip"
+            th:classappend="${param.category == null} ? 'active'"
+            >Tất cả</a
+          >
+          <a
+            th:href="@{/shop(category='vitamin-nao')}"
+            class="category-chip"
+            th:classappend="${param.category != null and #lists.contains(param.category, 'vitamin-nao')} ? 'active'"
+            >🧠 Bổ não</a
+          >
+          <a
+            th:href="@{/shop(category='xuong-khop')}"
+            class="category-chip"
+            th:classappend="${param.category != null and #lists.contains(param.category, 'xuong-khop')} ? 'active'"
+            >🦴 Xương khớp</a
+          >
+          <a
+            th:href="@{/shop(category='vitamin-tre-em')}"
+            class="category-chip"
+            th:classappend="${param.category != null and #lists.contains(param.category, 'vitamin-tre-em')} ? 'active'"
+            >👶 Cho bé</a
+          >
+          <a
+            th:href="@{/shop(category='omega-3')}"
+            class="category-chip"
+            th:classappend="${param.category != null and #lists.contains(param.category, 'omega-3')} ? 'active'"
+            >🐟 Omega-3</a
+          >
+          <a
+            th:href="@{/shop(category='probiotics')}"
+            class="category-chip"
+            th:classappend="${param.category != null and #lists.contains(param.category, 'probiotics')} ? 'active'"
+            >🌿 Probiotics</a
+          >
+        </div>
+
+        <!-- Shop Layout -->
+        <div class="shop-layout">
+          <!-- Sidebar Filter -->
+          <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+          <!-- Main Content -->
+          <div>
+            <!-- Toolbar -->
+            <div class="shop-toolbar">
+              <div class="shop-result-count">
+                Hiển thị
+                <strong id="result-count" th:text="${totalProducts ?: 0}"
+                  >0</strong
+                >
+                sản phẩm
+              </div>
+              <div class="shop-sort">
+                <span class="sort-label">Sắp xếp:</span>
+                <select class="sort-select">
+                  <option
+                    value="default"
+                    th:selected="${param.sort == null || param.sort == 'default'}"
+                  >
+                    Mặc định
+                  </option>
+                  <option
+                    value="name-asc"
+                    th:selected="${param.sort == 'name-asc'}"
+                  >
+                    A → Z
+                  </option>
+                  <option
+                    value="name-desc"
+                    th:selected="${param.sort == 'name-desc'}"
+                  >
+                    Z → A
+                  </option>
+                  <option
+                    value="price-asc"
+                    th:selected="${param.sort == 'price-asc'}"
+                  >
+                    Giá thấp → cao
+                  </option>
+                  <option
+                    value="price-desc"
+                    th:selected="${param.sort == 'price-desc'}"
+                  >
+                    Giá cao → thấp
+                  </option>
+                  <option
+                    value="newest"
+                    th:selected="${param.sort == 'newest'}"
+                  >
+                    Mới nhất
+                  </option>
+                  <option
+                    value="popular"
+                    th:selected="${param.sort == 'popular'}"
+                  >
+                    Phổ biến nhất
+                  </option>
+                </select>
+              </div>
+              <div class="view-toggle">
+                <button class="view-btn active" data-view="grid" title="Lưới">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                  </svg>
+                </button>
+                <button class="view-btn" data-view="list" title="Danh sách">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="8" y1="6" x2="21" y2="6" />
+                    <line x1="8" y1="12" x2="21" y2="12" />
+                    <line x1="8" y1="18" x2="21" y2="18" />
+                    <line x1="3" y1="6" x2="3.01" y2="6" />
+                    <line x1="3" y1="12" x2="3.01" y2="12" />
+                    <line x1="3" y1="18" x2="3.01" y2="18" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="product-grid" id="product-grid">
+              <div class="product-card" th:each="product : ${products}">
+                <div class="product-card-badge">
+                  <span
+                    class="badge badge-orange"
+                    th:if="${product.discountPercent > 0}"
+                    th:text="${'-' + product.discountPercent + '%'}"
+                    >-20%</span
+                  >
+                  <span class="badge badge-blue" th:if="${product.isNew}"
+                    >Mới</span
+                  >
+                </div>
+                <div class="product-card-img">
+                  <img
+                    th:src="${product.imageUrl}"
+                    th:alt="${product.name}"
+                    src="/images/placeholder.png"
+                  />
+                  <div class="product-card-actions">
+                    <a
+                      th:href="@{/products/{id}(id=${product.id})}"
+                      class="product-action-btn"
+                      title="Xem chi tiết"
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                        />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+                <div class="product-card-body">
+                  <div
+                    class="product-category"
+                    th:text="${product.categoryName}"
+                  >
+                    Vitamin
+                  </div>
+                  <div class="product-name" th:text="${product.name}">
+                    Tên sản phẩm
+                  </div>
+                  <div class="product-brand" th:text="${product.brand}">
+                    Thương hiệu
+                  </div>
+                  <div class="product-rating">
+                    <span class="stars">★★★★★</span>
+                    <span
+                      class="rating-count"
+                      th:text="${'(' + product.reviewCount + ')' }"
+                      >(0)</span
+                    >
+                  </div>
+                  <div class="product-price-row">
+                    <div>
+                      <div
+                        class="product-price"
+                        th:text="${#numbers.formatInteger(product.price,1,'COMMA') + 'đ'}"
+                      >
+                        0đ
+                      </div>
+                      <div
+                        class="product-price-old"
+                        th:if="${product.originalPrice > product.price}"
+                        th:text="${#numbers.formatInteger(product.originalPrice,1,'COMMA') + 'đ'}"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="product-card-footer">
+                  <button
+                    class="add-to-cart-btn"
+                    data-add-cart
+                    th:data-id="${product.id}"
+                    th:data-name="${product.name}"
+                    th:data-price="${product.price}"
+                    th:data-img="${product.imageUrl}"
+                    th:data-brand="${product.brand}"
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="9" cy="21" r="1" />
+                      <circle cx="20" cy="21" r="1" />
+                      <path
+                        d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                      />
+                    </svg>
+                    Thêm vào giỏ
+                  </button>
+                </div>
+              </div>
+
+              <!-- Empty state -->
+              <div
+                th:if="${#lists.isEmpty(products)}"
+                style="grid-column: 1/-1"
+                class="empty-state"
+              >
+                <svg
+                  width="64"
+                  height="64"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <h4>Không tìm thấy sản phẩm</h4>
+                <p>Thử thay đổi bộ lọc hoặc tìm kiếm với từ khóa khác</p>
+                <a
+                  th:href="@{/shop}"
+                  class="btn btn-primary"
+                  style="margin-top: 16px"
+                  >Xem tất cả</a
+                >
+              </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" th:if="${totalPages > 1}">
+              <a
+                class="page-btn"
+                th:href="@{/shop(page=${currentPage - 1})}"
+                th:classappend="${currentPage <= 1} ? 'disabled'"
+                th:if="${currentPage > 1}"
+                >‹</a
+              >
+              <a
+                class="page-btn"
+                th:each="i : ${#numbers.sequence(1, totalPages)}"
+                th:href="@{/shop(page=${i})}"
+                th:text="${i}"
+                th:classappend="${i == currentPage} ? 'active'"
+                >1</a
+              >
+              <a
+                class="page-btn"
+                th:href="@{/shop(page=${currentPage + 1})}"
+                th:if="${currentPage < totalPages}"
+                >›</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- Contact Bubble -->
+    <div th:replace="~{fragments/contact :: contact}"></div>
+
+    <script th:src="@{/js/app.js}"></script>
+  </body>
+</html>

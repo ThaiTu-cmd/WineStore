@@ -1,0 +1,322 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+  <body>
+    <!-- ===== SIDEBAR FILTER FRAGMENT ===== -->
+    <aside class="filter-sidebar" th:fragment="sidebar">
+      <form id="filter-form">
+        <div class="filter-header">
+          <h4>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+            </svg>
+            Bộ lọc
+          </h4>
+          <span class="filter-clear">Xóa tất cả</span>
+        </div>
+
+        <!-- Price Filter -->
+        <div class="filter-section">
+          <div class="filter-section-title">
+            <span>Mức giá</span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+          <div class="filter-options">
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="price"
+                value="under100k"
+                th:checked="${param.price != null and #lists.contains(param.price, 'under100k')}"
+              />
+              <span>Dưới 100.000đ</span>
+              <span class="count">12</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="price"
+                value="100k-200k"
+                th:checked="${param.price != null and #lists.contains(param.price, '100k-200k')}"
+              />
+              <span>100.000đ – 200.000đ</span>
+              <span class="count">28</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="price"
+                value="200k-500k"
+                th:checked="${param.price != null and #lists.contains(param.price, '200k-500k')}"
+              />
+              <span>200.000đ – 500.000đ</span>
+              <span class="count">35</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="price"
+                value="500k-1m"
+                th:checked="${param.price != null and #lists.contains(param.price, '500k-1m')}"
+              />
+              <span>500.000đ – 1.000.000đ</span>
+              <span class="count">19</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="price"
+                value="over1m"
+                th:checked="${param.price != null and #lists.contains(param.price, 'over1m')}"
+              />
+              <span>Trên 1.000.000đ</span>
+              <span class="count">8</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="filter-section">
+          <div class="filter-section-title">
+            <span>Loại sản phẩm</span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+          <div class="filter-options">
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="category"
+                value="vitamin-nao"
+                th:checked="${param.category != null and #lists.contains(param.category, 'vitamin-nao')}"
+              />
+              <span>Vitamin bổ não</span>
+              <span class="count">18</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="category"
+                value="xuong-khop"
+                th:checked="${param.category != null and #lists.contains(param.category, 'xuong-khop')}"
+              />
+              <span>Xương khớp</span>
+              <span class="count">22</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="category"
+                value="vitamin-tre-em"
+                th:checked="${param.category != null and #lists.contains(param.category, 'vitamin-tre-em')}"
+              />
+              <span>Vitamin cho bé</span>
+              <span class="count">14</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="category"
+                value="thuc-pham-chuc-nang"
+                th:checked="${param.category != null and #lists.contains(param.category, 'thuc-pham-chuc-nang')}"
+              />
+              <span>Thực phẩm chức năng</span>
+              <span class="count">31</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="category"
+                value="omega-3"
+                th:checked="${param.category != null and #lists.contains(param.category, 'omega-3')}"
+              />
+              <span>Omega-3</span>
+              <span class="count">9</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="category"
+                value="probiotics"
+                th:checked="${param.category != null and #lists.contains(param.category, 'probiotics')}"
+              />
+              <span>Probiotics</span>
+              <span class="count">11</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Brand Filter -->
+        <div class="filter-section">
+          <div class="filter-section-title">
+            <span>Thương hiệu</span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+          <div class="filter-options">
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="brand"
+                value="natures-way"
+                th:checked="${param.brand != null and #lists.contains(param.brand, 'natures-way')}"
+              />
+              <span>Nature's Way</span>
+              <span class="count">15</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="brand"
+                value="zeambi"
+                th:checked="${param.brand != null and #lists.contains(param.brand, 'zeambi')}"
+              />
+              <span>Zeambi</span>
+              <span class="count">8</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="brand"
+                value="vitabiotics"
+                th:checked="${param.brand != null and #lists.contains(param.brand, 'vitabiotics')}"
+              />
+              <span>Vitabiotics</span>
+              <span class="count">12</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="brand"
+                value="now-foods"
+                th:checked="${param.brand != null and #lists.contains(param.brand, 'now-foods')}"
+              />
+              <span>NOW Foods</span>
+              <span class="count">20</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="brand"
+                value="blackmores"
+                th:checked="${param.brand != null and #lists.contains(param.brand, 'blackmores')}"
+              />
+              <span>Blackmores</span>
+              <span class="count">17</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="brand"
+                value="solgar"
+                th:checked="${param.brand != null and #lists.contains(param.brand, 'solgar')}"
+              />
+              <span>Solgar</span>
+              <span class="count">10</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Target Audience -->
+        <div class="filter-section">
+          <div class="filter-section-title">
+            <span>Đối tượng</span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+          <div class="filter-options">
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="target"
+                value="tre-em"
+                th:checked="${param.target != null and #lists.contains(param.target, 'tre-em')}"
+              />
+              <span>Trẻ em</span>
+              <span class="count">14</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="target"
+                value="phu-nu-co-thai"
+                th:checked="${param.target != null and #lists.contains(param.target, 'phu-nu-co-thai')}"
+              />
+              <span>Phụ nữ có thai</span>
+              <span class="count">9</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="target"
+                value="nguoi-cao-tuoi"
+                th:checked="${param.target != null and #lists.contains(param.target, 'nguoi-cao-tuoi')}"
+              />
+              <span>Người cao tuổi</span>
+              <span class="count">16</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="target"
+                value="nguoi-lon"
+                th:checked="${param.target != null and #lists.contains(param.target, 'nguoi-lon')}"
+              />
+              <span>Người trưởng thành</span>
+              <span class="count">42</span>
+            </label>
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="target"
+                value="van-dong-vien"
+                th:checked="${param.target != null and #lists.contains(param.target, 'van-dong-vien')}"
+              />
+              <span>Vận động viên</span>
+              <span class="count">7</span>
+            </label>
+          </div>
+        </div>
+      </form>
+    </aside>
+  </body>
+</html>

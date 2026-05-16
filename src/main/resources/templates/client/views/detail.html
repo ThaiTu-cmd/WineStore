@@ -1,0 +1,449 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${product.name + ' – VitaStore'}">
+      Chi tiết sản phẩm – VitaStore
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/variables.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/components.css}" />
+    <link rel="stylesheet" th:href="@{/css/pages.css}" />
+  </head>
+  <body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <main>
+      <div class="container" style="padding-top: 28px; padding-bottom: 64px">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+          <a th:href="@{/}">Trang chủ</a>
+          <span class="breadcrumb-sep">›</span>
+          <a th:href="@{/shop}">Sản phẩm</a>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-current" th:text="${product.name}"
+            >Tên sản phẩm</span
+          >
+        </nav>
+
+        <!-- Detail Layout -->
+        <div class="detail-layout">
+          <!-- Gallery -->
+          <div class="detail-gallery">
+            <div class="main-image">
+              <img
+                id="mainImg"
+                th:src="${product.imageUrl}"
+                th:alt="${product.name}"
+                src="/images/placeholder.png"
+              />
+            </div>
+            <div
+              class="thumb-row"
+              th:if="${product.images != null && !product.images.isEmpty()}"
+            >
+              <div
+                class="thumb-img active"
+                th:each="img, i : ${product.images}"
+                th:data-src="${img}"
+                th:classappend="${i.first} ? 'active'"
+              >
+                <img th:src="${img}" th:alt="${product.name}" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Info -->
+          <div class="detail-info">
+            <div class="detail-category" th:text="${product.categoryName}">
+              Vitamin
+            </div>
+            <h1 class="detail-title" th:text="${product.name}">Tên sản phẩm</h1>
+            <div class="detail-brand">
+              Thương hiệu: <strong th:text="${product.brand}">Brand</strong>
+            </div>
+
+            <div class="detail-rating">
+              <span class="stars" style="font-size: 1rem">★★★★★</span>
+              <span
+                style="font-size: 0.875rem; color: var(--color-grey-600)"
+                th:text="${product.reviewCount + ' đánh giá'}"
+                >0 đánh giá</span
+              >
+              <span class="badge badge-green" th:if="${product.inStock}"
+                >Còn hàng</span
+              >
+              <span class="badge badge-red" th:unless="${product.inStock}"
+                >Hết hàng</span
+              >
+            </div>
+
+            <div class="detail-price-row">
+              <div
+                class="detail-price"
+                th:text="${#numbers.formatInteger(product.price,1,'COMMA') + 'đ'}"
+              >
+                0đ
+              </div>
+              <div
+                class="detail-price-old"
+                th:if="${product.originalPrice > product.price}"
+                th:text="${#numbers.formatInteger(product.originalPrice,1,'COMMA') + 'đ'}"
+              ></div>
+              <span
+                class="detail-discount"
+                th:if="${product.discountPercent > 0}"
+                th:text="${'-' + product.discountPercent + '%'}"
+                >-20%</span
+              >
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Short description -->
+            <p
+              style="
+                font-size: 0.875rem;
+                color: var(--color-grey-700);
+                line-height: 1.8;
+              "
+              th:text="${product.shortDescription}"
+            >
+              Mô tả ngắn sản phẩm.
+            </p>
+
+            <!-- Tags -->
+            <div class="detail-tags" th:if="${product.tags != null}">
+              <span
+                class="detail-tag"
+                th:each="tag : ${product.tags}"
+                th:text="${tag}"
+                >Tag</span
+              >
+            </div>
+
+            <!-- Qty -->
+            <div class="detail-qty-row">
+              <span
+                style="
+                  font-size: 0.875rem;
+                  font-weight: 500;
+                  color: var(--color-grey-700);
+                "
+                >Số lượng:</span
+              >
+              <div class="detail-qty">
+                <button class="detail-qty-btn" data-action="minus">−</button>
+                <input
+                  class="detail-qty-num"
+                  type="number"
+                  value="1"
+                  min="1"
+                  id="detailQty"
+                />
+                <button class="detail-qty-btn" data-action="plus">+</button>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="detail-actions">
+              <button
+                class="btn btn-primary btn-lg"
+                data-add-cart
+                th:data-id="${product.id}"
+                th:data-name="${product.name}"
+                th:data-price="${product.price}"
+                th:data-img="${product.imageUrl}"
+                th:data-brand="${product.brand}"
+                style="flex: 1"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path
+                    d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                  />
+                </svg>
+                Thêm vào giỏ hàng
+              </button>
+              <button
+                class="btn btn-accent btn-lg"
+                onclick="window.location.href = '/checkout'"
+                style="flex: 1"
+              >
+                Mua ngay
+              </button>
+              <button class="wishlist-btn" title="Yêu thích">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Guarantees -->
+            <div
+              style="
+                display: flex;
+                gap: 12px;
+                flex-wrap: wrap;
+                margin-top: 20px;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  font-size: 0.8rem;
+                  color: var(--color-grey-600);
+                "
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--color-green)"
+                  stroke-width="2"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                Hàng chính hãng
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  font-size: 0.8rem;
+                  color: var(--color-grey-600);
+                "
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--color-green)"
+                  stroke-width="2"
+                >
+                  <rect x="1" y="3" width="15" height="13" />
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                  <circle cx="5.5" cy="18.5" r="2.5" />
+                  <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+                Miễn phí vận chuyển từ 500k
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  font-size: 0.8rem;
+                  color: var(--color-grey-600);
+                "
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--color-green)"
+                  stroke-width="2"
+                >
+                  <polyline points="23 4 23 10 17 10" />
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+                Đổi trả trong 30 ngày
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div
+          style="
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            padding: 24px;
+            margin-bottom: 48px;
+          "
+        >
+          <div class="detail-tabs">
+            <div class="detail-tab active" data-tab="tab-desc">
+              Mô tả sản phẩm
+            </div>
+            <div class="detail-tab" data-tab="tab-usage">Hướng dẫn sử dụng</div>
+            <div class="detail-tab" data-tab="tab-reviews">
+              Đánh giá (<span th:text="${product.reviewCount}">0</span>)
+            </div>
+          </div>
+
+          <div id="tab-desc" class="tab-content active">
+            <div
+              th:utext="${product.description}"
+              style="
+                font-size: 0.9rem;
+                line-height: 1.9;
+                color: var(--color-grey-700);
+              "
+            >
+              Mô tả sản phẩm chi tiết...
+            </div>
+          </div>
+
+          <div id="tab-usage" class="tab-content">
+            <div
+              th:utext="${product.usageGuide}"
+              style="
+                font-size: 0.9rem;
+                line-height: 1.9;
+                color: var(--color-grey-700);
+              "
+            >
+              Hướng dẫn sử dụng...
+            </div>
+          </div>
+
+          <div id="tab-reviews" class="tab-content">
+            <div
+              th:if="${#lists.isEmpty(product.reviews)}"
+              class="empty-state"
+              style="padding: 40px"
+            >
+              <p>Chưa có đánh giá nào. Hãy là người đầu tiên!</p>
+            </div>
+            <div
+              th:each="review : ${product.reviews}"
+              style="
+                padding: 16px 0;
+                border-bottom: 1px solid var(--color-border);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  margin-bottom: 8px;
+                "
+              >
+                <strong
+                  th:text="${review.authorName}"
+                  style="font-size: 0.875rem"
+                  >Người dùng</strong
+                >
+                <span
+                  style="color: #ffc107"
+                  th:text="${'★'.repeat(review.rating)}"
+                  >★★★★★</span
+                >
+              </div>
+              <p
+                th:text="${review.content}"
+                style="
+                  font-size: 0.875rem;
+                  color: var(--color-grey-700);
+                  line-height: 1.7;
+                "
+              >
+                Nội dung đánh giá
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Related Products -->
+        <section>
+          <div
+            class="section-title"
+            style="text-align: left; margin-bottom: 24px"
+          >
+            <h3 style="font-size: 1.3rem">Sản phẩm liên quan</h3>
+          </div>
+          <div class="product-grid">
+            <div class="product-card" th:each="product : ${relatedProducts}">
+              <div class="product-card-img">
+                <img
+                  th:src="${product.imageUrl}"
+                  th:alt="${product.name}"
+                  src="/images/placeholder.png"
+                />
+              </div>
+              <div class="product-card-body">
+                <div class="product-category" th:text="${product.categoryName}">
+                  Vitamin
+                </div>
+                <div class="product-name" th:text="${product.name}">
+                  Tên sản phẩm
+                </div>
+                <div class="product-price-row">
+                  <div
+                    class="product-price"
+                    th:text="${#numbers.formatInteger(product.price,1,'COMMA') + 'đ'}"
+                  >
+                    0đ
+                  </div>
+                </div>
+              </div>
+              <div class="product-card-footer">
+                <button
+                  class="add-to-cart-btn"
+                  data-add-cart
+                  th:data-id="${product.id}"
+                  th:data-name="${product.name}"
+                  th:data-price="${product.price}"
+                  th:data-img="${product.imageUrl}"
+                  th:data-brand="${product.brand}"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path
+                      d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                    />
+                  </svg>
+                  Thêm vào giỏ
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/contact :: contact}"></div>
+    <script th:src="@{/js/app.js}"></script>
+  </body>
+</html>

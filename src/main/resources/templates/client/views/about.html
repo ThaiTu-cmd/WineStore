@@ -1,0 +1,478 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giới thiệu – VitaStore</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/variables.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/components.css}" />
+    <link rel="stylesheet" th:href="@{/css/pages.css}" />
+  </head>
+  <body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <main>
+      <!-- Hero Banner -->
+      <section
+        style="
+          background: linear-gradient(
+            135deg,
+            var(--color-green) 0%,
+            #2e7d32 100%
+          );
+          color: white;
+          padding: 72px 0;
+          text-align: center;
+        "
+      >
+        <div class="container">
+          <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 16px">
+            Về VitaStore
+          </h1>
+          <p
+            style="
+              font-size: 1.1rem;
+              opacity: 0.9;
+              max-width: 600px;
+              margin: 0 auto;
+              line-height: 1.7;
+            "
+          >
+            Chúng tôi tin rằng sức khỏe là nền tảng của mọi thành công.
+            VitaStore ra đời để mang đến những sản phẩm chức năng chất lượng
+            cao, uy tín và tiện lợi nhất.
+          </p>
+        </div>
+      </section>
+
+      <div class="container" style="padding-top: 64px; padding-bottom: 64px">
+        <!-- Mission & Vision -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 64px;
+          "
+        >
+          <div>
+            <div
+              style="
+                width: 48px;
+                height: 48px;
+                background: var(--color-green-light);
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 16px;
+              "
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--color-green)"
+                stroke-width="2"
+              >
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                />
+              </svg>
+            </div>
+            <h2
+              style="
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-bottom: 12px;
+                color: var(--color-grey-900);
+              "
+            >
+              Sứ mệnh
+            </h2>
+            <p style="color: var(--color-grey-600); line-height: 1.8">
+              VitaStore cam kết cung cấp các sản phẩm thực phẩm chức năng, bổ
+              sung dinh dưỡng chính hãng, có nguồn gốc rõ ràng, được kiểm định
+              chất lượng nghiêm ngặt — giúp người Việt chăm sóc sức khỏe một
+              cách khoa học và hiệu quả.
+            </p>
+          </div>
+          <div>
+            <div
+              style="
+                width: 48px;
+                height: 48px;
+                background: var(--color-green-light);
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 16px;
+              "
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--color-green)"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <h2
+              style="
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-bottom: 12px;
+                color: var(--color-grey-900);
+              "
+            >
+              Tầm nhìn
+            </h2>
+            <p style="color: var(--color-grey-600); line-height: 1.8">
+              Trở thành nền tảng thương mại điện tử hàng đầu Việt Nam về thực
+              phẩm chức năng và sản phẩm sức khỏe — nơi mọi người tin tưởng lựa
+              chọn cho bản thân và gia đình.
+            </p>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div
+          style="
+            background: var(--color-grey-50);
+            border-radius: var(--radius-lg);
+            padding: 48px;
+            margin-bottom: 64px;
+          "
+        >
+          <h2
+            style="
+              text-align: center;
+              font-size: 1.75rem;
+              font-weight: 700;
+              margin-bottom: 40px;
+              color: var(--color-grey-900);
+            "
+          >
+            Con số ấn tượng
+          </h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 24px;
+              text-align: center;
+            "
+          >
+            <div>
+              <div
+                style="
+                  font-size: 2.5rem;
+                  font-weight: 800;
+                  color: var(--color-green);
+                  margin-bottom: 8px;
+                "
+              >
+                500+
+              </div>
+              <div style="color: var(--color-grey-600); font-size: 0.95rem">
+                Sản phẩm chính hãng
+              </div>
+            </div>
+            <div>
+              <div
+                style="
+                  font-size: 2.5rem;
+                  font-weight: 800;
+                  color: var(--color-green);
+                  margin-bottom: 8px;
+                "
+              >
+                10.000+
+              </div>
+              <div style="color: var(--color-grey-600); font-size: 0.95rem">
+                Khách hàng tin dùng
+              </div>
+            </div>
+            <div>
+              <div
+                style="
+                  font-size: 2.5rem;
+                  font-weight: 800;
+                  color: var(--color-green);
+                  margin-bottom: 8px;
+                "
+              >
+                50+
+              </div>
+              <div style="color: var(--color-grey-600); font-size: 0.95rem">
+                Thương hiệu uy tín
+              </div>
+            </div>
+            <div>
+              <div
+                style="
+                  font-size: 2.5rem;
+                  font-weight: 800;
+                  color: var(--color-green);
+                  margin-bottom: 8px;
+                "
+              >
+                5 năm
+              </div>
+              <div style="color: var(--color-grey-600); font-size: 0.95rem">
+                Kinh nghiệm hoạt động
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Core Values -->
+        <h2
+          style="
+            text-align: center;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: var(--color-grey-900);
+          "
+        >
+          Giá trị cốt lõi
+        </h2>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-bottom: 64px;
+          "
+        >
+          <div
+            style="
+              background: white;
+              border: 1px solid var(--color-border);
+              border-radius: var(--radius-lg);
+              padding: 32px;
+              text-align: center;
+            "
+          >
+            <div style="font-size: 2.5rem; margin-bottom: 16px">✅</div>
+            <h3
+              style="
+                font-size: 1.1rem;
+                font-weight: 700;
+                margin-bottom: 10px;
+                color: var(--color-grey-900);
+              "
+            >
+              Chính hãng 100%
+            </h3>
+            <p
+              style="
+                color: var(--color-grey-600);
+                font-size: 0.9rem;
+                line-height: 1.7;
+              "
+            >
+              Tất cả sản phẩm đều có giấy tờ nhập khẩu, chứng nhận FDA/ISO rõ
+              ràng.
+            </p>
+          </div>
+          <div
+            style="
+              background: white;
+              border: 1px solid var(--color-border);
+              border-radius: var(--radius-lg);
+              padding: 32px;
+              text-align: center;
+            "
+          >
+            <div style="font-size: 2.5rem; margin-bottom: 16px">🚀</div>
+            <h3
+              style="
+                font-size: 1.1rem;
+                font-weight: 700;
+                margin-bottom: 10px;
+                color: var(--color-grey-900);
+              "
+            >
+              Giao hàng nhanh
+            </h3>
+            <p
+              style="
+                color: var(--color-grey-600);
+                font-size: 0.9rem;
+                line-height: 1.7;
+              "
+            >
+              Giao hàng trong 2–4 giờ tại TP.HCM, 1–3 ngày toàn quốc.
+            </p>
+          </div>
+          <div
+            style="
+              background: white;
+              border: 1px solid var(--color-border);
+              border-radius: var(--radius-lg);
+              padding: 32px;
+              text-align: center;
+            "
+          >
+            <div style="font-size: 2.5rem; margin-bottom: 16px">💚</div>
+            <h3
+              style="
+                font-size: 1.1rem;
+                font-weight: 700;
+                margin-bottom: 10px;
+                color: var(--color-grey-900);
+              "
+            >
+              Tư vấn tận tâm
+            </h3>
+            <p
+              style="
+                color: var(--color-grey-600);
+                font-size: 0.9rem;
+                line-height: 1.7;
+              "
+            >
+              Đội ngũ chuyên gia dinh dưỡng hỗ trợ tư vấn miễn phí 24/7.
+            </p>
+          </div>
+          <div
+            style="
+              background: white;
+              border: 1px solid var(--color-border);
+              border-radius: var(--radius-lg);
+              padding: 32px;
+              text-align: center;
+            "
+          >
+            <div style="font-size: 2.5rem; margin-bottom: 16px">🔄</div>
+            <h3
+              style="
+                font-size: 1.1rem;
+                font-weight: 700;
+                margin-bottom: 10px;
+                color: var(--color-grey-900);
+              "
+            >
+              Đổi trả dễ dàng
+            </h3>
+            <p
+              style="
+                color: var(--color-grey-600);
+                font-size: 0.9rem;
+                line-height: 1.7;
+              "
+            >
+              Chính sách đổi trả 30 ngày, hoàn tiền 100% nếu sản phẩm lỗi.
+            </p>
+          </div>
+          <div
+            style="
+              background: white;
+              border: 1px solid var(--color-border);
+              border-radius: var(--radius-lg);
+              padding: 32px;
+              text-align: center;
+            "
+          >
+            <div style="font-size: 2.5rem; margin-bottom: 16px">🔒</div>
+            <h3
+              style="
+                font-size: 1.1rem;
+                font-weight: 700;
+                margin-bottom: 10px;
+                color: var(--color-grey-900);
+              "
+            >
+              Bảo mật thanh toán
+            </h3>
+            <p
+              style="
+                color: var(--color-grey-600);
+                font-size: 0.9rem;
+                line-height: 1.7;
+              "
+            >
+              Cổng thanh toán SSL 256-bit, bảo vệ thông tin khách hàng tuyệt
+              đối.
+            </p>
+          </div>
+          <div
+            style="
+              background: white;
+              border: 1px solid var(--color-border);
+              border-radius: var(--radius-lg);
+              padding: 32px;
+              text-align: center;
+            "
+          >
+            <div style="font-size: 2.5rem; margin-bottom: 16px">🌿</div>
+            <h3
+              style="
+                font-size: 1.1rem;
+                font-weight: 700;
+                margin-bottom: 10px;
+                color: var(--color-grey-900);
+              "
+            >
+              Sản phẩm an toàn
+            </h3>
+            <p
+              style="
+                color: var(--color-grey-600);
+                font-size: 0.9rem;
+                line-height: 1.7;
+              "
+            >
+              Ưu tiên sản phẩm tự nhiên, không chất cấm, an toàn cho mọi lứa
+              tuổi.
+            </p>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div
+          style="
+            text-align: center;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: var(--radius-lg);
+            padding: 48px;
+          "
+        >
+          <h2
+            style="
+              font-size: 1.75rem;
+              font-weight: 700;
+              margin-bottom: 12px;
+              color: var(--color-grey-900);
+            "
+          >
+            Bắt đầu hành trình sức khỏe cùng VitaStore
+          </h2>
+          <p style="color: var(--color-grey-600); margin-bottom: 28px">
+            Khám phá hơn 500 sản phẩm chính hãng được chọn lọc kỹ càng.
+          </p>
+          <a th:href="@{/shop}" class="btn btn-primary btn-lg">Mua sắm ngay</a>
+        </div>
+      </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/contact :: contact}"></div>
+    <script th:src="@{/js/app.js}"></script>
+  </body>
+</html>

@@ -1,0 +1,339 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VitaStore – Thực phẩm chức năng chính hãng</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/variables.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/components.css}" />
+    <link rel="stylesheet" th:href="@{/css/pages.css}" />
+  </head>
+  <body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <main>
+      <div class="container" style="padding-top: 32px; padding-bottom: 64px">
+        <!-- ===== HERO ===== -->
+        <section class="hero-section">
+          <div class="hero-bg-shape"></div>
+          <div class="hero-content">
+            <div class="hero-badge">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                />
+              </svg>
+              Sản phẩm chính hãng 100%
+            </div>
+            <h1>Chăm Sóc Sức Khỏe<br />Từ Thiên Nhiên</h1>
+            <p>
+              Hàng trăm sản phẩm vitamin, khoáng chất và thực phẩm chức năng từ
+              các thương hiệu hàng đầu thế giới.
+            </p>
+            <div class="hero-actions">
+              <a th:href="@{/shop}" class="hero-btn-primary">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path
+                    d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                  />
+                </svg>
+                Mua ngay
+              </a>
+              <a th:href="@{/about}" class="hero-btn-outline">Tìm hiểu thêm</a>
+            </div>
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <div class="hero-stat-num">500+</div>
+                <div class="hero-stat-label">Sản phẩm</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-num">10k+</div>
+                <div class="hero-stat-label">Khách hàng</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-num">50+</div>
+                <div class="hero-stat-label">Thương hiệu</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== FEATURES BAR ===== -->
+        <div class="features-bar">
+          <div class="feature-item">
+            <div class="feature-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="1" y="3" width="15" height="13" />
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                <circle cx="5.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" />
+              </svg>
+            </div>
+            <div class="feature-text">
+              <h6>Miễn phí vận chuyển</h6>
+              <p>Đơn hàng từ 500.000đ</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <div class="feature-text">
+              <h6>Hàng chính hãng 100%</h6>
+              <p>Cam kết nhập khẩu trực tiếp</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="23 4 23 10 17 10" />
+                <polyline points="1 20 1 14 7 14" />
+                <path
+                  d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+                />
+              </svg>
+            </div>
+            <div class="feature-text">
+              <h6>Đổi trả dễ dàng</h6>
+              <p>Trong vòng 30 ngày</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.8 19.79 19.79 0 0 1 1.61 5.2 2 2 0 0 1 3.59 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.5a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.72 18z"
+                />
+              </svg>
+            </div>
+            <div class="feature-text">
+              <h6>Hỗ trợ 24/7</h6>
+              <p>Hotline: 0966 042 071</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== CATEGORIES ===== -->
+        <section class="section-sm">
+          <div class="section-title">
+            <h2>Danh mục nổi bật</h2>
+            <p>Tìm kiếm sản phẩm theo nhu cầu của bạn</p>
+            <div class="title-line"></div>
+          </div>
+          <div class="category-row" style="justify-content: center">
+            <a th:href="@{/shop(category='vitamin-nao')}" class="category-chip">
+              <span>🧠</span> Vitamin bổ não
+            </a>
+            <a th:href="@{/shop(category='xuong-khop')}" class="category-chip">
+              <span>🦴</span> Xương khớp
+            </a>
+            <a
+              th:href="@{/shop(category='vitamin-tre-em')}"
+              class="category-chip"
+            >
+              <span>👶</span> Cho bé
+            </a>
+            <a
+              th:href="@{/shop(category='phu-nu-co-thai')}"
+              class="category-chip"
+            >
+              <span>🤰</span> Phụ nữ có thai
+            </a>
+            <a
+              th:href="@{/shop(category='nguoi-cao-tuoi')}"
+              class="category-chip"
+            >
+              <span>👴</span> Người cao tuổi
+            </a>
+            <a th:href="@{/shop(category='omega-3')}" class="category-chip">
+              <span>🐟</span> Omega-3
+            </a>
+            <a th:href="@{/shop(category='probiotics')}" class="category-chip">
+              <span>🌿</span> Probiotics
+            </a>
+          </div>
+        </section>
+
+        <!-- ===== FEATURED PRODUCTS ===== -->
+        <section class="section-sm">
+          <div class="section-title">
+            <h2>Sản phẩm nổi bật</h2>
+            <p>Các sản phẩm được yêu thích nhất tại VitaStore</p>
+            <div class="title-line"></div>
+          </div>
+
+          <div class="product-grid">
+            <!-- Product cards rendered by Thymeleaf -->
+            <div class="product-card" th:each="product : ${featuredProducts}">
+              <div class="product-card-badge">
+                <span
+                  class="badge badge-orange"
+                  th:if="${product.discountPercent > 0}"
+                  th:text="${'-' + product.discountPercent + '%'}"
+                  >-20%</span
+                >
+                <span class="badge badge-blue" th:if="${product.isNew}"
+                  >Mới</span
+                >
+              </div>
+              <div class="product-card-img">
+                <img
+                  th:src="${product.imageUrl}"
+                  th:alt="${product.name}"
+                  src="/images/placeholder.png"
+                />
+                <div class="product-card-actions">
+                  <a
+                    th:href="@{/products/{id}(id=${product.id})}"
+                    class="product-action-btn"
+                    title="Xem chi tiết"
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+              <div class="product-card-body">
+                <div class="product-category" th:text="${product.categoryName}">
+                  Vitamin
+                </div>
+                <div class="product-name" th:text="${product.name}">
+                  Tên sản phẩm
+                </div>
+                <div class="product-brand" th:text="${product.brand}">
+                  Thương hiệu
+                </div>
+                <div class="product-rating">
+                  <span class="stars">★★★★★</span>
+                  <span
+                    class="rating-count"
+                    th:text="${'(' + product.reviewCount + ')' }"
+                    >(0)</span
+                  >
+                </div>
+                <div class="product-price-row">
+                  <div>
+                    <div
+                      class="product-price"
+                      th:text="${#numbers.formatInteger(product.price,1,'COMMA') + 'đ'}"
+                    >
+                      0đ
+                    </div>
+                    <div
+                      class="product-price-old"
+                      th:if="${product.originalPrice > product.price}"
+                      th:text="${#numbers.formatInteger(product.originalPrice,1,'COMMA') + 'đ'}"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <div class="product-card-footer">
+                <button
+                  class="add-to-cart-btn"
+                  data-add-cart
+                  th:data-id="${product.id}"
+                  th:data-name="${product.name}"
+                  th:data-price="${product.price}"
+                  th:data-img="${product.imageUrl}"
+                  th:data-brand="${product.brand}"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path
+                      d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                    />
+                  </svg>
+                  Thêm vào giỏ
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 40px">
+            <a th:href="@{/shop}" class="btn btn-outline btn-lg"
+              >Xem tất cả sản phẩm</a
+            >
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- Contact Bubble -->
+    <div th:replace="~{fragments/contact :: contact}"></div>
+
+    <script th:src="@{/js/app.js}"></script>
+  </body>
+</html>
