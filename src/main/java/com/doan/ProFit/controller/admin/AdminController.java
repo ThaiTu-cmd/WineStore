@@ -7,6 +7,8 @@ import com.doan.ProFit.exception.UserNotFoundException;
 import com.doan.ProFit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,18 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private UserService userService;
+
+    @GetMapping("/login")
+    public String adminLogin(Authentication authentication) {
+        if (authentication != null
+                && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)
+                && authentication.getAuthorities().stream().anyMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()))) {
+            return "redirect:/admin/index";
+        }
+
+        return "admin/Admin_logon";
+    }
 
     @GetMapping("/index")
     public String adminIndex() {

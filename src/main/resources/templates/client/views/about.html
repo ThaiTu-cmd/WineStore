@@ -3,29 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Giới thiệu – VitaStore</title>
+    <title>Giới thiệu – WineStore</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" th:href="@{/css/variables.css}" />
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
-    <link rel="stylesheet" th:href="@{/css/components.css}" />
-    <link rel="stylesheet" th:href="@{/css/pages.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/variables.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/components.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/pages.css}" />
   </head>
   <body>
-    <div th:replace="~{fragments/header :: header}"></div>
+    <div th:replace="~{client/fragments/header :: header}"></div>
 
     <main>
       <!-- Hero Banner -->
       <section
         style="
-          background: linear-gradient(
-            135deg,
-            var(--color-green) 0%,
-            #2e7d32 100%
-          );
+          background: linear-gradient(135deg, #4a0e15 0%, #1a1a1a 100%);
           color: white;
           padding: 72px 0;
           text-align: center;
@@ -33,7 +29,7 @@
       >
         <div class="container">
           <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 16px">
-            Về VitaStore
+            Về WineStore
           </h1>
           <p
             style="
@@ -44,9 +40,9 @@
               line-height: 1.7;
             "
           >
-            Chúng tôi tin rằng sức khỏe là nền tảng của mọi thành công.
-            VitaStore ra đời để mang đến những sản phẩm chức năng chất lượng
-            cao, uy tín và tiện lợi nhất.
+            Tại WineStore, chúng tôi không chỉ bán rượu, chúng tôi truyền tải
+            văn hóa thưởng thức và câu chuyện lịch sử đằng sau mỗi giọt nồng
+            tinh túy.
           </p>
         </div>
       </section>
@@ -66,7 +62,7 @@
               style="
                 width: 48px;
                 height: 48px;
-                background: var(--color-green-light);
+                background: var(--color-accent-light);
                 border-radius: 12px;
                 display: flex;
                 align-items: center;
@@ -79,7 +75,7 @@
                 height="24"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="var(--color-green)"
+                stroke="var(--color-accent)"
                 stroke-width="2"
               >
                 <path
@@ -98,10 +94,8 @@
               Sứ mệnh
             </h2>
             <p style="color: var(--color-grey-600); line-height: 1.8">
-              VitaStore cam kết cung cấp các sản phẩm thực phẩm chức năng, bổ
-              sung dinh dưỡng chính hãng, có nguồn gốc rõ ràng, được kiểm định
-              chất lượng nghiêm ngặt — giúp người Việt chăm sóc sức khỏe một
-              cách khoa học và hiệu quả.
+              Mang những chai rượu vang chính ngạch, được bảo quản ở điều kiện
+              hầm chứa nghiêm ngặt nhất thế giới về đến bàn tiệc của người Việt.
             </p>
           </div>
           <div>
@@ -109,7 +103,7 @@
               style="
                 width: 48px;
                 height: 48px;
-                background: var(--color-green-light);
+                background: var(--color-accent-light);
                 border-radius: 12px;
                 display: flex;
                 align-items: center;
@@ -122,7 +116,7 @@
                 height="24"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="var(--color-green)"
+                stroke="var(--color-accent)"
                 stroke-width="2"
               >
                 <circle cx="12" cy="12" r="10" />
@@ -141,9 +135,8 @@
               Tầm nhìn
             </h2>
             <p style="color: var(--color-grey-600); line-height: 1.8">
-              Trở thành nền tảng thương mại điện tử hàng đầu Việt Nam về thực
-              phẩm chức năng và sản phẩm sức khỏe — nơi mọi người tin tưởng lựa
-              chọn cho bản thân và gia đình.
+              Trở thành điểm đến uy tín hàng đầu cho giới sành rượu và là giải
+              pháp quà tặng doanh nghiệp sang trọng, đẳng cấp.
             </p>
           </div>
         </div>
@@ -151,7 +144,8 @@
         <!-- Stats -->
         <div
           style="
-            background: var(--color-grey-50);
+            background: #1e1e1e;
+            border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
             padding: 48px;
             margin-bottom: 64px;
@@ -181,14 +175,14 @@
                 style="
                   font-size: 2.5rem;
                   font-weight: 800;
-                  color: var(--color-green);
+                  color: var(--color-accent);
                   margin-bottom: 8px;
                 "
               >
                 500+
               </div>
               <div style="color: var(--color-grey-600); font-size: 0.95rem">
-                Sản phẩm chính hãng
+                Dòng rượu thượng hạng
               </div>
             </div>
             <div>
@@ -196,14 +190,14 @@
                 style="
                   font-size: 2.5rem;
                   font-weight: 800;
-                  color: var(--color-green);
+                  color: var(--color-accent);
                   margin-bottom: 8px;
                 "
               >
                 10.000+
               </div>
               <div style="color: var(--color-grey-600); font-size: 0.95rem">
-                Khách hàng tin dùng
+                Khách hàng thân thiết
               </div>
             </div>
             <div>
@@ -211,7 +205,7 @@
                 style="
                   font-size: 2.5rem;
                   font-weight: 800;
-                  color: var(--color-green);
+                  color: var(--color-accent);
                   margin-bottom: 8px;
                 "
               >
@@ -226,14 +220,14 @@
                 style="
                   font-size: 2.5rem;
                   font-weight: 800;
-                  color: var(--color-green);
+                  color: var(--color-accent);
                   margin-bottom: 8px;
                 "
               >
                 5 năm
               </div>
               <div style="color: var(--color-grey-600); font-size: 0.95rem">
-                Kinh nghiệm hoạt động
+                Năm phục vụ
               </div>
             </div>
           </div>
@@ -261,185 +255,306 @@
         >
           <div
             style="
-              background: white;
+              background: #1e1e1e;
               border: 1px solid var(--color-border);
               border-radius: var(--radius-lg);
               padding: 32px;
               text-align: center;
             "
           >
-            <div style="font-size: 2.5rem; margin-bottom: 16px">✅</div>
+            <div
+              style="
+                width: 56px;
+                height: 56px;
+                margin: 0 auto 16px;
+                border-radius: 14px;
+                background: var(--color-accent-light);
+                border: 1px solid rgba(212, 175, 55, 0.35);
+                color: var(--color-accent);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <svg
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+            </div>
             <h3
               style="
                 font-size: 1.1rem;
                 font-weight: 700;
                 margin-bottom: 10px;
-                color: var(--color-grey-900);
+                color: var(--color-accent);
               "
             >
-              Chính hãng 100%
+              Nhập khẩu chính ngạch
             </h3>
-            <p
-              style="
-                color: var(--color-grey-600);
-                font-size: 0.9rem;
-                line-height: 1.7;
-              "
-            >
-              Tất cả sản phẩm đều có giấy tờ nhập khẩu, chứng nhận FDA/ISO rõ
-              ràng.
+            <p style="color: #e0e0e0; font-size: 0.9rem; line-height: 1.7">
+              Toàn bộ sản phẩm đều có đầy đủ chứng nhận nguồn gốc xuất xứ
+              (CO/CQ) và tem hải quan chính ngạch.
             </p>
           </div>
           <div
             style="
-              background: white;
+              background: #1e1e1e;
               border: 1px solid var(--color-border);
               border-radius: var(--radius-lg);
               padding: 32px;
               text-align: center;
             "
           >
-            <div style="font-size: 2.5rem; margin-bottom: 16px">🚀</div>
+            <div
+              style="
+                width: 56px;
+                height: 56px;
+                margin: 0 auto 16px;
+                border-radius: 14px;
+                background: var(--color-accent-light);
+                border: 1px solid rgba(212, 175, 55, 0.35);
+                color: var(--color-accent);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <svg
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="1" y="3" width="15" height="13" />
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                <circle cx="5.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" />
+              </svg>
+            </div>
             <h3
               style="
                 font-size: 1.1rem;
                 font-weight: 700;
                 margin-bottom: 10px;
-                color: var(--color-grey-900);
+                color: var(--color-accent);
               "
             >
-              Giao hàng nhanh
+              Giao hàng hỏa tốc
             </h3>
-            <p
-              style="
-                color: var(--color-grey-600);
-                font-size: 0.9rem;
-                line-height: 1.7;
-              "
-            >
-              Giao hàng trong 2–4 giờ tại TP.HCM, 1–3 ngày toàn quốc.
+            <p style="color: #e0e0e0; font-size: 0.9rem; line-height: 1.7">
+              Giao hàng an toàn, bọc chống sốc chuyên dụng trong 2 giờ tại nội
+              thành TP.HCM và Hà Nội.
             </p>
           </div>
           <div
             style="
-              background: white;
+              background: #1e1e1e;
               border: 1px solid var(--color-border);
               border-radius: var(--radius-lg);
               padding: 32px;
               text-align: center;
             "
           >
-            <div style="font-size: 2.5rem; margin-bottom: 16px">💚</div>
+            <div
+              style="
+                width: 56px;
+                height: 56px;
+                margin: 0 auto 16px;
+                border-radius: 14px;
+                background: var(--color-accent-light);
+                border: 1px solid rgba(212, 175, 55, 0.35);
+                color: var(--color-accent);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <svg
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="8" r="3" />
+                <path d="M5 21a7 7 0 0 1 14 0" />
+              </svg>
+            </div>
             <h3
               style="
                 font-size: 1.1rem;
                 font-weight: 700;
                 margin-bottom: 10px;
-                color: var(--color-grey-900);
+                color: var(--color-accent);
               "
             >
-              Tư vấn tận tâm
+              Sommelier tư vấn
             </h3>
-            <p
-              style="
-                color: var(--color-grey-600);
-                font-size: 0.9rem;
-                line-height: 1.7;
-              "
-            >
-              Đội ngũ chuyên gia dinh dưỡng hỗ trợ tư vấn miễn phí 24/7.
+            <p style="color: #e0e0e0; font-size: 0.9rem; line-height: 1.7">
+              Đội ngũ chuyên gia am hiểu sâu sắc về rượu giúp bạn lựa chọn hương
+              vị phù hợp nhất cho từng bữa tiệc hoặc làm quà tặng.
             </p>
           </div>
           <div
             style="
-              background: white;
+              background: #1e1e1e;
               border: 1px solid var(--color-border);
               border-radius: var(--radius-lg);
               padding: 32px;
               text-align: center;
             "
           >
-            <div style="font-size: 2.5rem; margin-bottom: 16px">🔄</div>
+            <div
+              style="
+                width: 56px;
+                height: 56px;
+                margin: 0 auto 16px;
+                border-radius: 14px;
+                background: var(--color-accent-light);
+                border: 1px solid rgba(212, 175, 55, 0.35);
+                color: var(--color-accent);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <svg
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M21 8v6h-6" />
+                <path d="M3 16v-6h6" />
+                <path d="M7 8a6 6 0 0 1 10.2-2.2L21 9" />
+                <path d="M17 16a6 6 0 0 1-10.2 2.2L3 15" />
+              </svg>
+            </div>
             <h3
               style="
                 font-size: 1.1rem;
                 font-weight: 700;
                 margin-bottom: 10px;
-                color: var(--color-grey-900);
+                color: var(--color-accent);
               "
             >
-              Đổi trả dễ dàng
+              Đảm bảo chất lượng
             </h3>
-            <p
-              style="
-                color: var(--color-grey-600);
-                font-size: 0.9rem;
-                line-height: 1.7;
-              "
-            >
-              Chính sách đổi trả 30 ngày, hoàn tiền 100% nếu sản phẩm lỗi.
+            <p style="color: #e0e0e0; font-size: 0.9rem; line-height: 1.7">
+              Cam kết bồi hoàn hoặc đổi mới nếu phát hiện bất kỳ lỗi nào về nút
+              bần hoặc chất lượng hương vị từ nhà sản xuất.
             </p>
           </div>
           <div
             style="
-              background: white;
+              background: #1e1e1e;
               border: 1px solid var(--color-border);
               border-radius: var(--radius-lg);
               padding: 32px;
               text-align: center;
             "
           >
-            <div style="font-size: 2.5rem; margin-bottom: 16px">🔒</div>
+            <div
+              style="
+                width: 56px;
+                height: 56px;
+                margin: 0 auto 16px;
+                border-radius: 14px;
+                background: var(--color-accent-light);
+                border: 1px solid rgba(212, 175, 55, 0.35);
+                color: var(--color-accent);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <svg
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="11" width="18" height="10" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
             <h3
               style="
                 font-size: 1.1rem;
                 font-weight: 700;
                 margin-bottom: 10px;
-                color: var(--color-grey-900);
+                color: var(--color-accent);
               "
             >
               Bảo mật thanh toán
             </h3>
-            <p
-              style="
-                color: var(--color-grey-600);
-                font-size: 0.9rem;
-                line-height: 1.7;
-              "
-            >
-              Cổng thanh toán SSL 256-bit, bảo vệ thông tin khách hàng tuyệt
-              đối.
+            <p style="color: #e0e0e0; font-size: 0.9rem; line-height: 1.7">
+              Hệ thống mã hóa SSL bảo mật tuyệt đối mọi giao dịch thẻ và thông
+              tin cá nhân của khách hàng.
             </p>
           </div>
           <div
             style="
-              background: white;
+              background: #1e1e1e;
               border: 1px solid var(--color-border);
               border-radius: var(--radius-lg);
               padding: 32px;
               text-align: center;
             "
           >
-            <div style="font-size: 2.5rem; margin-bottom: 16px">🌿</div>
+            <div
+              style="
+                width: 56px;
+                height: 56px;
+                margin: 0 auto 16px;
+                border-radius: 14px;
+                background: var(--color-accent-light);
+                border: 1px solid rgba(212, 175, 55, 0.35);
+                color: var(--color-accent);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <svg
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M14 14 5 5" />
+                <path d="M20 4a7 7 0 0 1-7 7" />
+                <path d="M4 20a7 7 0 0 1 7-7" />
+              </svg>
+            </div>
             <h3
               style="
                 font-size: 1.1rem;
                 font-weight: 700;
                 margin-bottom: 10px;
-                color: var(--color-grey-900);
+                color: var(--color-accent);
               "
             >
-              Sản phẩm an toàn
+              Bảo quản Chiller chuẩn
             </h3>
-            <p
-              style="
-                color: var(--color-grey-600);
-                font-size: 0.9rem;
-                line-height: 1.7;
-              "
-            >
-              Ưu tiên sản phẩm tự nhiên, không chất cấm, an toàn cho mọi lứa
-              tuổi.
+            <p style="color: #e0e0e0; font-size: 0.9rem; line-height: 1.7">
+              Hệ thống kho lưu trữ luôn duy trì nhiệt độ ổn định lý tưởng (15 -
+              18°C), đảm bảo chất lượng rượu nguyên bản.
             </p>
           </div>
         </div>
@@ -448,7 +563,8 @@
         <div
           style="
             text-align: center;
-            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            background: linear-gradient(135deg, #4a0e15, #2a0b10);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: var(--radius-lg);
             padding: 48px;
           "
@@ -458,21 +574,31 @@
               font-size: 1.75rem;
               font-weight: 700;
               margin-bottom: 12px;
-              color: var(--color-grey-900);
+              color: #fdfbf7;
             "
           >
-            Bắt đầu hành trình sức khỏe cùng VitaStore
+            Khai mở hương vị thượng hạng cùng WineStore
           </h2>
-          <p style="color: var(--color-grey-600); margin-bottom: 28px">
-            Khám phá hơn 500 sản phẩm chính hãng được chọn lọc kỹ càng.
+          <p style="color: #e0e0e0; margin-bottom: 28px">
+            Tìm kiếm chai vang hoàn hảo cho bộ sưu tập của bạn ngay hôm nay.
           </p>
-          <a th:href="@{/shop}" class="btn btn-primary btn-lg">Mua sắm ngay</a>
+          <a
+            th:href="@{/shop}"
+            class="btn btn-lg"
+            style="
+              background: #d4af37;
+              color: #1a1a1a;
+              border: 1px solid #e0bf54;
+              font-weight: 700;
+            "
+            >Mua sắm ngay</a
+          >
         </div>
       </div>
     </main>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
-    <div th:replace="~{fragments/contact :: contact}"></div>
-    <script th:src="@{/js/app.js}"></script>
+    <div th:replace="~{client/fragments/footer :: footer}"></div>
+    <div th:replace="~{client/fragments/contact :: contact}"></div>
+    <script th:src="@{/client/js/app.js}"></script>
   </body>
 </html>

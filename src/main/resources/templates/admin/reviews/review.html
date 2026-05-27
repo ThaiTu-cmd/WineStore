@@ -3,51 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Reviews — VitaStore Admin</title>
+    <title>Reviews �?" WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
     <div class="admin-layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon">🌿</div>
+          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg></div>
           <div>
-            <div class="logo-text">VitaStore</div>
+            <div class="logo-text">WineStore</div>
             <div class="logo-sub">Admin Panel</div>
           </div>
         </div>
         <nav class="sidebar-nav">
-          <div class="nav-section-label">Tổng quan</div>
+          <div class="nav-section-label">T�.ng quan</div>
           <a class="nav-item" data-page="dashboard" th:href="@{/admin}"
-            ><span class="nav-icon">🏠</span> Dashboard</a
+            ><span class="nav-icon">�Y��</span> Dashboard</a
           >
-          <div class="nav-section-label">Quản lý đơn hàng</div>
+          <div class="nav-section-label">Quản lý �'ơn hàng</div>
           <a class="nav-item" data-page="orders" th:href="@{/admin/order/list}"
-            ><span class="nav-icon">📦</span> Orders</a
+            ><span class="nav-icon">�Y"�</span> Orders</a
           >
           <div class="nav-section-label">Sản phẩm</div>
           <a
             class="nav-item"
             data-page="products"
             th:href="@{/admin/product/list}"
-            ><span class="nav-icon">🛍</span> Products</a
+            ><span class="nav-icon">�Y>�</span> Products</a
           >
           <a
             class="nav-item"
             data-page="categories"
             th:href="@{/admin/product/category}"
-            ><span class="nav-icon">🗂</span> Categories</a
+            ><span class="nav-icon">�Y-,</span> Categories</a
           >
           <div class="nav-section-label">Người dùng</div>
           <a class="nav-item" data-page="users" th:href="@{/admin/user/list}"
-            ><span class="nav-icon">👥</span> Users</a
+            ><span class="nav-icon">�Y'�</span> Users</a
           >
           <div class="nav-section-label">Marketing</div>
           <a
             class="nav-item"
             data-page="discounts"
             th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">🏷</span> Discounts</a
+            ><span class="nav-icon">�Y��</span> Discounts</a
           >
           <div class="nav-section-label">Reviews</div>
           <a
@@ -77,10 +77,10 @@
           <div class="topbar-right">
             <button
               class="icon-btn"
-              title="Cài đặt"
+              title="Cài �'ặt"
               onclick="toggleLogoutDropdown()"
             >
-              ⚙️
+              �sT️
             </button>
             <div
               class="dropdown-menu"
@@ -91,7 +91,7 @@
                 class="dropdown-item dropdown-item-logout"
                 onclick="logout()"
               >
-                ❌ Đăng xuất
+                �O Đ�fng xuất
               </button>
             </div>
           </div>
@@ -100,7 +100,7 @@
         <div class="page-wrap">
           <div class="page-header">
             <div>
-              <div class="page-title">Quản lý đánh giá</div>
+              <div class="page-title">Quản lý �'ánh giá</div>
               <div class="page-subtitle">Xem, lọc và xóa review người dùng</div>
             </div>
           </div>
@@ -109,7 +109,7 @@
             <div class="card-header">
               <div class="toolbar">
                 <div class="search-box">
-                  <span class="search-icon">🔍</span>
+                  <span class="search-icon">�Y"�</span>
                   <input
                     type="text"
                     id="reviewSearch"
@@ -123,14 +123,14 @@
                   onchange="filterReviews()"
                 >
                   <option value="">Tất cả rating</option>
-                  <option value="5">★★★★★ (5)</option>
-                  <option value="4">★★★★ (4)</option>
-                  <option value="3">★★★ (3)</option>
-                  <option value="2">★★ (2)</option>
-                  <option value="1">★ (1)</option>
+                  <option value="5">�~.�~.�~.�~.�~. (5)</option>
+                  <option value="4">�~.�~.�~.�~. (4)</option>
+                  <option value="3">�~.�~.�~. (3)</option>
+                  <option value="2">�~.�~. (2)</option>
+                  <option value="1">�~. (1)</option>
                 </select>
               </div>
-              <span class="badge badge-info" id="reviewCount">—</span>
+              <span class="badge badge-info" id="reviewCount">�?"</span>
             </div>
 
             <div class="table-wrap">
@@ -142,7 +142,7 @@
                     <th>Product</th>
                     <th>Rating</th>
                     <th>Comment</th>
-                    <th>Hành động</th>
+                    <th>Hành �'�Tng</th>
                   </tr>
                 </thead>
                 <tbody id="reviewsBody">
@@ -177,7 +177,7 @@
 
       function renderReviews(list) {
         document.getElementById("reviewCount").textContent =
-          `${list.length} đánh giá`;
+          `${list.length} �'ánh giá`;
         document.getElementById("reviewsBody").innerHTML = list.length
           ? list
               .map(
@@ -188,12 +188,12 @@
           <td>${r.product}</td>
           <td>${Utils.stars(r.rating)}</td>
           <td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.comment}</td>
-          <td><button class="btn btn-sm btn-danger" onclick="deleteReview(${r.id})">🗑 Xóa</button></td>
+          <td><button class="btn btn-sm btn-danger" onclick="deleteReview(${r.id})">�Y-' Xóa</button></td>
         </tr>
       `,
               )
               .join("")
-          : `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">Không có đánh giá</td></tr>`;
+          : `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">Không có �'ánh giá</td></tr>`;
       }
 
       function filterReviews() {
@@ -211,11 +211,11 @@
       }
 
       function deleteReview(id) {
-        DeleteConfirm.show(`đánh giá #${id}`, async () => {
+        DeleteConfirm.show(`�'ánh giá #${id}`, async () => {
           await API.deleteReview(id);
           allReviews = allReviews.filter((r) => r.id !== id);
           renderReviews(allReviews);
-          Utils.toast("Đã xóa đánh giá!");
+          Utils.toast("Đã xóa �'ánh giá!");
         });
       }
 
@@ -226,3 +226,4 @@
     </script>
   </body>
 </html>
+

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Order Detail — VitaStore Admin</title>
+    <title>Order Detail �?" WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
@@ -11,35 +11,35 @@
       <!-- SIDEBAR -->
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon">🌿</div>
+          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg></div>
           <div>
-            <div class="logo-text">VitaStore</div>
+            <div class="logo-text">WineStore</div>
             <div class="logo-sub">Admin Panel</div>
           </div>
         </div>
         <nav class="sidebar-nav">
-          <div class="nav-section-label">Tổng quan</div>
+          <div class="nav-section-label">T�.ng quan</div>
           <a class="nav-item" th:href="@{/admin}"
-            ><span class="nav-icon">🏠</span> Dashboard</a
+            ><span class="nav-icon">�Y��</span> Dashboard</a
           >
-          <div class="nav-section-label">Quản lý đơn hàng</div>
+          <div class="nav-section-label">Quản lý �'ơn hàng</div>
           <a class="nav-item active" th:href="@{/admin/order/list}"
-            ><span class="nav-icon">📦</span> Orders</a
+            ><span class="nav-icon">�Y"�</span> Orders</a
           >
           <div class="nav-section-label">Sản phẩm</div>
           <a class="nav-item" th:href="@{/admin/product/list}"
-            ><span class="nav-icon">🛍</span> Products</a
+            ><span class="nav-icon">�Y>�</span> Products</a
           >
           <a class="nav-item" th:href="@{/admin/product/category}"
-            ><span class="nav-icon">🗂</span> Categories</a
+            ><span class="nav-icon">�Y-,</span> Categories</a
           >
           <div class="nav-section-label">Người dùng</div>
           <a class="nav-item" th:href="@{/admin/user/list}"
-            ><span class="nav-icon">👥</span> Users</a
+            ><span class="nav-icon">�Y'�</span> Users</a
           >
           <div class="nav-section-label">Marketing</div>
           <a class="nav-item" th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">🏷</span> Discounts</a
+            ><span class="nav-icon">�Y��</span> Discounts</a
           >
           <a class="nav-item" th:href="@{/admin/reviews/review}"
             ><span class="nav-icon">⭐</span> Reviews</a
@@ -60,15 +60,15 @@
         <header class="topbar">
           <div class="topbar-info">
             <div class="topbar-title" id="topbarTitle">Order Detail</div>
-            <div class="topbar-breadcrumb">Orders → Chi tiết đơn hàng</div>
+            <div class="topbar-breadcrumb">Orders �?' Chi tiết �'ơn hàng</div>
           </div>
           <div class="topbar-right">
             <button
               class="icon-btn"
-              title="Cài đặt"
+              title="Cài �'ặt"
               onclick="toggleLogoutDropdown()"
             >
-              ⚙️
+              �sT️
             </button>
             <div
               class="dropdown-menu"
@@ -79,19 +79,19 @@
                 class="dropdown-item dropdown-item-logout"
                 onclick="logout()"
               >
-                ❌ Đăng xuất
+                �O Đ�fng xuất
               </button>
             </div>
           </div>
         </header>
 
         <div class="page-wrap">
-          <a href="list.html" class="back-btn">← Quay lại danh sách Orders</a>
+          <a href="list.html" class="back-btn">�?� Quay lại danh sách Orders</a>
 
           <div class="page-header">
             <div>
-              <div class="page-title" id="detailTitle">—</div>
-              <div class="page-subtitle" id="detailCreated">—</div>
+              <div class="page-title" id="detailTitle">�?"</div>
+              <div class="page-subtitle" id="detailCreated">�?"</div>
             </div>
             <div id="detailStatusBadge"></div>
           </div>
@@ -100,7 +100,7 @@
             <!-- INFO CARD -->
             <div class="card">
               <div class="card-header">
-                <div class="card-title">📋 Thông tin đơn hàng</div>
+                <div class="card-title">�Y"< Thông tin �'ơn hàng</div>
               </div>
               <div style="padding: 20px">
                 <div class="detail-grid" id="detailGrid">
@@ -121,16 +121,16 @@
             <!-- EDIT CARD -->
             <div class="card">
               <div class="card-header">
-                <div class="card-title">✏️ Chỉnh sửa đơn hàng</div>
+                <div class="card-title">�o�️ Ch�?nh sửa �'ơn hàng</div>
               </div>
               <div style="padding: 22px">
                 <div class="form-group">
                   <label class="form-label">Status *</label>
                   <select class="form-control" id="editStatus">
-                    <option value="pending">⏳ Pending — Chờ xử lý</option>
-                    <option value="shipping">🚚 Shipping — Đang giao</option>
-                    <option value="completed">✓ Completed — Hoàn thành</option>
-                    <option value="cancelled">✗ Cancelled — Đã hủy</option>
+                    <option value="pending">⏳ Pending �?" Chờ xử lý</option>
+                    <option value="shipping">�Yss Shipping �?" Đang giao</option>
+                    <option value="completed">�o" Completed �?" Hoàn thành</option>
+                    <option value="cancelled">�o- Cancelled �?" Đã hủy</option>
                   </select>
                 </div>
 
@@ -189,7 +189,7 @@
                       class="form-control"
                       type="text"
                       id="editDiscountId"
-                      placeholder="Để trống nếu không có"
+                      placeholder="Đ�f tr�'ng nếu không có"
                     />
                   </div>
                 </div>
@@ -200,7 +200,7 @@
                   id="saveBtn"
                   onclick="saveOrder()"
                 >
-                  💾 Lưu thay đổi
+                  �Y'� Lưu thay �'�.i
                 </button>
               </div>
             </div>
@@ -241,7 +241,7 @@
           ["Shipping Method ID", String(d.shipping_method_id)],
           [
             "Discount Code ID",
-            d.discount_code_id ? String(d.discount_code_id) : "— (không có)",
+            d.discount_code_id ? String(d.discount_code_id) : "�?" (không có)",
           ],
           ["Subtotal", Utils.formatCurrency(d.subtotal)],
           ["Total Amount", Utils.formatCurrency(d.total_amount)],
@@ -288,12 +288,13 @@
             document.getElementById("editDiscountId").value || null,
         };
         await API.updateOrder(currentOrderId, data);
-        Utils.toast("Đã cập nhật đơn hàng thành công!");
+        Utils.toast("Đã cập nhật �'ơn hàng thành công!");
         btn.disabled = false;
-        btn.innerHTML = "💾 Lưu thay đổi";
+        btn.innerHTML = "�Y'� Lưu thay �'�.i";
       }
 
       document.addEventListener("DOMContentLoaded", loadDetail);
     </script>
   </body>
 </html>
+

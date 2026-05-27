@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VitaStore – Admin Login</title>
+    <title>WineStore – Admin Login</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
@@ -18,14 +18,17 @@
       }
 
       :root {
-        --primary: #3ecfb2;
-        --primary-dark: #29b89b;
-        --primary-light: #e6faf6;
-        --bg: #f0f4f8;
-        --text: #1a2e3b;
-        --text-muted: #6b7c8d;
-        --border: #e2eaf0;
-        --danger: #e05252;
+        --primary: #58111a;
+        --primary-dark: #430d14;
+        --primary-light: #2a1d20;
+        --accent: #d4af37;
+        --bg: #1a1a1a;
+        --surface: #242424;
+        --text: #fdfbf7;
+        --text-body: #e0e0e0;
+        --text-muted: #888888;
+        --border: #3a3a3a;
+        --danger: #e08e8e;
       }
 
       body {
@@ -52,7 +55,7 @@
         height: 600px;
         background: radial-gradient(
           circle,
-          rgba(62, 207, 178, 0.12) 0%,
+          rgba(88, 17, 26, 0.28) 0%,
           transparent 70%
         );
         top: -200px;
@@ -63,7 +66,7 @@
         height: 400px;
         background: radial-gradient(
           circle,
-          rgba(41, 184, 155, 0.08) 0%,
+          rgba(212, 175, 55, 0.18) 0%,
           transparent 70%
         );
         bottom: -120px;
@@ -73,12 +76,13 @@
       .login-card {
         width: 100%;
         max-width: 420px;
-        background: #fff;
+        background: var(--surface);
+        border: 1px solid rgba(212, 175, 55, 0.28);
         border-radius: 20px;
         padding: 44px 44px 36px;
         box-shadow:
-          0 8px 40px rgba(0, 0, 0, 0.09),
-          0 2px 8px rgba(62, 207, 178, 0.1);
+          0 12px 40px rgba(0, 0, 0, 0.5),
+          0 2px 10px rgba(212, 175, 55, 0.16);
         position: relative;
         z-index: 1;
         animation: popIn 0.5s cubic-bezier(0.22, 0.68, 0, 1.2) both;
@@ -106,13 +110,19 @@
       .logo-icon {
         width: 42px;
         height: 42px;
-        background: linear-gradient(135deg, #3ecfb2, #29b89b);
+        background: #2b2413;
+        border: 1px solid rgba(212, 175, 55, 0.55);
         border-radius: 11px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 22px;
-        box-shadow: 0 4px 14px rgba(62, 207, 178, 0.35);
+        color: #d4af37;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+      }
+
+      .logo-icon svg {
+        width: 22px;
+        height: 22px;
       }
 
       .logo-text {
@@ -127,7 +137,7 @@
       .logo-sub {
         font-size: 10px;
         font-weight: 600;
-        color: var(--primary);
+        color: var(--accent);
         letter-spacing: 2px;
         text-transform: uppercase;
       }
@@ -145,13 +155,13 @@
       .login-heading h1 {
         font-size: 22px;
         font-weight: 700;
-        color: var(--text);
+        color: var(--accent);
         letter-spacing: -0.4px;
         margin-bottom: 5px;
       }
       .login-heading p {
         font-size: 13.5px;
-        color: var(--text-muted);
+        color: var(--text-body);
         line-height: 1.5;
       }
 
@@ -163,7 +173,7 @@
         display: block;
         font-size: 13px;
         font-weight: 600;
-        color: var(--text);
+        color: var(--text-body);
         margin-bottom: 7px;
       }
 
@@ -190,8 +200,9 @@
         border-radius: 10px;
         font-family: inherit;
         font-size: 14px;
-        color: var(--text);
-        background: #fafcff;
+        color: #f5f5f5;
+        background: #1f1f1f;
+        caret-color: #d4af37;
         outline: none;
         transition:
           border-color 0.2s,
@@ -200,13 +211,23 @@
       }
 
       input:focus {
-        border-color: var(--primary);
-        background: #fff;
-        box-shadow: 0 0 0 3px rgba(62, 207, 178, 0.15);
+        border-color: var(--accent);
+        background: #242424;
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.16);
       }
 
       input::placeholder {
-        color: #b8c6d0;
+        color: var(--text-muted);
+      }
+
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover,
+      input:-webkit-autofill:focus,
+      input:-webkit-autofill:active {
+        -webkit-text-fill-color: #f5f5f5;
+        box-shadow: 0 0 0 1000px #1f1f1f inset;
+        -webkit-box-shadow: 0 0 0 1000px #1f1f1f inset;
+        transition: background-color 9999s ease-in-out 0s;
       }
 
       .eye-toggle {
@@ -224,7 +245,7 @@
         transition: color 0.2s;
       }
       .eye-toggle:hover {
-        color: var(--primary);
+        color: var(--accent);
       }
 
       .form-options {
@@ -250,7 +271,7 @@
         height: 16px;
         border: 1.5px solid var(--border);
         border-radius: 4px;
-        background: #fafcff;
+        background: #1f1f1f;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -258,16 +279,16 @@
         flex-shrink: 0;
       }
       .remember input:checked ~ .checkbox-box {
-        background: var(--primary);
-        border-color: var(--primary);
+        background: var(--accent);
+        border-color: var(--accent);
       }
       .remember input:checked ~ .checkbox-box::after {
         content: "";
         display: block;
         width: 8px;
         height: 5px;
-        border-left: 2px solid #fff;
-        border-bottom: 2px solid #fff;
+        border-left: 2px solid #fdfbf7;
+        border-bottom: 2px solid #fdfbf7;
         transform: rotate(-45deg) translateY(-1px);
       }
       .remember span {
@@ -277,28 +298,28 @@
 
       .forgot-link {
         font-size: 13px;
-        color: var(--primary);
+        color: var(--accent);
         text-decoration: none;
         font-weight: 500;
         transition: color 0.2s;
       }
       .forgot-link:hover {
-        color: var(--primary-dark);
+        color: #f2cf63;
       }
 
       .btn-login {
         width: 100%;
         padding: 12px;
-        background: linear-gradient(135deg, #3ecfb2 0%, #29b89b 100%);
+        background: linear-gradient(135deg, #58111a 0%, #430d14 100%);
         border: none;
         border-radius: 10px;
-        color: #fff;
+        color: #fdfbf7;
         font-family: inherit;
         font-size: 15px;
         font-weight: 600;
         cursor: pointer;
         letter-spacing: 0.1px;
-        box-shadow: 0 6px 18px rgba(62, 207, 178, 0.35);
+        box-shadow: 0 6px 18px rgba(88, 17, 26, 0.45);
         transition:
           transform 0.15s,
           box-shadow 0.15s,
@@ -308,7 +329,7 @@
       }
       .btn-login:hover {
         transform: translateY(-1px);
-        box-shadow: 0 8px 22px rgba(62, 207, 178, 0.45);
+        box-shadow: 0 8px 22px rgba(88, 17, 26, 0.55);
         filter: brightness(1.04);
       }
       .btn-login:active {
@@ -318,7 +339,7 @@
       .btn-login .ripple {
         position: absolute;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.25);
+        background: rgba(253, 251, 247, 0.25);
         transform: scale(0);
         animation: ripple 0.5s linear;
         pointer-events: none;
@@ -332,8 +353,8 @@
 
       .error-msg {
         display: none;
-        background: #fff5f5;
-        border: 1px solid #fcc;
+        background: #2f1d1f;
+        border: 1px solid #6f3a3e;
         border-radius: 8px;
         padding: 9px 13px;
         margin-bottom: 16px;
@@ -358,7 +379,7 @@
       .loading-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(255, 255, 255, 0.65);
+        background: rgba(26, 26, 26, 0.72);
         backdrop-filter: blur(4px);
         display: none;
         align-items: center;
@@ -373,7 +394,7 @@
         width: 38px;
         height: 38px;
         border: 3px solid var(--primary-light);
-        border-top-color: var(--primary);
+        border-top-color: var(--accent);
         border-radius: 50%;
         animation: spin 0.8s linear infinite;
       }
@@ -387,9 +408,23 @@
   <body>
     <div class="login-card">
       <div class="logo-wrap">
-        <div class="logo-icon">🌿</div>
+        <div class="logo-icon">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" />
+            <path d="M7 10h10" />
+            <path d="M12 14v8" />
+            <path d="M9 22h6" />
+          </svg>
+        </div>
         <div class="logo-text">
-          <div class="logo-name">VitaStore</div>
+          <div class="logo-name">WineStore</div>
           <div class="logo-sub">Admin Panel</div>
         </div>
       </div>
@@ -507,7 +542,7 @@
       </form>
 
       <div class="card-footer">
-        © 2026 VitaStore Admin Panel · Phiên bản 1.0.0
+        © 2026 WineStore Admin Panel · Phiên bản 1.0.0
       </div>
     </div>
 
@@ -590,8 +625,8 @@
 
             loginBtn.textContent = "✓ Đăng nhập thành công!";
             loginBtn.style.background =
-              "linear-gradient(135deg,#28c840,#1da832)";
-            loginBtn.style.boxShadow = "0 6px 18px rgba(40,200,64,0.35)";
+              "linear-gradient(135deg,#6a1823,#58111A)";
+            loginBtn.style.boxShadow = "0 6px 18px rgba(88,17,26,0.45)";
             window.location.href = adminIndexUrl;
           } catch (error) {
             document.getElementById("errorText").textContent =

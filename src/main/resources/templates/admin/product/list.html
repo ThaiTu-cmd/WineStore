@@ -3,42 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Products — VitaStore Admin</title>
+    <title>Products �?" WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
     <div class="admin-layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon">🌿</div>
+          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg></div>
           <div>
-            <div class="logo-text">VitaStore</div>
+            <div class="logo-text">WineStore</div>
             <div class="logo-sub">Admin Panel</div>
           </div>
         </div>
         <nav class="sidebar-nav">
-          <div class="nav-section-label">Tổng quan</div>
+          <div class="nav-section-label">T�.ng quan</div>
           <a class="nav-item" th:href="@{/admin}"
-            ><span class="nav-icon">🏠</span> Dashboard</a
+            ><span class="nav-icon">�Y��</span> Dashboard</a
           >
-          <div class="nav-section-label">Quản lý đơn hàng</div>
+          <div class="nav-section-label">Quản lý �'ơn hàng</div>
           <a class="nav-item" th:href="@{/admin/order/list}"
-            ><span class="nav-icon">📦</span> Orders</a
+            ><span class="nav-icon">�Y"�</span> Orders</a
           >
           <div class="nav-section-label">Sản phẩm</div>
           <a class="nav-item active" th:href="@{/admin/product/list}"
-            ><span class="nav-icon">🛍</span> Products</a
+            ><span class="nav-icon">�Y>�</span> Products</a
           >
           <a class="nav-item" th:href="@{/admin/product/category}"
-            ><span class="nav-icon">🗂</span> Categories</a
+            ><span class="nav-icon">�Y-,</span> Categories</a
           >
           <div class="nav-section-label">Người dùng</div>
           <a class="nav-item" th:href="@{/admin/user/list}"
-            ><span class="nav-icon">👥</span> Users</a
+            ><span class="nav-icon">�Y'�</span> Users</a
           >
           <div class="nav-section-label">Marketing</div>
           <a class="nav-item" th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">🏷</span> Discounts</a
+            ><span class="nav-icon">�Y��</span> Discounts</a
           >
           <div class="nav-section-label">Reviews</div>
           <a class="nav-item" th:href="@{/admin/reviews/review}"
@@ -65,10 +65,10 @@
           <div class="topbar-right">
             <button
               class="icon-btn"
-              title="Cài đặt"
+              title="Cài �'ặt"
               onclick="toggleLogoutDropdown()"
             >
-              ⚙️
+              �sT️
             </button>
             <div
               class="dropdown-menu"
@@ -79,7 +79,7 @@
                 class="dropdown-item dropdown-item-logout"
                 onclick="logout()"
               >
-                ❌ Đăng xuất
+                �O Đ�fng xuất
               </button>
             </div>
           </div>
@@ -89,7 +89,7 @@
           <div class="page-header">
             <div>
               <div class="page-title">Danh sách Products</div>
-              <div class="page-subtitle">Quản lý thực phẩm chức năng</div>
+              <div class="page-subtitle">Quản lý thực phẩm chức n�fng</div>
             </div>
             <a th:href="@{/admin/product/add}" class="btn btn-primary"
               >+ Add Product</a
@@ -100,7 +100,7 @@
             <div class="card-header">
               <div class="toolbar">
                 <div class="search-box">
-                  <span class="search-icon">🔍</span>
+                  <span class="search-icon">�Y"�</span>
                   <input
                     type="text"
                     id="searchInput"
@@ -120,12 +120,12 @@
                   id="stockFilter"
                   onchange="filterProducts()"
                 >
-                  <option value="">Tất cả tồn kho</option>
+                  <option value="">Tất cả t�"n kho</option>
                   <option value="low">Sắp hết (&lt;50)</option>
                   <option value="ok">Còn hàng</option>
                 </select>
               </div>
-              <span class="badge badge-info" id="productCount">—</span>
+              <span class="badge badge-info" id="productCount">�?"</span>
             </div>
 
             <div class="table-wrap">
@@ -160,10 +160,10 @@
             </div>
 
             <div class="pagination">
-              <button class="page-btn">‹</button>
+              <button class="page-btn">�?�</button>
               <button class="page-btn active">1</button>
               <button class="page-btn">2</button>
-              <button class="page-btn">›</button>
+              <button class="page-btn">�?�</button>
             </div>
           </div>
         </div>
@@ -177,11 +177,11 @@
           class="modal-body"
           style="padding: 32px 28px 20px; text-align: center"
         >
-          <div class="confirm-icon">🗑️</div>
+          <div class="confirm-icon">�Y-'️</div>
           <div class="confirm-title">Xác nhận xóa sản phẩm</div>
           <div class="confirm-text">
-            Bạn đang xóa sản phẩm<br /><strong id="deleteTargetLabel"></strong
-            ><br />Hành động này không thể hoàn tác!
+            Bạn �'ang xóa sản phẩm<br /><strong id="deleteTargetLabel"></strong
+            ><br />Hành �'�Tng này không th�f hoàn tác!
           </div>
           <div class="countdown-bar">
             <div class="countdown-fill" id="countdownFill"></div>
@@ -246,14 +246,14 @@
           <td>
             ${
               p.stock_quantity < 50
-                ? `<span class="badge badge-warning">⚠ ${p.stock_quantity}</span>`
+                ? `<span class="badge badge-warning">�s� ${p.stock_quantity}</span>`
                 : `<span class="badge badge-success">${p.stock_quantity}</span>`
             }
           </td>
           <td>
             <div class="action-group">
-              <a href="add.html?edit=${p.id}" class="btn btn-sm btn-outline">✏️ Edit</a>
-              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${p.id},'${p.name}')">🗑 Delete</button>
+              <a href="add.html?edit=${p.id}" class="btn btn-sm btn-outline">�o�️ Edit</a>
+              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${p.id},'${p.name}')">�Y-' Delete</button>
             </div>
           </td>
         </tr>`,
@@ -292,3 +292,4 @@
     </script>
   </body>
 </html>
+

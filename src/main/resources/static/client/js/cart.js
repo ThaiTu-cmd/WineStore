@@ -1,5 +1,5 @@
 /**
- * VitaStore - Cart Page JS
+ * WineStore - Cart Page JS
  * Renders cart items and handles quantity/remove updates
  */
 

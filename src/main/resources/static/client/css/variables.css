@@ -1,27 +1,28 @@
 :root {
-  /* Color Palette: 50% White, 30% Green, 20% Accent */
-  --color-white: #ffffff;
-  --color-bg: #f8f9fa;
-  --color-green: #4caf50;
-  --color-green-dark: #388e3c;
-  --color-green-light: #e8f5e9;
-  --color-accent: #2196f3;
-  --color-accent-light: #e3f2fd;
-  --color-accent-orange: #ff9800;
-  --color-grey-100: #f5f5f5;
-  --color-grey-200: #eeeeee;
-  --color-grey-300: #e0e0e0;
-  --color-grey-400: #bdbdbd;
-  --color-grey-500: #9e9e9e;
-  --color-grey-600: #757575;
-  --color-grey-700: #616161;
-  --color-grey-800: #424242;
-  --color-grey-900: #212121;
-  --color-text: #212121;
-  --color-text-muted: #757575;
-  --color-border: #e0e0e0;
-  --color-shadow: rgba(0, 0, 0, 0.08);
-  --color-shadow-hover: rgba(0, 0, 0, 0.16);
+  /* Luxury classic dark palette */
+  --color-white: #242424;
+  --color-on-dark: #fdfbf7;
+  --color-bg: #1a1a1a;
+  --color-green: #58111a;
+  --color-green-dark: #430d14;
+  --color-green-light: #2a1d20;
+  --color-accent: #d4af37;
+  --color-accent-light: #332a15;
+  --color-accent-orange: #d4af37;
+  --color-grey-100: #202020;
+  --color-grey-200: #292929;
+  --color-grey-300: #333333;
+  --color-grey-400: #555555;
+  --color-grey-500: #777777;
+  --color-grey-600: #999999;
+  --color-grey-700: #e0e0e0;
+  --color-grey-800: #f0eeea;
+  --color-grey-900: #fdfbf7;
+  --color-text: #e0e0e0;
+  --color-text-muted: #888888;
+  --color-border: #3a3a3a;
+  --color-shadow: rgba(0, 0, 0, 0.35);
+  --color-shadow-hover: rgba(0, 0, 0, 0.5);
 
   /* Typography */
   --font-family: "Roboto", "Montserrat", sans-serif;
@@ -54,10 +55,10 @@
   --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-  --shadow-green: 0 4px 16px rgba(76, 175, 80, 0.25);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.34);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-green: 0 4px 16px rgba(88, 17, 26, 0.4);
 
   /* Transitions */
   --transition: all 0.2s ease;

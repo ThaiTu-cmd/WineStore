@@ -3,42 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Add / Edit Product — VitaStore Admin</title>
+    <title>Add / Edit Product �?" WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
     <div class="admin-layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon">🌿</div>
+          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg></div>
           <div>
-            <div class="logo-text">VitaStore</div>
+            <div class="logo-text">WineStore</div>
             <div class="logo-sub">Admin Panel</div>
           </div>
         </div>
         <nav class="sidebar-nav">
-          <div class="nav-section-label">Tổng quan</div>
+          <div class="nav-section-label">T�.ng quan</div>
           <a class="nav-item" th:href="@{/admin}"
-            ><span class="nav-icon">🏠</span> Dashboard</a
+            ><span class="nav-icon">�Y��</span> Dashboard</a
           >
-          <div class="nav-section-label">Quản lý đơn hàng</div>
+          <div class="nav-section-label">Quản lý �'ơn hàng</div>
           <a class="nav-item" th:href="@{/admin/order/list}"
-            ><span class="nav-icon">📦</span> Orders</a
+            ><span class="nav-icon">�Y"�</span> Orders</a
           >
           <div class="nav-section-label">Sản phẩm</div>
           <a class="nav-item active" th:href="@{/admin/product/list}"
-            ><span class="nav-icon">🛍</span> Products</a
+            ><span class="nav-icon">�Y>�</span> Products</a
           >
           <a class="nav-item" th:href="@{/admin/product/category}"
-            ><span class="nav-icon">🗂</span> Categories</a
+            ><span class="nav-icon">�Y-,</span> Categories</a
           >
           <div class="nav-section-label">Người dùng</div>
           <a class="nav-item" th:href="@{/admin/user/list}"
-            ><span class="nav-icon">👥</span> Users</a
+            ><span class="nav-icon">�Y'�</span> Users</a
           >
           <div class="nav-section-label">Marketing</div>
           <a class="nav-item" th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">🏷</span> Discounts</a
+            ><span class="nav-icon">�Y��</span> Discounts</a
           >
           <div class="nav-section-label">Reviews</div>
           <a class="nav-item" th:href="@{/admin/reviews/review}"
@@ -61,16 +61,16 @@
           <div class="topbar-info">
             <div class="topbar-title" id="topbarTitle">Add Product</div>
             <div class="topbar-breadcrumb" id="topbarBreadcrumb">
-              Products → Thêm mới
+              Products �?' Thêm m�>i
             </div>
           </div>
           <div class="topbar-right">
             <button
               class="icon-btn"
-              title="Cài đặt"
+              title="Cài �'ặt"
               onclick="toggleLogoutDropdown()"
             >
-              ⚙️
+              �sT️
             </button>
             <div
               class="dropdown-menu"
@@ -81,7 +81,7 @@
                 class="dropdown-item dropdown-item-logout"
                 onclick="logout()"
               >
-                ❌ Đăng xuất
+                �O Đ�fng xuất
               </button>
             </div>
           </div>
@@ -89,24 +89,24 @@
 
         <div class="page-wrap">
           <a th:href="@{/admin/product/list}" class="back-btn"
-            >← Quay lại danh sách Products</a
+            >�?� Quay lại danh sách Products</a
           >
 
           <div class="page-header">
             <div>
-              <div class="page-title" id="pageTitle">Thêm sản phẩm mới</div>
+              <div class="page-title" id="pageTitle">Thêm sản phẩm m�>i</div>
               <div class="page-subtitle">
-                Điền thông tin sản phẩm thực phẩm chức năng
+                Điền thông tin sản phẩm thực phẩm chức n�fng
               </div>
             </div>
-            <span class="badge badge-info" id="modeTag">Chế độ: Thêm mới</span>
+            <span class="badge badge-info" id="modeTag">Chế �'�T: Thêm m�>i</span>
           </div>
 
           <div class="grid-2" style="align-items: start">
             <!-- MAIN FORM -->
             <div class="card">
               <div class="card-header">
-                <div class="card-title">📝 Thông tin cơ bản</div>
+                <div class="card-title">�Y"� Thông tin cơ bản</div>
               </div>
               <div style="padding: 24px">
                 <input type="hidden" id="productId" />
@@ -119,10 +119,10 @@
                 <div class="form-group">
                   <label class="form-label">Category ID *</label>
                   <select class="form-control" id="fCategory">
-                    <option value="">— Chọn danh mục —</option>
+                    <option value="">�?" Chọn danh mục �?"</option>
                   </select>
                   <div class="form-hint">
-                    Chọn danh mục phù hợp với sản phẩm
+                    Chọn danh mục phù hợp v�>i sản phẩm
                   </div>
                 </div>
 
@@ -137,7 +137,7 @@
                     />
                   </div>
                   <div class="form-group">
-                    <label class="form-label">Tồn kho *</label>
+                    <label class="form-label">T�"n kho *</label>
                     <input
                       class="form-control"
                       id="fStock"
@@ -167,27 +167,27 @@
                 style="display: none; margin-bottom: 20px"
               >
                 <div class="card-header">
-                  <div class="card-title">📊 Thông tin hiện tại</div>
+                  <div class="card-title">�Y"S Thông tin hi�?n tại</div>
                 </div>
                 <div style="padding: 18px">
                   <div class="detail-grid">
                     <div class="detail-field">
                       <div class="detail-field-label">Rating Avg</div>
-                      <div class="detail-field-value" id="showRating">—</div>
+                      <div class="detail-field-value" id="showRating">�?"</div>
                     </div>
                     <div class="detail-field">
                       <div class="detail-field-label">Rating Count</div>
                       <div class="detail-field-value" id="showRatingCount">
-                        —
+                        �?"
                       </div>
                     </div>
                     <div class="detail-field">
                       <div class="detail-field-label">Product ID</div>
-                      <div class="detail-field-value" id="showId">—</div>
+                      <div class="detail-field-value" id="showId">�?"</div>
                     </div>
                     <div class="detail-field">
                       <div class="detail-field-label">Category ID</div>
-                      <div class="detail-field-value" id="showCatId">—</div>
+                      <div class="detail-field-value" id="showCatId">�?"</div>
                     </div>
                   </div>
                 </div>
@@ -196,7 +196,7 @@
               <!-- ACTIONS -->
               <div class="card">
                 <div class="card-header">
-                  <div class="card-title">⚡ Thao tác</div>
+                  <div class="card-title">�s� Thao tác</div>
                 </div>
                 <div
                   style="
@@ -207,13 +207,13 @@
                   "
                 >
                   <button class="btn btn-primary btn-lg" onclick="submitForm()">
-                    <span id="submitIcon">💾</span>
+                    <span id="submitIcon">�Y'�</span>
                     <span id="submitLabel">Lưu sản phẩm</span>
                   </button>
                   <a
                     th:href="@{/admin/product/list}"
                     class="btn btn-outline btn-lg"
-                    >✕ Hủy bỏ</a
+                    >�o. Hủy bỏ</a
                   >
                 </div>
               </div>
@@ -235,7 +235,7 @@
         cats.forEach((c) => {
           const opt = document.createElement("option");
           opt.value = c.id;
-          opt.textContent = `${c.id} — ${c.name}`;
+          opt.textContent = `${c.id} �?" ${c.name}`;
           sel.appendChild(opt);
         });
 
@@ -247,12 +247,12 @@
           editId = parseInt(id);
           document.getElementById("topbarTitle").textContent = "Edit Product";
           document.getElementById("topbarBreadcrumb").textContent =
-            "Products → Chỉnh sửa";
+            "Products �?' Ch�?nh sửa";
           document.getElementById("pageTitle").textContent =
-            "Chỉnh sửa sản phẩm";
-          document.getElementById("modeTag").textContent = "Chế độ: Chỉnh sửa";
+            "Ch�?nh sửa sản phẩm";
+          document.getElementById("modeTag").textContent = "Chế �'�T: Ch�?nh sửa";
           document.getElementById("modeTag").className = "badge badge-warning";
-          document.getElementById("submitIcon").textContent = "✏️";
+          document.getElementById("submitIcon").textContent = "�o�️";
           document.getElementById("submitLabel").textContent =
             "Cập nhật sản phẩm";
           document.getElementById("editStatsCard").style.display = "block";
@@ -287,7 +287,7 @@
         };
 
         if (!data.name || !data.category_id || !data.price) {
-          Utils.toast("Vui lòng điền đầy đủ thông tin bắt buộc!", "error");
+          Utils.toast("Vui lòng �'iền �'ầy �'ủ thông tin bắt bu�Tc!", "error");
           btn.textContent = editMode ? "Cập nhật sản phẩm" : "Lưu sản phẩm";
           return;
         }
@@ -297,7 +297,7 @@
           Utils.toast("Đã cập nhật sản phẩm thành công!");
         } else {
           await API.createProduct(data);
-          Utils.toast("Đã thêm sản phẩm mới!");
+          Utils.toast("Đã thêm sản phẩm m�>i!");
           document.getElementById("fName").value = "";
           document.getElementById("fPrice").value = "";
           document.getElementById("fStock").value = "";
@@ -309,3 +309,4 @@
     </script>
   </body>
 </html>
+

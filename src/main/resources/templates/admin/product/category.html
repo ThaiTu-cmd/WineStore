@@ -3,42 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Categories — VitaStore Admin</title>
+    <title>Categories �?" WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
     <div class="admin-layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon">🌿</div>
+          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg></div>
           <div>
-            <div class="logo-text">VitaStore</div>
+            <div class="logo-text">WineStore</div>
             <div class="logo-sub">Admin Panel</div>
           </div>
         </div>
         <nav class="sidebar-nav">
-          <div class="nav-section-label">Tổng quan</div>
+          <div class="nav-section-label">T�.ng quan</div>
           <a class="nav-item" th:href="@{/admin}"
-            ><span class="nav-icon">🏠</span> Dashboard</a
+            ><span class="nav-icon">�Y��</span> Dashboard</a
           >
-          <div class="nav-section-label">Quản lý đơn hàng</div>
+          <div class="nav-section-label">Quản lý �'ơn hàng</div>
           <a class="nav-item" th:href="@{/admin/order/list}"
-            ><span class="nav-icon">📦</span> Orders</a
+            ><span class="nav-icon">�Y"�</span> Orders</a
           >
           <div class="nav-section-label">Sản phẩm</div>
           <a class="nav-item" th:href="@{/admin/product/list}"
-            ><span class="nav-icon">🛍</span> Products</a
+            ><span class="nav-icon">�Y>�</span> Products</a
           >
           <a class="nav-item active" th:href="@{/admin/product/category}"
-            ><span class="nav-icon">🗂</span> Categories</a
+            ><span class="nav-icon">�Y-,</span> Categories</a
           >
           <div class="nav-section-label">Người dùng</div>
           <a class="nav-item" th:href="@{/admin/user/list}"
-            ><span class="nav-icon">👥</span> Users</a
+            ><span class="nav-icon">�Y'�</span> Users</a
           >
           <div class="nav-section-label">Marketing</div>
           <a class="nav-item" th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">🏷</span> Discounts</a
+            ><span class="nav-icon">�Y��</span> Discounts</a
           >
           <div class="nav-section-label">Reviews</div>
           <a class="nav-item" th:href="@{/admin/reviews/review}"
@@ -60,15 +60,15 @@
         <header class="topbar">
           <div class="topbar-info">
             <div class="topbar-title">Categories</div>
-            <div class="topbar-breadcrumb">Products → Quản lý danh mục</div>
+            <div class="topbar-breadcrumb">Products �?' Quản lý danh mục</div>
           </div>
           <div class="topbar-right">
             <button
               class="icon-btn"
-              title="Cài đặt"
+              title="Cài �'ặt"
               onclick="toggleLogoutDropdown()"
             >
-              ⚙️
+              �sT️
             </button>
             <div
               class="dropdown-menu"
@@ -79,7 +79,7 @@
                 class="dropdown-item dropdown-item-logout"
                 onclick="logout()"
               >
-                ❌ Đăng xuất
+                �O Đ�fng xuất
               </button>
             </div>
           </div>
@@ -100,7 +100,7 @@
             <div class="card-header">
               <div class="toolbar">
                 <div class="search-box">
-                  <span class="search-icon">🔍</span>
+                  <span class="search-icon">�Y"�</span>
                   <input
                     type="text"
                     id="searchInput"
@@ -109,7 +109,7 @@
                   />
                 </div>
               </div>
-              <span class="badge badge-info" id="catCount">—</span>
+              <span class="badge badge-info" id="catCount">�?"</span>
             </div>
 
             <div class="table-wrap">
@@ -144,7 +144,7 @@
       </div>
     </div>
 
-    <!-- ── ADD / EDIT CATEGORY MODAL ── -->
+    <!-- �"?�"? ADD / EDIT CATEGORY MODAL �"?�"? -->
     <div class="modal-overlay" id="catModalOverlay">
       <div class="modal">
         <div class="modal-header">
@@ -153,7 +153,7 @@
             class="btn btn-ghost btn-icon"
             onclick="Modal.close('catModalOverlay')"
           >
-            ✕
+            �o.
           </button>
         </div>
         <div class="modal-body">
@@ -176,7 +176,7 @@
               placeholder="vitamins-minerals"
             />
             <div class="form-hint">
-              Chữ thường, ngăn cách bằng dấu gạch ngang
+              Chữ thường, ng�fn cách bằng dấu gạch ngang
             </div>
           </div>
         </div>
@@ -192,7 +192,7 @@
             id="catSaveBtn"
             onclick="saveCategory()"
           >
-            💾 Lưu
+            �Y'� Lưu
           </button>
         </div>
       </div>
@@ -205,11 +205,11 @@
           class="modal-body"
           style="padding: 32px 28px 20px; text-align: center"
         >
-          <div class="confirm-icon">🗑️</div>
+          <div class="confirm-icon">�Y-'️</div>
           <div class="confirm-title">Xác nhận xóa danh mục</div>
           <div class="confirm-text">
-            Bạn đang xóa<br /><strong id="deleteTargetLabel"></strong><br />Toàn
-            bộ sản phẩm liên quan có thể bị ảnh hưởng!
+            Bạn �'ang xóa<br /><strong id="deleteTargetLabel"></strong><br />Toàn
+            b�T sản phẩm liên quan có th�f b�< ảnh hư�Yng!
           </div>
           <div class="countdown-bar">
             <div class="countdown-fill" id="countdownFill"></div>
@@ -255,11 +255,11 @@
           <td class="td-mono">${c.id}</td>
           <td><strong>${c.name}</strong></td>
           <td class="td-mono">${c.slug}</td>
-          <td><span class="badge badge-cyan">🛍 ${c.products} sản phẩm</span></td>
+          <td><span class="badge badge-cyan">�Y>� ${c.products} sản phẩm</span></td>
           <td>
             <div class="action-group">
-              <button class="btn btn-sm btn-outline" onclick='openEdit(${JSON.stringify(c)})'>✏️ Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${c.id},'${c.name}')">🗑 Delete</button>
+              <button class="btn btn-sm btn-outline" onclick='openEdit(${JSON.stringify(c)})'>�o�️ Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${c.id},'${c.name}')">�Y-' Delete</button>
             </div>
           </td>
         </tr>`,
@@ -280,7 +280,7 @@
       function openAdd() {
         editCatId = null;
         document.getElementById("catModalTitle").textContent =
-          "Thêm danh mục mới";
+          "Thêm danh mục m�>i";
         document.getElementById("catFormId").value = "";
         document.getElementById("catFormName").value = "";
         document.getElementById("catFormSlug").value = "";
@@ -290,7 +290,7 @@
       function openEdit(cat) {
         editCatId = cat.id;
         document.getElementById("catModalTitle").textContent =
-          "Chỉnh sửa danh mục";
+          "Ch�?nh sửa danh mục";
         document.getElementById("catFormId").value = cat.id;
         document.getElementById("catFormName").value = cat.name;
         document.getElementById("catFormSlug").value = cat.slug;
@@ -317,7 +317,7 @@
         const name = document.getElementById("catFormName").value.trim();
         const slug = document.getElementById("catFormSlug").value.trim();
         if (!name || !slug) {
-          Utils.toast("Vui lòng điền đầy đủ!", "error");
+          Utils.toast("Vui lòng �'iền �'ầy �'ủ!", "error");
           return;
         }
 
@@ -334,13 +334,13 @@
         } else {
           const created = await API.createCategory(data);
           allCats.push({ ...created, products: 0 });
-          Utils.toast("Đã thêm danh mục mới!");
+          Utils.toast("Đã thêm danh mục m�>i!");
         }
 
         Modal.close("catModalOverlay");
         renderCats(allCats);
         btn.disabled = false;
-        btn.innerHTML = "💾 Lưu";
+        btn.innerHTML = "�Y'� Lưu";
       }
 
       function confirmDelete(id, name) {
@@ -354,3 +354,4 @@
     </script>
   </body>
 </html>
+

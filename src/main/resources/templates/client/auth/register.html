@@ -3,19 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đăng ký – VitaStore</title>
+    <title>Đăng ký – WineStore</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" th:href="@{/css/variables.css}" />
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
-    <link rel="stylesheet" th:href="@{/css/components.css}" />
-    <link rel="stylesheet" th:href="@{/css/pages.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/variables.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/components.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/pages.css}" />
   </head>
   <body>
-    <div th:replace="~{fragments/header :: header}"></div>
+    <div th:replace="~{client/fragments/header :: header}"></div>
 
     <div class="auth-page" style="padding: 40px 16px">
       <div class="auth-card" style="max-width: 500px">
@@ -317,7 +317,7 @@
               <a href="#" style="color: var(--color-green)"
                 >Chính sách bảo mật</a
               >
-              của VitaStore
+              của WineStore
             </label>
           </div>
 
@@ -403,6 +403,6 @@
           }
         });
     </script>
-    <script th:src="@{/js/app.js}"></script>
+    <script th:src="@{/client/js/app.js}"></script>
   </body>
 </html>

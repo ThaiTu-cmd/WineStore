@@ -2,17 +2,31 @@
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <title>VitaStore Admin</title>
+    <title>WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
     <div class="admin-layout">
-      <!-- ── SIDEBAR ── -->
+      <!-- SIDEBAR -->
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon">🌿</div>
+          <div class="logo-icon">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" />
+              <path d="M7 10h10" />
+              <path d="M12 14v8" />
+              <path d="M9 22h6" />
+            </svg>
+          </div>
           <div>
-            <div class="logo-text">VitaStore</div>
+            <div class="logo-text">WineStore</div>
             <div class="logo-sub">Admin Panel</div>
           </div>
         </div>
@@ -47,7 +61,7 @@
             class="nav-item"
             data-page="discounts"
             th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">🏷</span> Discounts</a
+            ><span class="nav-icon">🎁</span> Discounts</a
           >
           <div class="nav-section-label">Reviews</div>
           <a
@@ -68,7 +82,7 @@
         </div>
       </aside>
 
-      <!-- ── MAIN ── -->
+      <!-- MAIN -->
       <div class="main-wrap">
         <!-- TOPBAR -->
         <header class="topbar">
@@ -91,7 +105,7 @@
                   class="dropdown-item dropdown-item-logout"
                   onclick="logout()"
                 >
-                  ❌ Đăng xuất
+                  🚪 Đăng xuất
                 </button>
               </div>
             </div>
@@ -113,42 +127,118 @@
           <!-- STAT CARDS -->
           <div class="stats-grid">
             <div class="stat-card">
-              <div class="stat-icon blue">💰</div>
+              <div class="stat-icon blue">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="12" cy="12" r="8" stroke-width="1.8" />
+                  <path
+                    d="M12 8V16"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  />
+                  <path
+                    d="M9.5 10.2C9.5 9.5 10.4 9 11.6 9H12.4C13.6 9 14.5 9.5 14.5 10.2C14.5 10.9 13.9 11.3 12.9 11.5L11.1 11.9C10.1 12.1 9.5 12.5 9.5 13.2C9.5 13.9 10.4 14.4 11.6 14.4H12.4C13.6 14.4 14.5 13.9 14.5 13.2"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
               <div>
-                <div class="stat-val" id="statRevenue">—</div>
+                <div class="stat-val" id="statRevenue">0 đ</div>
                 <div class="stat-label">Doanh thu (đơn hoàn thành)</div>
                 <div class="stat-change up" id="statRevenueChange">
-                  ↑ loading...
+                  ↗ loading...
                 </div>
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon cyan">📦</div>
+              <div class="stat-icon cyan">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 3L20 7L12 11L4 7L12 3Z"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M4 7V17L12 21V11"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M20 7V17L12 21"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
               <div>
-                <div class="stat-val" id="statOrders">—</div>
+                <div class="stat-val" id="statOrders">0</div>
                 <div class="stat-label">Tổng đơn hàng</div>
                 <div class="stat-change up" id="statPending">
-                  — đơn chờ xử lý
+                  ⏳ 0 đơn chờ xử lý
                 </div>
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon green">🛍</div>
+              <div class="stat-icon green">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 8H18L17 19H7L6 8Z"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M9 8V7C9 5.34 10.34 4 12 4C13.66 4 15 5.34 15 7V8"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
               <div>
-                <div class="stat-val" id="statProducts">—</div>
+                <div class="stat-val" id="statProducts">0</div>
                 <div class="stat-label">Sản phẩm còn hàng</div>
                 <div class="stat-change down" id="statLowStock">
-                  — sắp hết hàng
+                  📉 0 sắp hết hàng
                 </div>
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon orange">👥</div>
+              <div class="stat-icon orange">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="9" cy="9" r="2.2" stroke-width="1.8" />
+                  <circle cx="15" cy="9" r="2.2" stroke-width="1.8" />
+                  <path
+                    d="M5.5 17C5.8 14.8 7.1 13.5 9 13.5C10.9 13.5 12.2 14.8 12.5 17"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  />
+                  <path
+                    d="M11.5 17C11.8 14.8 13.1 13.5 15 13.5C16.9 13.5 18.2 14.8 18.5 17"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
               <div>
-                <div class="stat-val" id="statUsers">—</div>
+                <div class="stat-val" id="statUsers">0</div>
                 <div class="stat-label">Người dùng</div>
                 <div class="stat-change up" id="statDiscounts">
-                  — mã giảm giá active
+                  🎟 0 mã giảm giá active
                 </div>
               </div>
             </div>
@@ -191,9 +281,9 @@
           <!-- RECENT ORDERS -->
           <div class="card">
             <div class="card-header">
-              <div class="card-title">📋 Đơn hàng gần đây</div>
+              <div class="card-title">📦 Đơn hàng gần đây</div>
               <a th:href="@{/admin/order/list}" class="btn btn-sm btn-outline"
-                >Xem tất cả →</a
+                >Xem tất cả ↗</a
               >
             </div>
             <div class="table-wrap">
@@ -252,9 +342,9 @@
         document.getElementById("statPending").textContent =
           `⏳ ${s.pendingOrders} đơn chờ xử lý`;
         document.getElementById("statLowStock").textContent =
-          `⚠ ${s.lowStock} sắp hết hàng`;
+          `📉 ${s.lowStock} sắp hết hàng`;
         document.getElementById("statDiscounts").textContent =
-          `🏷 ${s.activeDiscounts} mã đang active`;
+          `🎟 ${s.activeDiscounts} mã đang active`;
         document.getElementById("navBadge").textContent = s.pendingOrders;
 
         // Recent orders table

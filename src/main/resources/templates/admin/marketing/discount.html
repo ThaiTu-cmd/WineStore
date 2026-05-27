@@ -3,42 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Discounts — VitaStore Admin</title>
+    <title>Discounts �?" WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
     <div class="admin-layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon">🌿</div>
+          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg></div>
           <div>
-            <div class="logo-text">VitaStore</div>
+            <div class="logo-text">WineStore</div>
             <div class="logo-sub">Admin Panel</div>
           </div>
         </div>
         <nav class="sidebar-nav">
-          <div class="nav-section-label">Tổng quan</div>
+          <div class="nav-section-label">T�.ng quan</div>
           <a class="nav-item" th:href="@{/admin}"
-            ><span class="nav-icon">🏠</span> Dashboard</a
+            ><span class="nav-icon">�Y��</span> Dashboard</a
           >
-          <div class="nav-section-label">Quản lý đơn hàng</div>
+          <div class="nav-section-label">Quản lý �'ơn hàng</div>
           <a class="nav-item" th:href="@{/admin/order/list}"
-            ><span class="nav-icon">📦</span> Orders</a
+            ><span class="nav-icon">�Y"�</span> Orders</a
           >
           <div class="nav-section-label">Sản phẩm</div>
           <a class="nav-item" th:href="@{/admin/product/list}"
-            ><span class="nav-icon">🛍</span> Products</a
+            ><span class="nav-icon">�Y>�</span> Products</a
           >
           <a class="nav-item" th:href="@{/admin/product/category}"
-            ><span class="nav-icon">🗂</span> Categories</a
+            ><span class="nav-icon">�Y-,</span> Categories</a
           >
           <div class="nav-section-label">Người dùng</div>
           <a class="nav-item" th:href="@{/admin/user/list}"
-            ><span class="nav-icon">👥</span> Users</a
+            ><span class="nav-icon">�Y'�</span> Users</a
           >
           <div class="nav-section-label">Marketing</div>
           <a class="nav-item active" th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">🏷</span> Discounts</a
+            ><span class="nav-icon">�Y��</span> Discounts</a
           >
           <div class="nav-section-label">Reviews</div>
           <a class="nav-item" th:href="@{/admin/reviews/review}"
@@ -65,10 +65,10 @@
           <div class="topbar-right">
             <button
               class="icon-btn"
-              title="Cài đặt"
+              title="Cài �'ặt"
               onclick="toggleLogoutDropdown()"
             >
-              ⚙️
+              �sT️
             </button>
             <div
               class="dropdown-menu"
@@ -79,14 +79,14 @@
                 class="dropdown-item dropdown-item-logout"
                 onclick="logout()"
               >
-                ❌ Đăng xuất
+                �O Đ�fng xuất
               </button>
             </div>
           </div>
         </header>
 
         <div class="page-wrap">
-          <!-- ──────────── DISCOUNTS SECTION ──────────── -->
+          <!-- �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"? DISCOUNTS SECTION �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"? -->
           <div class="page-header">
             <div>
               <div class="page-title">Mã giảm giá</div>
@@ -101,7 +101,7 @@
             <div class="card-header">
               <div class="toolbar">
                 <div class="search-box">
-                  <span class="search-icon">🔍</span>
+                  <span class="search-icon">�Y"�</span>
                   <input
                     type="text"
                     id="discSearch"
@@ -119,7 +119,7 @@
                   <option value="invalid">Invalid</option>
                 </select>
               </div>
-              <span class="badge badge-info" id="discCount">—</span>
+              <span class="badge badge-info" id="discCount">�?"</span>
             </div>
 
             <div class="table-wrap">
@@ -155,7 +155,7 @@
       </div>
     </div>
 
-    <!-- ── DISCOUNT MODAL ── -->
+    <!-- �"?�"? DISCOUNT MODAL �"?�"? -->
     <div class="modal-overlay" id="discModalOverlay">
       <div class="modal">
         <div class="modal-header">
@@ -164,7 +164,7 @@
             class="btn btn-ghost btn-icon"
             onclick="Modal.close('discModalOverlay')"
           >
-            ✕
+            �o.
           </button>
         </div>
         <div class="modal-body">
@@ -183,10 +183,10 @@
                 text-transform: uppercase;
               "
             />
-            <div class="form-hint">Tự động chuyển chữ hoa</div>
+            <div class="form-hint">Tự �'�Tng chuy�fn chữ hoa</div>
           </div>
           <div class="form-group">
-            <label class="form-label">Phần trăm giảm (%) *</label>
+            <label class="form-label">Phần tr�fm giảm (%) *</label>
             <input
               class="form-control"
               id="dPct"
@@ -227,7 +227,7 @@
             id="dSaveBtn"
             onclick="saveDiscount()"
           >
-            💾 Lưu
+            �Y'� Lưu
           </button>
         </div>
       </div>
@@ -240,7 +240,7 @@
           class="modal-body"
           style="padding: 32px 28px 20px; text-align: center"
         >
-          <div class="confirm-icon">🗑️</div>
+          <div class="confirm-icon">�Y-'️</div>
           <div class="confirm-title">Xác nhận xóa</div>
           <div class="confirm-text">
             <strong id="deleteTargetLabel"></strong>
@@ -273,7 +273,7 @@
       let allDisc = [];
       let editDiscId = null;
 
-      // ─── INIT ───────────────────────────────────────────────────
+      // �"?�"?�"? INIT �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
       async function init() {
         allDisc = await API.getDiscounts();
         renderDisc(allDisc);
@@ -295,7 +295,7 @@
         });
       }
 
-      // ─── DISCOUNT ───────────────────────────────────────────────
+      // �"?�"?�"? DISCOUNT �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
       function renderDisc(list) {
         document.getElementById("discCount").textContent = `${list.length} mã`;
         document.getElementById("discBody").innerHTML = list.length
@@ -318,8 +318,8 @@
           <td class="td-mono">${d.times_used} lần</td>
           <td>
             <div class="action-group">
-              <button class="btn btn-sm btn-outline" onclick='openEditDisc(${JSON.stringify(d)})'>✏️ Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="delDisc(${d.id},'${d.code}')">🗑 Delete</button>
+              <button class="btn btn-sm btn-outline" onclick='openEditDisc(${JSON.stringify(d)})'>�o�️ Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="delDisc(${d.id},'${d.code}')">�Y-' Delete</button>
             </div>
           </td>
         </tr>`,
@@ -343,7 +343,7 @@
       function openAddDiscount() {
         editDiscId = null;
         document.getElementById("discModalTitle").textContent =
-          "Thêm mã giảm giá mới";
+          "Thêm mã giảm giá m�>i";
         ["dId", "dCode", "dPct"].forEach(
           (id) => (document.getElementById(id).value = ""),
         );
@@ -355,7 +355,7 @@
       function openEditDisc(d) {
         editDiscId = d.id;
         document.getElementById("discModalTitle").textContent =
-          `Chỉnh sửa mã: ${d.code}`;
+          `Ch�?nh sửa mã: ${d.code}`;
         document.getElementById("dId").value = d.id;
         document.getElementById("dCode").value = d.code;
         document.getElementById("dPct").value = d.discount;
@@ -370,7 +370,7 @@
         const code = document.getElementById("dCode").value.trim();
         const pct = +document.getElementById("dPct").value;
         if (!code || !pct) {
-          Utils.toast("Vui lòng điền đầy đủ!", "error");
+          Utils.toast("Vui lòng �'iền �'ầy �'ủ!", "error");
           return;
         }
 
@@ -398,7 +398,7 @@
         Modal.close("discModalOverlay");
         renderDisc(allDisc);
         btn.disabled = false;
-        btn.innerHTML = "💾 Lưu";
+        btn.innerHTML = "�Y'� Lưu";
       }
 
       function delDisc(id, code) {
@@ -414,3 +414,4 @@
     </script>
   </body>
 </html>
+

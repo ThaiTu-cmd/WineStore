@@ -1,14 +1,14 @@
 /**
- * VitaStore - Main App JS
+ * WineStore - Main App JS
  * Handles: Cart, Contact Bubble, Filter, Toast Notifications
  */
 
 // ===== CART STATE =====
 const Cart = (() => {
-  let items = JSON.parse(localStorage.getItem("vitastore_cart") || "[]");
+  let items = JSON.parse(localStorage.getItem("winestore_cart") || "[]");
 
   const save = () =>
-    localStorage.setItem("vitastore_cart", JSON.stringify(items));
+    localStorage.setItem("winestore_cart", JSON.stringify(items));
 
   const getCount = () => items.reduce((s, i) => s + i.qty, 0);
 
@@ -120,76 +120,84 @@ const ContactBubble = (() => {
 // ===== FILTER (AJAX) =====
 const ShopFilter = (() => {
   let debounceTimer;
+  const FILTER_KEYS = [
+    "price",
+    "category",
+    "origin",
+    "brand",
+    "target",
+    "sort",
+    "q",
+  ];
 
   const getParams = () => {
     const params = new URLSearchParams();
-    // Price checkboxes
-    document
-      .querySelectorAll('input[name="price"]:checked')
-      .forEach((el) => params.append("price", el.value));
+    // Price: single-choice
+    const selectedPrice = document.querySelector('input[name="price"]:checked');
+    if (selectedPrice) params.set("price", selectedPrice.value);
     // Category checkboxes
     document
       .querySelectorAll('input[name="category"]:checked')
       .forEach((el) => params.append("category", el.value));
+    // Origin checkboxes
+    document
+      .querySelectorAll('input[name="origin"]:checked')
+      .forEach((el) => params.append("origin", el.value));
     // Brand checkboxes
     document
       .querySelectorAll('input[name="brand"]:checked')
       .forEach((el) => params.append("brand", el.value));
-    // Target
-    document
-      .querySelectorAll('input[name="target"]:checked')
-      .forEach((el) => params.append("target", el.value));
     // Sort
     const sort = document.querySelector(".sort-select");
-    if (sort) params.set("sort", sort.value);
+    if (sort && sort.value && sort.value !== "default") {
+      params.set("sort", sort.value);
+    }
     // Search keyword
     const kw = document.querySelector(".search-input");
     if (kw && kw.value.trim()) params.set("q", kw.value.trim());
     return params;
   };
 
+  const buildShopUrl = (params) => {
+    const url = new URL(window.location.href);
+    FILTER_KEYS.forEach((key) => url.searchParams.delete(key));
+    params.forEach((value, key) => url.searchParams.append(key, value));
+    return url;
+  };
+
   const updateResults = () => {
     const grid = document.querySelector("#product-grid");
-    const countEl = document.querySelector("#result-count");
     if (!grid) return;
 
     // Show loading state
     grid.style.opacity = "0.5";
 
     const params = getParams();
-    fetch(`/api/products?${params.toString()}`)
-      .then((res) => res.json())
-      .then((data) => {
-        // Server will re-render; here we update via Thymeleaf fragment or full page reload
-        // For SPA-style: inject returned HTML snippet
-        if (data.html) {
-          grid.innerHTML = data.html;
-          grid.style.opacity = "1";
-        } else {
-          // fallback: reload with params
-          window.location.search = params.toString();
-        }
-        if (countEl && data.total !== undefined) {
-          countEl.textContent = data.total;
-        }
-      })
-      .catch(() => {
-        // fallback: reload page with new query params
-        const url = new URL(window.location.href);
-        params.forEach((v, k) => url.searchParams.set(k, v));
-        window.location.href = url.toString();
-      })
-      .finally(() => {
-        grid.style.opacity = "1";
-      });
+    const url = buildShopUrl(params);
+    window.location.href = url.toString();
   };
 
   const init = () => {
     const filterForm = document.querySelector("#filter-form");
     if (!filterForm) return;
 
+    // Normalize legacy URLs that may contain multiple checked price values.
+    const priceChecked = filterForm.querySelectorAll(
+      'input[name="price"]:checked',
+    );
+    if (priceChecked.length > 1) {
+      priceChecked.forEach((el, idx) => {
+        if (idx > 0) el.checked = false;
+      });
+    }
+
     filterForm.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
       cb.addEventListener("change", () => {
+        if (cb.name === "price" && cb.checked) {
+          filterForm.querySelectorAll('input[name="price"]').forEach((el) => {
+            if (el !== cb) el.checked = false;
+          });
+        }
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(updateResults, 400);
       });

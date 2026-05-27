@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="none">
+  <defs>
+    <linearGradient id="glassStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fdfbf7" stop-opacity="0.86"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="bottleBody" x1="0" y1="120" x2="0" y2="560">
+      <stop offset="0%" stop-color="#2a0d12"/>
+      <stop offset="65%" stop-color="#16070a"/>
+      <stop offset="100%" stop-color="#100407"/>
+    </linearGradient>
+    <linearGradient id="labelGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f3dc8f"/>
+      <stop offset="100%" stop-color="#c89f2d"/>
+    </linearGradient>
+    <linearGradient id="wineFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8a1023" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#4a0813" stop-opacity="0.96"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(445 208) rotate(132) scale(250)">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softShadow" x="0" y="0" width="640" height="640" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+
+  <ellipse cx="430" cy="234" rx="190" ry="170" fill="url(#glow)"/>
+
+  <g filter="url(#softShadow)">
+    <ellipse cx="300" cy="560" rx="188" ry="26" fill="#000" fill-opacity="0.35"/>
+
+    <path d="M248 86h74l-8 120c0 30-17 50-42 55v280h56v26H238v-26h56V261c-25-5-42-25-42-55l-4-120z" fill="url(#bottleBody)"/>
+    <path d="M254 84h62" stroke="#d4af37" stroke-opacity="0.6" stroke-width="4"/>
+    <path d="M270 190h30" stroke="#fdfbf7" stroke-opacity="0.22" stroke-width="8" stroke-linecap="round"/>
+    <rect x="242" y="314" width="86" height="118" rx="7" fill="url(#labelGold)"/>
+    <rect x="252" y="326" width="66" height="94" rx="4" fill="#2b2413"/>
+    <path d="M262 358h46M262 378h42" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
+
+    <g transform="translate(350 250)">
+      <path d="M10 10h120l-30 206a20 20 0 0 1-20 17H60a20 20 0 0 1-20-17L10 10z" stroke="url(#glassStroke)" stroke-width="6"/>
+      <path d="M31 88h79l-11 74a16 16 0 0 1-16 14H58a16 16 0 0 1-16-14L31 88z" fill="url(#wineFill)"/>
+      <path d="M30 87c13-8 61-8 82 0" stroke="#fdfbf7" stroke-opacity="0.56" stroke-width="4" stroke-linecap="round"/>
+      <path d="M60 235v42M82 235v42" stroke="url(#glassStroke)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M38 288h68" stroke="url(#glassStroke)" stroke-width="7" stroke-linecap="round"/>
+      <path d="M48 134c6-8 15-13 24-12" stroke="#fdfbf7" stroke-opacity="0.25" stroke-width="4" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

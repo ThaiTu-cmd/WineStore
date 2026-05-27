@@ -3,42 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Users — VitaStore Admin</title>
+    <title>Users �?" WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
     <div class="admin-layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon">🌿</div>
+          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg></div>
           <div>
-            <div class="logo-text">VitaStore</div>
+            <div class="logo-text">WineStore</div>
             <div class="logo-sub">Admin Panel</div>
           </div>
         </div>
         <nav class="sidebar-nav">
-          <div class="nav-section-label">Tổng quan</div>
+          <div class="nav-section-label">T�.ng quan</div>
           <a class="nav-item" th:href="@{/admin}"
-            ><span class="nav-icon">🏠</span> Dashboard</a
+            ><span class="nav-icon">�Y��</span> Dashboard</a
           >
-          <div class="nav-section-label">Quản lý đơn hàng</div>
+          <div class="nav-section-label">Quản lý �'ơn hàng</div>
           <a class="nav-item" th:href="@{/admin/order/list}"
-            ><span class="nav-icon">📦</span> Orders</a
+            ><span class="nav-icon">�Y"�</span> Orders</a
           >
           <div class="nav-section-label">Sản phẩm</div>
           <a class="nav-item" th:href="@{/admin/product/list}"
-            ><span class="nav-icon">🛍</span> Products</a
+            ><span class="nav-icon">�Y>�</span> Products</a
           >
           <a class="nav-item" th:href="@{/admin/product/category}"
-            ><span class="nav-icon">🗂</span> Categories</a
+            ><span class="nav-icon">�Y-,</span> Categories</a
           >
           <div class="nav-section-label">Người dùng</div>
           <a class="nav-item active" th:href="@{/admin/user/list}"
-            ><span class="nav-icon">👥</span> Users</a
+            ><span class="nav-icon">�Y'�</span> Users</a
           >
           <div class="nav-section-label">Marketing</div>
           <a class="nav-item" th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">🏷</span> Discounts</a
+            ><span class="nav-icon">�Y��</span> Discounts</a
           >
           <div class="nav-section-label">Reviews</div>
           <a class="nav-item" th:href="@{/admin/reviews/review}"
@@ -65,10 +65,10 @@
           <div class="topbar-right">
             <button
               class="icon-btn"
-              title="Cài đặt"
+              title="Cài �'ặt"
               onclick="toggleLogoutDropdown()"
             >
-              ⚙️
+              �sT️
             </button>
             <div
               class="dropdown-menu"
@@ -79,7 +79,7 @@
                 class="dropdown-item dropdown-item-logout"
                 onclick="logout()"
               >
-                ❌ Đăng xuất
+                �O Đ�fng xuất
               </button>
             </div>
           </div>
@@ -90,7 +90,7 @@
             <div>
               <div class="page-title">Quản lý Users</div>
               <div class="page-subtitle">
-                Tất cả tài khoản người dùng và quản trị viên
+                Tất cả tài khoản người dùng và quản tr�< viên
               </div>
             </div>
             <button class="btn btn-primary" onclick="openAdd()">
@@ -101,31 +101,31 @@
           <!-- SUMMARY CARDS -->
           <div class="stats-grid" style="margin-bottom: 20px">
             <div class="stat-card">
-              <div class="stat-icon blue">👥</div>
+              <div class="stat-icon blue">�Y'�</div>
               <div>
-                <div class="stat-val" id="countAll">—</div>
-                <div class="stat-label">Tổng tài khoản</div>
+                <div class="stat-val" id="countAll">�?"</div>
+                <div class="stat-label">T�.ng tài khoản</div>
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon cyan">👤</div>
+              <div class="stat-icon cyan">�Y'�</div>
               <div>
-                <div class="stat-val" id="countUsers">—</div>
+                <div class="stat-val" id="countUsers">�?"</div>
                 <div class="stat-label">Người dùng</div>
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon orange">👑</div>
+              <div class="stat-icon orange">�Y''</div>
               <div>
-                <div class="stat-val" id="countAdmins">—</div>
-                <div class="stat-label">Quản trị viên</div>
+                <div class="stat-val" id="countAdmins">�?"</div>
+                <div class="stat-label">Quản tr�< viên</div>
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon green">✓</div>
+              <div class="stat-icon green">�o"</div>
               <div>
-                <div class="stat-val" id="countActive">—</div>
-                <div class="stat-label">Đang hoạt động</div>
+                <div class="stat-val" id="countActive">�?"</div>
+                <div class="stat-label">Đang hoạt �'�Tng</div>
               </div>
             </div>
           </div>
@@ -134,11 +134,11 @@
             <div class="card-header">
               <div class="toolbar">
                 <div class="search-box">
-                  <span class="search-icon">🔍</span>
+                  <span class="search-icon">�Y"�</span>
                   <input
                     type="text"
                     id="searchInput"
-                    placeholder="Tìm tên, email, số điện thoại..."
+                    placeholder="Tìm tên, email, s�' �'i�?n thoại..."
                     oninput="filterUsers()"
                   />
                 </div>
@@ -161,7 +161,7 @@
                   <option value="INACTIVE">Inactive</option>
                 </select>
               </div>
-              <span class="badge badge-info" id="userCount">—</span>
+              <span class="badge badge-info" id="userCount">�?"</span>
             </div>
 
             <div class="table-wrap">
@@ -195,17 +195,17 @@
             </div>
 
             <div class="pagination">
-              <button class="page-btn">‹</button>
+              <button class="page-btn">�?�</button>
               <button class="page-btn active">1</button>
               <button class="page-btn">2</button>
-              <button class="page-btn">›</button>
+              <button class="page-btn">�?�</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ── USER MODAL ── -->
+    <!-- �"?�"? USER MODAL �"?�"? -->
     <div class="modal-overlay" id="userModalOverlay">
       <div class="modal">
         <div class="modal-header">
@@ -214,7 +214,7 @@
             class="btn btn-ghost btn-icon"
             onclick="Modal.close('userModalOverlay')"
           >
-            ✕
+            �o.
           </button>
         </div>
         <div class="modal-body">
@@ -229,22 +229,22 @@
           </div>
           <div class="form-grid">
             <div class="form-group">
-              <label class="form-label">Số điện thoại</label>
+              <label class="form-label">S�' �'i�?n thoại</label>
               <input class="form-control" id="uPhone" />
             </div>
             <div class="form-group">
               <label class="form-label">Vai trò</label>
               <select class="form-control" id="uRole">
-                <option value="CUSTOMER">👤 User</option>
-                <option value="ADMIN">👑 Admin</option>
+                <option value="CUSTOMER">�Y'� User</option>
+                <option value="ADMIN">�Y'' Admin</option>
               </select>
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Trạng thái</label>
             <select class="form-control" id="uStatus">
-              <option value="ACTIVE">● Active</option>
-              <option value="INACTIVE">● Inactive</option>
+              <option value="ACTIVE">�-� Active</option>
+              <option value="INACTIVE">�-� Inactive</option>
             </select>
           </div>
           <div class="form-group" id="passwordField">
@@ -260,7 +260,7 @@
             Hủy
           </button>
           <button class="btn btn-primary" id="uSaveBtn" onclick="saveUser()">
-            💾 Lưu
+            �Y'� Lưu
           </button>
         </div>
       </div>
@@ -273,10 +273,10 @@
           class="modal-body"
           style="padding: 32px 28px 20px; text-align: center"
         >
-          <div class="confirm-icon">🗑️</div>
+          <div class="confirm-icon">�Y-'️</div>
           <div class="confirm-title">Xác nhận xóa tài khoản</div>
           <div class="confirm-text">
-            Bạn đang xóa tài khoản<br /><strong id="deleteTargetLabel"></strong>
+            Bạn �'ang xóa tài khoản<br /><strong id="deleteTargetLabel"></strong>
           </div>
           <div class="countdown-bar">
             <div class="countdown-fill" id="countdownFill"></div>
@@ -334,13 +334,13 @@
           <td class="td-mono">${u.id}</td>
           <td><strong>${u.fullName}</strong></td>
           <td style="color:var(--text-secondary)">${u.email}</td>
-          <td class="td-mono">${u.phone || "—"}</td>
+          <td class="td-mono">${u.phone || "�?""}</td>
           <td>${Utils.roleBadge(u.role)}</td>
           <td>${Utils.userStatusBadge(u.status)}</td>
           <td>
             <div class="action-group">
-              <button class="btn btn-sm btn-outline" onclick='openEdit(${JSON.stringify(u)})'>✏️ Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${u.id},'${u.fullName}')">🗑</button>
+              <button class="btn btn-sm btn-outline" onclick='openEdit(${JSON.stringify(u)})'>�o�️ Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${u.id},'${u.fullName}')">�Y-'</button>
             </div>
           </td>
         </tr>`,
@@ -369,7 +369,7 @@
       function openAdd() {
         editUserId = null;
         document.getElementById("userModalTitle").textContent =
-          "Thêm người dùng mới";
+          "Thêm người dùng m�>i";
         ["uId", "uName", "uEmail", "uPhone", "uPassword"].forEach(
           (id) => (document.getElementById(id).value = ""),
         );
@@ -381,7 +381,7 @@
       function openEdit(u) {
         editUserId = u.id;
         document.getElementById("userModalTitle").textContent =
-          "Chỉnh sửa người dùng";
+          "Ch�?nh sửa người dùng";
         document.getElementById("uId").value = u.id;
         document.getElementById("uName").value = u.fullName;
         document.getElementById("uEmail").value = u.email;
@@ -397,12 +397,12 @@
         const email = document.getElementById("uEmail").value.trim();
         const password = document.getElementById("uPassword").value.trim();
         if (!name || !email) {
-          Utils.toast("Vui lòng điền tên và email!", "error");
+          Utils.toast("Vui lòng �'iền tên và email!", "error");
           return;
         }
 
         if (!editUserId && !password) {
-          Utils.toast("Vui lòng nhập mật khẩu khi tạo user mới!", "error");
+          Utils.toast("Vui lòng nhập mật khẩu khi tạo user m�>i!", "error");
           return;
         }
 
@@ -425,16 +425,16 @@
             Utils.toast("Đã cập nhật tài khoản!");
           } else {
             await API.createUser(data);
-            Utils.toast("Đã thêm người dùng mới!");
+            Utils.toast("Đã thêm người dùng m�>i!");
           }
 
           await loadUsers();
           Modal.close("userModalOverlay");
         } catch (error) {
-          Utils.toast(error.message || "Có lỗi khi lưu người dùng", "error");
+          Utils.toast(error.message || "Có l�-i khi lưu người dùng", "error");
         } finally {
           btn.disabled = false;
-          btn.innerHTML = "💾 Lưu";
+          btn.innerHTML = "�Y'� Lưu";
         }
       }
 
@@ -445,7 +445,7 @@
             await loadUsers();
             Utils.toast(`Đã xóa tài khoản "${name}"`);
           } catch (error) {
-            Utils.toast(error.message || "Có lỗi khi xóa người dùng", "error");
+            Utils.toast(error.message || "Có l�-i khi xóa người dùng", "error");
           }
         });
       }
@@ -454,3 +454,4 @@
     </script>
   </body>
 </html>
+

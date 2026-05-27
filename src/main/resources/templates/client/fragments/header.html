@@ -1,9 +1,9 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
   <head>
-    <link rel="stylesheet" th:href="@{/css/variables.css}" />
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
-    <link rel="stylesheet" th:href="@{/css/components.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/variables.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/components.css}" />
   </head>
   <body>
     <!-- ===== HEADER FRAGMENT ===== -->
@@ -18,15 +18,16 @@
                 height="22"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="white"
-                stroke-width="2.5"
+                stroke="currentColor"
+                stroke-width="2"
               >
-                <path
-                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                />
+                <path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" />
+                <path d="M7 10h10" />
+                <path d="M12 14v8" />
+                <path d="M9 22h6" />
               </svg>
             </div>
-            <span class="logo-text">Vita<span>Store</span></span>
+            <span class="logo-text">WineStore</span>
           </a>
 
           <!-- Navigation -->
@@ -64,7 +65,7 @@
               type="text"
               name="q"
               th:value="${param.q}"
-              placeholder="Tìm kiếm sản phẩm..."
+              placeholder="Tìm kiếm rượu vang, whisky..."
             />
             <button class="search-btn" type="submit">
               <svg
@@ -107,7 +108,9 @@
               <a th:href="@{/auth/login}" class="btn btn-ghost btn-sm"
                 >Đăng nhập</a
               >
-              <a th:href="@{/auth/register}" class="btn btn-primary btn-sm"
+              <a
+                th:href="@{/auth/register}"
+                class="btn btn-primary btn-sm header-register-btn"
                 >Đăng ký</a
               >
             </div>
@@ -139,7 +142,7 @@
         style="
           display: none;
           border-top: 1px solid var(--color-border);
-          background: white;
+          background: #1e1e1e;
           padding: 12px 0;
         "
       >

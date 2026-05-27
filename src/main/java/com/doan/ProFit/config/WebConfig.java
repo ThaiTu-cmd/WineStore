@@ -9,7 +9,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/admin/login").setViewName("admin/Admin_logon");
-        registry.addRedirectViewController("/admin", "/admin/login");
+        registry.addRedirectViewController("/admin", "/admin/index");
     }
 }
