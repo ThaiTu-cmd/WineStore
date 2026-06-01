@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record OrderListItemResponse(
+public record OrderDetailResponse(
         Long id,
         @JsonProperty("order_code") String orderCode,
         String username,

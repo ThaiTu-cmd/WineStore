@@ -1,17 +1,24 @@
 package com.doan.WineStore.dto.request.admin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class ProductUpsertRequest {
+    @JsonProperty("category_id")
     private Long categoryId;
     private String sku;
     private String slug;
     private String name;
+    @JsonProperty("short_description")
     private String shortDescription;
     private String description;
     private BigDecimal price;
+    @JsonProperty("old_price")
     private BigDecimal oldPrice;
+    @JsonProperty("stock_quantity")
     private Integer stockQuantity;
+    @JsonProperty("is_active")
     private Boolean isActive;
 
     public Long getCategoryId() {

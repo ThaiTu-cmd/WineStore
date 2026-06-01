@@ -327,15 +327,15 @@
                 (u) => `
         <tr>
           <td class="td-mono">${u.id}</td>
-          <td><strong>${u.fullName}</strong></td>
-          <td style="color:var(--text-secondary)">${u.email}</td>
+          <td><strong>${u.fullName || ''}</strong></td>
+          <td style="color:var(--text-secondary)">${u.email || ''}</td>
           <td class="td-mono">${u.phone || "N/A"}</td>
           <td>${Utils.roleBadge(u.role)}</td>
           <td>${Utils.userStatusBadge(u.status)}</td>
           <td>
             <div class="action-group">
               <button class="btn btn-sm btn-outline" onclick='openEdit(${JSON.stringify(u)})'>✏️ Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${u.id},'${u.fullName}')">🗑</button>
+              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${u.id},'${(u.fullName || '').replace(/'/g, "\\'")}')">🗑</button>
             </div>
           </td>
         </tr>`,

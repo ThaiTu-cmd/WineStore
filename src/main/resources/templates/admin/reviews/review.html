@@ -217,10 +217,10 @@
                 (r) => `
         <tr>
           <td class="td-mono">${r.id}</td>
-          <td>${r.user}</td>
-          <td>${r.product}</td>
-          <td>${Utils.stars(r.rating)}</td>
-          <td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.comment}</td>
+          <td>${r.user || 'N/A'}</td>
+          <td>${r.product || 'N/A'}</td>
+          <td>${Utils.stars(r.rating || 0)}</td>
+          <td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.comment || ''}</td>
           <td><button class="btn btn-sm btn-danger" onclick="deleteReview(${r.id})">🗑 Xóa</button></td>
         </tr>
       `,
@@ -235,10 +235,10 @@
         const filtered = allReviews.filter(
           (r) =>
             (!q ||
-              r.user.toLowerCase().includes(q) ||
-              r.product.toLowerCase().includes(q) ||
-              r.comment.toLowerCase().includes(q)) &&
-            (!rt || String(r.rating) === rt),
+              (r.user || '').toLowerCase().includes(q) ||
+              (r.product || '').toLowerCase().includes(q) ||
+              (r.comment || '').toLowerCase().includes(q)) &&
+            (!rt || String(r.rating || 0) === rt),
         );
         renderReviews(filtered);
         Utils.renderPagination(

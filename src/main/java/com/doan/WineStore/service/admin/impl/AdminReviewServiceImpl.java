@@ -29,4 +29,12 @@ public class AdminReviewServiceImpl implements AdminReviewService {
                         item.getComment()));
         return PageResponse.fromPage(dtoPage);
     }
+
+    @Override
+    public void deleteReview(Long id) {
+        if (!reviewRepository.existsById(id)) {
+            throw new IllegalArgumentException("Review not found");
+        }
+        reviewRepository.deleteById(id);
+    }
 }

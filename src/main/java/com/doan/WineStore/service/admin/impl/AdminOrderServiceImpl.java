@@ -1,5 +1,6 @@
 package com.doan.WineStore.service.admin.impl;
 
+import com.doan.WineStore.dto.response.admin.OrderDetailResponse;
 import com.doan.WineStore.dto.response.admin.PageResponse;
 import com.doan.WineStore.dto.response.admin.OrderListItemResponse;
 import com.doan.WineStore.repository.OrderRepository;
@@ -29,7 +30,24 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                         item.getUsername(),
                         item.getUserId(),
                         item.getTotal(),
-                        item.getStatus() == null ? null : item.getStatus().toLowerCase(Locale.ROOT)));
+                        item.getStatus() == null ? null : item.getStatus().toLowerCase(Locale.ROOT),
+                        item.getCreatedAt()));
         return PageResponse.fromPage(dtoPage);
+    }
+
+    @Override
+    public OrderDetailResponse getOrderById(Long id) {
+        var item = orderRepository.findAdminOrderById(id);
+        if (item == null) {
+            throw new IllegalArgumentException("Order not found");
+        }
+        return new OrderDetailResponse(
+                item.getId(),
+                item.getOrderCode(),
+                item.getUsername(),
+                item.getUserId(),
+                item.getTotal(),
+                item.getStatus() == null ? null : item.getStatus().toLowerCase(Locale.ROOT),
+                item.getCreatedAt());
     }
 }

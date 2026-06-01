@@ -41,12 +41,20 @@ const API = {
         : {}),
     };
   },
+  _opts(method = "GET", body = null) {
+    return {
+      method,
+      headers: this._h(),
+      credentials: "include",
+      ...(body !== null ? { body: JSON.stringify(body) } : {}),
+    };
+  },
 
   // ── ORDERS ──────────────────────────────────────────────────
   async getOrders(page = 0) {
     const response = await fetch(
       `${DB_CONFIG.apiBase}/api/orders?page=${page}&size=10`,
-      { headers: this._h() },
+      { headers: this._h(), credentials: "include" },
     );
     if (!response.ok) {
       throw new Error("Khong the tai danh sach don hang");
@@ -54,31 +62,40 @@ const API = {
     return response.json();
   },
   async getOrderById(id) {
-    return (
-      MOCK.orderDetails[id] ?? {
-        ...MOCK.orders.find((o) => o.id === id),
-        shipping_address_id: 10,
-        payment_method_id: 2,
-        shipping_method_id: 1,
-        discount_code_id: null,
-        subtotal: 800000,
-        total_amount: 850000,
-      }
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/orders/${id}`,
+      { headers: this._h(), credentials: "include" },
     );
+    if (!response.ok) {
+      throw new Error("Khong the tai chi tiet don hang");
+    }
+    return response.json();
   },
   async updateOrder(id, d) {
-    console.log("UPDATE ORDER", id, d);
-    return true;
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/orders/${id}`,
+      { ...this._opts("PUT", d) },
+    );
+    if (!response.ok) {
+      throw new Error("Khong the cap nhat don hang");
+    }
+    return response.json();
   },
   async deleteOrder(id) {
-    console.log("DELETE ORDER", id);
-    return true;
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/orders/${id}`,
+      { method: "DELETE", headers: this._h(), credentials: "include" },
+    );
+    if (!response.ok) {
+      throw new Error("Khong the xoa don hang");
+    }
   },
 
   // ── USERS ────────────────────────────────────────────────────
   async getUsers() {
     const response = await fetch(`${DB_CONFIG.apiBase}/user/all`, {
       headers: this._h(),
+      credentials: "include",
     });
     if (!response.ok) {
       throw new Error("Khong the tai danh sach user");
@@ -87,9 +104,7 @@ const API = {
   },
   async createUser(d) {
     const response = await fetch(`${DB_CONFIG.apiBase}/user/add`, {
-      method: "POST",
-      headers: this._h(),
-      body: JSON.stringify(d),
+      ...this._opts("POST", d),
     });
     if (!response.ok) {
       const errorText = await response.text();
@@ -99,9 +114,7 @@ const API = {
   },
   async updateUser(id, d) {
     const response = await fetch(`${DB_CONFIG.apiBase}/user/${id}`, {
-      method: "PUT",
-      headers: this._h(),
-      body: JSON.stringify(d),
+      ...this._opts("PUT", d),
     });
     if (!response.ok) {
       const errorText = await response.text();
@@ -113,19 +126,19 @@ const API = {
     const response = await fetch(`${DB_CONFIG.apiBase}/user/${id}`, {
       method: "DELETE",
       headers: this._h(),
+      credentials: "include",
     });
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Khong the xoa user");
     }
-    return true;
   },
 
   // ── PRODUCTS ─────────────────────────────────────────────────
   async getProducts(page = 0) {
     const response = await fetch(
       `${DB_CONFIG.apiBase}/api/products?page=${page}&size=10`,
-      { headers: this._h() },
+      { headers: this._h(), credentials: "include" },
     );
     if (!response.ok) {
       throw new Error("Khong the tai danh sach san pham");
@@ -145,6 +158,7 @@ const API = {
   async getProductById(id) {
     const response = await fetch(`${DB_CONFIG.apiBase}/api/products/${id}`, {
       headers: this._h(),
+      credentials: "include",
     });
     if (!response.ok) {
       throw new Error("Khong the tai san pham");
@@ -164,9 +178,7 @@ const API = {
   },
   async createProduct(d) {
     const response = await fetch(`${DB_CONFIG.apiBase}/api/products`, {
-      method: "POST",
-      headers: this._h(),
-      body: JSON.stringify(d),
+      ...this._opts("POST", d),
     });
     if (!response.ok) {
       const errorText = await response.text();
@@ -176,9 +188,7 @@ const API = {
   },
   async updateProduct(id, d) {
     const response = await fetch(`${DB_CONFIG.apiBase}/api/products/${id}`, {
-      method: "PUT",
-      headers: this._h(),
-      body: JSON.stringify(d),
+      ...this._opts("PUT", d),
     });
     if (!response.ok) {
       const errorText = await response.text();
@@ -190,19 +200,19 @@ const API = {
     const response = await fetch(`${DB_CONFIG.apiBase}/api/products/${id}`, {
       method: "DELETE",
       headers: this._h(),
+      credentials: "include",
     });
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Khong the xoa san pham");
     }
-    return true;
   },
 
   // ── CATEGORIES ──────────────────────────────────────────────
   async getCategories(page = 0) {
     const response = await fetch(
       `${DB_CONFIG.apiBase}/api/categories?page=${page}&size=10`,
-      { headers: this._h() },
+      { headers: this._h(), credentials: "include" },
     );
     if (!response.ok) {
       throw new Error("Khong the tai danh sach danh muc");
@@ -210,23 +220,43 @@ const API = {
     return response.json();
   },
   async createCategory(d) {
-    console.log("CREATE CAT", d);
-    return { id: Date.now(), ...d };
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/categories`,
+      { ...this._opts("POST", d) },
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Khong the tao danh muc");
+    }
+    return response.json();
   },
   async updateCategory(id, d) {
-    console.log("UPDATE CAT", id, d);
-    return true;
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/categories/${id}`,
+      { ...this._opts("PUT", d) },
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Khong the cap nhat danh muc");
+    }
+    return response.json();
   },
   async deleteCategory(id) {
-    console.log("DELETE CAT", id);
-    return true;
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/categories/${id}`,
+      { method: "DELETE", headers: this._h(), credentials: "include" },
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Khong the xoa danh muc");
+    }
   },
 
   // ── REVIEWS ─────────────────────────────────────────────────
   async getReviews(page = 0) {
     const response = await fetch(
       `${DB_CONFIG.apiBase}/api/reviews?page=${page}&size=10`,
-      { headers: this._h() },
+      { headers: this._h(), credentials: "include" },
     );
     if (!response.ok) {
       throw new Error("Khong the tai danh sach danh gia");
@@ -234,15 +264,21 @@ const API = {
     return response.json();
   },
   async deleteReview(id) {
-    console.log("DELETE REVIEW", id);
-    return true;
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/reviews/${id}`,
+      { method: "DELETE", headers: this._h(), credentials: "include" },
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Khong the xoa danh gia");
+    }
   },
 
   // ── DISCOUNTS ────────────────────────────────────────────────
   async getDiscounts(page = 0) {
     const response = await fetch(
       `${DB_CONFIG.apiBase}/api/discounts?page=${page}&size=10`,
-      { headers: this._h() },
+      { headers: this._h(), credentials: "include" },
     );
     if (!response.ok) {
       throw new Error("Khong the tai danh sach ma giam gia");
@@ -258,16 +294,36 @@ const API = {
     };
   },
   async createDiscount(d) {
-    console.log("CREATE DISC", d);
-    return { id: Date.now(), ...d };
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/discounts`,
+      { ...this._opts("POST", d) },
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Khong the tao ma giam gia");
+    }
+    return response.json();
   },
   async updateDiscount(id, d) {
-    console.log("UPDATE DISC", id, d);
-    return true;
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/discounts/${id}`,
+      { ...this._opts("PUT", d) },
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Khong the cap nhat ma giam gia");
+    }
+    return response.json();
   },
   async deleteDiscount(id) {
-    console.log("DELETE DISC", id);
-    return true;
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/discounts/${id}`,
+      { method: "DELETE", headers: this._h(), credentials: "include" },
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Khong the xoa ma giam gia");
+    }
   },
 
   // ── DASHBOARD STATS ──────────────────────────────────────────
@@ -285,19 +341,19 @@ const API = {
 
     return {
       totalRevenue: orders
-        .filter((o) => o.status === "completed")
-        .reduce((s, o) => s + o.total, 0),
+        .filter((o) => (o.status || '').toLowerCase() === "completed")
+        .reduce((s, o) => s + (o.total || 0), 0),
       totalOrders: orders.length,
-      pendingOrders: orders.filter((o) => o.status === "pending").length,
-      activeProducts: products.filter((p) => p.stock_quantity > 0).length,
-      lowStock: products.filter((p) => p.stock_quantity < 50).length,
+      pendingOrders: orders.filter((o) => (o.status || '').toLowerCase() === "pending").length,
+      activeProducts: products.filter((p) => (p.stock_quantity || 0) > 0).length,
+      lowStock: products.filter((p) => (p.stock_quantity || 0) < 50).length,
       totalUsers: users.filter(
         (u) => String(u.role || "").toUpperCase() === "CUSTOMER",
       ).length,
       activeDiscounts: discounts.filter((d) => d.is_valid).length,
       recentOrders: orders.slice(0, 5),
       topProducts: [...products]
-        .sort((a, b) => b.rating_avg - a.rating_avg)
+        .sort((a, b) => (b.rating_avg || 0) - (a.rating_avg || 0))
         .slice(0, 4),
     };
   },
