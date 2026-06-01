@@ -1,74 +1,91 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Discounts �?" WineStore Admin</title>
+    <title>Discounts - WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
     <div class="admin-layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg></div>
+          <div class="logo-icon">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" />
+              <path d="M7 10h10" />
+              <path d="M12 14v8" />
+              <path d="M9 22h6" />
+            </svg>
+          </div>
           <div>
             <div class="logo-text">WineStore</div>
             <div class="logo-sub">Admin Panel</div>
           </div>
         </div>
         <nav class="sidebar-nav">
-          <div class="nav-section-label">T�.ng quan</div>
-          <a class="nav-item" th:href="@{/admin}"
-            ><span class="nav-icon">�Y��</span> Dashboard</a
+          <div class="nav-section-label">Tổng quan</div>
+          <a class="nav-item" data-page="dashboard" th:href="@{/admin}"
+            ><span class="nav-icon">🏠</span> Dashboard</a
           >
-          <div class="nav-section-label">Quản lý �'ơn hàng</div>
-          <a class="nav-item" th:href="@{/admin/order/list}"
-            ><span class="nav-icon">�Y"�</span> Orders</a
+          <div class="nav-section-label">Quản lý đơn hàng</div>
+          <a class="nav-item" data-page="orders" th:href="@{/admin/order/list}"
+            ><span class="nav-icon">📦</span> Orders</a
           >
           <div class="nav-section-label">Sản phẩm</div>
-          <a class="nav-item" th:href="@{/admin/product/list}"
-            ><span class="nav-icon">�Y>�</span> Products</a
+          <a
+            class="nav-item"
+            data-page="products"
+            th:href="@{/admin/product/list}"
+            ><span class="nav-icon">🛍</span> Products</a
           >
-          <a class="nav-item" th:href="@{/admin/product/category}"
-            ><span class="nav-icon">�Y-,</span> Categories</a
+          <a
+            class="nav-item"
+            data-page="categories"
+            th:href="@{/admin/product/category}"
+            ><span class="nav-icon">🗂</span> Categories</a
           >
           <div class="nav-section-label">Người dùng</div>
-          <a class="nav-item" th:href="@{/admin/user/list}"
-            ><span class="nav-icon">�Y'�</span> Users</a
+          <a class="nav-item" data-page="users" th:href="@{/admin/user/list}"
+            ><span class="nav-icon">👥</span> Users</a
           >
           <div class="nav-section-label">Marketing</div>
-          <a class="nav-item active" th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">�Y��</span> Discounts</a
+          <a
+            class="nav-item active"
+            data-page="discounts"
+            th:href="@{/admin/marketing/discount}"
+            ><span class="nav-icon">🎁</span> Discounts</a
           >
           <div class="nav-section-label">Reviews</div>
-          <a class="nav-item" th:href="@{/admin/reviews/review}"
+          <a
+            class="nav-item"
+            data-page="reviews"
+            th:href="@{/admin/reviews/review}"
             ><span class="nav-icon">⭐</span> Reviews</a
           >
         </nav>
-        <div class="sidebar-bottom">
-          <div class="admin-profile">
-            <div class="admin-avatar">A</div>
-            <div>
-              <div class="admin-name">Admin Master</div>
-              <div class="admin-role">Super Admin</div>
-            </div>
-          </div>
-        </div>
       </aside>
 
       <div class="main-wrap">
         <header class="topbar">
           <div class="topbar-info">
-            <div class="topbar-title">Marketing</div>
-            <div class="topbar-breadcrumb">Discounts</div>
+            <div class="topbar-title">Discounts</div>
+            <div class="topbar-breadcrumb">Manage discount codes</div>
           </div>
           <div class="topbar-right">
             <button
               class="icon-btn"
-              title="Cài �'ặt"
+              title="Cài đặt"
               onclick="toggleLogoutDropdown()"
             >
-              �sT️
+              ⚙️
             </button>
             <div
               class="dropdown-menu"
@@ -79,21 +96,22 @@
                 class="dropdown-item dropdown-item-logout"
                 onclick="logout()"
               >
-                �O Đ�fng xuất
+                Đăng xuất
               </button>
             </div>
           </div>
         </header>
 
         <div class="page-wrap">
-          <!-- �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"? DISCOUNTS SECTION �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"? -->
           <div class="page-header">
             <div>
-              <div class="page-title">Mã giảm giá</div>
-              <div class="page-subtitle">Quản lý tất cả discount code</div>
+              <div class="page-title">Discount List</div>
+              <div class="page-subtitle">
+                Manage discounts and validity state
+              </div>
             </div>
-            <button class="btn btn-primary" onclick="openAddDiscount()">
-              + Thêm mã giảm giá
+            <button class="btn btn-primary" onclick="openAdd()">
+              + Add discount
             </button>
           </div>
 
@@ -101,11 +119,11 @@
             <div class="card-header">
               <div class="toolbar">
                 <div class="search-box">
-                  <span class="search-icon">�Y"�</span>
+                  <span class="search-icon">🔎</span>
                   <input
                     type="text"
-                    id="discSearch"
-                    placeholder="Tìm mã code..."
+                    id="searchInput"
+                    placeholder="Search code..."
                     oninput="filterDisc()"
                   />
                 </div>
@@ -114,12 +132,12 @@
                   id="discValidFilter"
                   onchange="filterDisc()"
                 >
-                  <option value="">Tất cả trạng thái</option>
+                  <option value="">All status</option>
                   <option value="valid">Valid</option>
                   <option value="invalid">Invalid</option>
                 </select>
               </div>
-              <span class="badge badge-info" id="discCount">�?"</span>
+              <span class="badge badge-info" id="discCount">0</span>
             </div>
 
             <div class="table-wrap">
@@ -144,49 +162,43 @@
                         color: var(--text-muted);
                       "
                     >
-                      Đang tải...
+                      Loading...
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
+
+            <div class="pagination pagination-inline" id="pagination"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- �"?�"? DISCOUNT MODAL �"?�"? -->
     <div class="modal-overlay" id="discModalOverlay">
       <div class="modal">
         <div class="modal-header">
-          <div class="modal-title" id="discModalTitle">Thêm mã giảm giá</div>
+          <div class="modal-title" id="discModalTitle">Add discount</div>
           <button
             class="btn btn-ghost btn-icon"
             onclick="Modal.close('discModalOverlay')"
           >
-            �o.
+            ✕
           </button>
         </div>
         <div class="modal-body">
           <input type="hidden" id="dId" />
           <div class="form-group">
-            <label class="form-label">Mã code *</label>
+            <label class="form-label">Code *</label>
             <input
               class="form-control"
               id="dCode"
               required
-              placeholder="VD: SALE20"
-              style="
-                font-family: &quot;DM Mono&quot;, monospace;
-                font-size: 16px;
-                letter-spacing: 1px;
-                text-transform: uppercase;
-              "
+              placeholder="SALE20"
             />
-            <div class="form-hint">Tự �'�Tng chuy�fn chữ hoa</div>
           </div>
           <div class="form-group">
-            <label class="form-label">Phần tr�fm giảm (%) *</label>
+            <label class="form-label">Discount (%) *</label>
             <input
               class="form-control"
               id="dPct"
@@ -202,7 +214,7 @@
             style="display: flex; align-items: center; gap: 16px"
           >
             <label class="form-label" style="margin: 0; cursor: pointer"
-              >Kích hoạt (Is Valid)</label
+              >Enabled</label
             >
             <label class="toggle">
               <input type="checkbox" id="dValid" checked />
@@ -211,7 +223,7 @@
             <span
               id="dValidLabel"
               style="font-size: 12px; color: var(--text-muted)"
-              >Đang bật</span
+              >On</span
             >
           </div>
         </div>
@@ -220,28 +232,27 @@
             class="btn btn-outline"
             onclick="Modal.close('discModalOverlay')"
           >
-            Hủy
+            Cancel
           </button>
           <button
             class="btn btn-primary"
             id="dSaveBtn"
             onclick="saveDiscount()"
           >
-            �Y'� Lưu
+            Save
           </button>
         </div>
       </div>
     </div>
 
-    <!-- DELETE CONFIRM -->
     <div class="modal-overlay" id="deleteModalOverlay">
       <div class="modal modal-sm">
         <div
           class="modal-body"
           style="padding: 32px 28px 20px; text-align: center"
         >
-          <div class="confirm-icon">�Y-'️</div>
-          <div class="confirm-title">Xác nhận xóa</div>
+          <div class="confirm-icon">🗑️</div>
+          <div class="confirm-title">Confirm delete</div>
           <div class="confirm-text">
             <strong id="deleteTargetLabel"></strong>
           </div>
@@ -249,12 +260,12 @@
             <div class="countdown-fill" id="countdownFill"></div>
           </div>
           <div class="countdown-label" id="countdownLabel">
-            Vui lòng chờ 10 giây...
+            Wait 10 seconds...
           </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-outline" onclick="DeleteConfirm.hide()">
-            Hủy
+            Cancel
           </button>
           <button
             class="btn btn-danger"
@@ -262,7 +273,7 @@
             onclick="DeleteConfirm.confirm()"
             disabled
           >
-            Xác nhận xóa
+            Delete
           </button>
         </div>
       </div>
@@ -272,64 +283,52 @@
     <script>
       let allDisc = [];
       let editDiscId = null;
+      let currentPage = 0;
+      let totalPages = 0;
+      let totalElements = 0;
 
-      // �"?�"?�"? INIT �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
-      async function init() {
-        allDisc = await API.getDiscounts();
+      async function loadDiscounts(page = 0) {
+        const response = await API.getDiscounts(page);
+        allDisc = response.content || [];
+        currentPage = response.page || 0;
+        totalPages = response.totalPages || 0;
+        totalElements = response.totalElements || 0;
         renderDisc(allDisc);
-
-        // Toggle label
-        document
-          .getElementById("dValid")
-          .addEventListener("change", function () {
-            document.getElementById("dValidLabel").textContent = this.checked
-              ? "Đang bật"
-              : "Đã tắt";
-          });
-
-        // Auto uppercase code
-        document.getElementById("dCode").addEventListener("input", function () {
-          const pos = this.selectionStart;
-          this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
-          this.setSelectionRange(pos, pos);
-        });
+        Utils.renderPagination(
+          "pagination",
+          currentPage,
+          totalPages,
+          loadDiscounts,
+        );
       }
 
-      // �"?�"?�"? DISCOUNT �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
       function renderDisc(list) {
-        document.getElementById("discCount").textContent = `${list.length} mã`;
+        document.getElementById("discCount").textContent =
+          `${totalElements} codes`;
         document.getElementById("discBody").innerHTML = list.length
           ? list
               .map(
                 (d) => `
         <tr>
           <td class="td-mono">${d.id}</td>
-          <td>
-            <span style="font-family:'DM Mono',monospace;font-size:14px;font-weight:700;
-                         background:var(--primary-light);color:var(--primary-dark);
-                         padding:4px 10px;border-radius:6px;letter-spacing:1px">${d.code}</span>
-          </td>
-          <td>
-            <span class="badge badge-cyan" style="font-size:13px;font-family:'DM Mono',monospace">
-              ${d.discount}% OFF
-            </span>
-          </td>
+          <td><strong>${d.code}</strong></td>
+          <td><span class="badge badge-cyan">${d.discount}% OFF</span></td>
           <td>${Utils.validBadge(d.is_valid)}</td>
-          <td class="td-mono">${d.times_used} lần</td>
+          <td class="td-mono">${d.times_used}</td>
           <td>
             <div class="action-group">
-              <button class="btn btn-sm btn-outline" onclick='openEditDisc(${JSON.stringify(d)})'>�o�️ Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="delDisc(${d.id},'${d.code}')">�Y-' Delete</button>
+              <button class="btn btn-sm btn-outline" onclick='openEditDisc(${JSON.stringify(d)})'>✏️ Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="delDisc(${d.id},'${d.code}')">🗑 Delete</button>
             </div>
           </td>
         </tr>`,
               )
               .join("")
-          : `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">Không có mã giảm giá</td></tr>`;
+          : `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">No discount found</td></tr>`;
       }
 
       function filterDisc() {
-        const q = document.getElementById("discSearch").value.toLowerCase();
+        const q = document.getElementById("searchInput").value.toLowerCase();
         const vf = document.getElementById("discValidFilter").value;
         renderDisc(
           allDisc.filter(
@@ -338,31 +337,36 @@
               (!vf || (vf === "valid" ? d.is_valid : !d.is_valid)),
           ),
         );
+        Utils.renderPagination(
+          "pagination",
+          currentPage,
+          totalPages,
+          loadDiscounts,
+        );
       }
 
-      function openAddDiscount() {
+      function openAdd() {
         editDiscId = null;
-        document.getElementById("discModalTitle").textContent =
-          "Thêm mã giảm giá m�>i";
+        document.getElementById("discModalTitle").textContent = "Add discount";
         ["dId", "dCode", "dPct"].forEach(
           (id) => (document.getElementById(id).value = ""),
         );
         document.getElementById("dValid").checked = true;
-        document.getElementById("dValidLabel").textContent = "Đang bật";
+        document.getElementById("dValidLabel").textContent = "On";
         Modal.open("discModalOverlay");
       }
 
       function openEditDisc(d) {
         editDiscId = d.id;
         document.getElementById("discModalTitle").textContent =
-          `Ch�?nh sửa mã: ${d.code}`;
+          `Edit code: ${d.code}`;
         document.getElementById("dId").value = d.id;
         document.getElementById("dCode").value = d.code;
         document.getElementById("dPct").value = d.discount;
         document.getElementById("dValid").checked = d.is_valid;
         document.getElementById("dValidLabel").textContent = d.is_valid
-          ? "Đang bật"
-          : "Đã tắt";
+          ? "On"
+          : "Off";
         Modal.open("discModalOverlay");
       }
 
@@ -370,13 +374,13 @@
         const code = document.getElementById("dCode").value.trim();
         const pct = +document.getElementById("dPct").value;
         if (!code || !pct) {
-          Utils.toast("Vui lòng �'iền �'ầy �'ủ!", "error");
+          Utils.toast("Please fill all required fields", "error");
           return;
         }
 
         const btn = document.getElementById("dSaveBtn");
         btn.disabled = true;
-        btn.textContent = "⏳...";
+        btn.textContent = "Saving...";
 
         const data = {
           code,
@@ -386,32 +390,43 @@
 
         if (editDiscId) {
           await API.updateDiscount(editDiscId, data);
-          const idx = allDisc.findIndex((d) => d.id === editDiscId);
-          if (idx >= 0) allDisc[idx] = { ...allDisc[idx], ...data };
-          Utils.toast(`Đã cập nhật mã "${code}"`);
+          Utils.toast(`Updated code ${code}`);
         } else {
-          const created = await API.createDiscount(data);
-          allDisc.push({ ...created, times_used: 0 });
-          Utils.toast(`Đã thêm mã "${code}"`);
+          await API.createDiscount(data);
+          Utils.toast(`Created code ${code}`);
         }
 
         Modal.close("discModalOverlay");
-        renderDisc(allDisc);
+        await loadDiscounts(currentPage);
         btn.disabled = false;
-        btn.innerHTML = "�Y'� Lưu";
+        btn.textContent = "Save";
       }
 
       function delDisc(id, code) {
-        DeleteConfirm.show(`Xóa mã giảm giá "${code}"`, async () => {
+        DeleteConfirm.show(`Delete code ${code}`, async () => {
           await API.deleteDiscount(id);
-          allDisc = allDisc.filter((d) => d.id !== id);
-          renderDisc(allDisc);
-          Utils.toast(`Đã xóa mã "${code}"`);
+          await loadDiscounts(currentPage);
+          Utils.toast(`Deleted code ${code}`);
         });
       }
 
-      document.addEventListener("DOMContentLoaded", init);
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .getElementById("dValid")
+          .addEventListener("change", function () {
+            document.getElementById("dValidLabel").textContent = this.checked
+              ? "On"
+              : "Off";
+          });
+
+        document.getElementById("dCode").addEventListener("input", function () {
+          const pos = this.selectionStart;
+          this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+          this.setSelectionRange(pos, pos);
+        });
+
+        loadDiscounts();
+      });
     </script>
   </body>
 </html>
-

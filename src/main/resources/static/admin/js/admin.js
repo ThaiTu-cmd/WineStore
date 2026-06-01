@@ -43,8 +43,15 @@ const API = {
   },
 
   // ── ORDERS ──────────────────────────────────────────────────
-  async getOrders() {
-    return MOCK.orders; /* await (await fetch(`${DB_CONFIG.apiBase}/orders`,{headers:this._h()})).json() */
+  async getOrders(page = 0) {
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/orders?page=${page}&size=10`,
+      { headers: this._h() },
+    );
+    if (!response.ok) {
+      throw new Error("Khong the tai danh sach don hang");
+    }
+    return response.json();
   },
   async getOrderById(id) {
     return (
@@ -115,28 +122,92 @@ const API = {
   },
 
   // ── PRODUCTS ─────────────────────────────────────────────────
-  async getProducts() {
-    return MOCK.products;
+  async getProducts(page = 0) {
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/products?page=${page}&size=10`,
+      { headers: this._h() },
+    );
+    if (!response.ok) {
+      throw new Error("Khong the tai danh sach san pham");
+    }
+    const data = await response.json();
+    return {
+      ...data,
+      content: (data.content || []).map((p) => ({
+        ...p,
+        category_id: p.category_id ?? p.categoryId,
+        rating_avg: p.rating_avg ?? p.ratingAvg ?? 0,
+        rating_count: p.rating_count ?? p.ratingCount ?? 0,
+        stock_quantity: p.stock_quantity ?? p.stockQuantity ?? 0,
+      })),
+    };
   },
   async getProductById(id) {
-    return MOCK.products.find((p) => p.id === id);
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/products/${id}`, {
+      headers: this._h(),
+    });
+    if (!response.ok) {
+      throw new Error("Khong the tai san pham");
+    }
+    const p = await response.json();
+    return {
+      ...p,
+      category_id: p.category_id ?? p.categoryId,
+      short_description: p.short_description ?? p.shortDescription,
+      description: p.description ?? p.description,
+      old_price: p.old_price ?? p.oldPrice,
+      rating_avg: p.rating_avg ?? p.ratingAvg ?? 0,
+      rating_count: p.rating_count ?? p.ratingCount ?? 0,
+      stock_quantity: p.stock_quantity ?? p.stockQuantity ?? 0,
+      is_active: p.is_active ?? p.isActive,
+    };
   },
   async createProduct(d) {
-    console.log("CREATE PRODUCT", d);
-    return { id: Date.now(), ...d };
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/products`, {
+      method: "POST",
+      headers: this._h(),
+      body: JSON.stringify(d),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Khong the tao san pham");
+    }
+    return response.json();
   },
   async updateProduct(id, d) {
-    console.log("UPDATE PRODUCT", id, d);
-    return true;
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/products/${id}`, {
+      method: "PUT",
+      headers: this._h(),
+      body: JSON.stringify(d),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Khong the cap nhat san pham");
+    }
+    return response.json();
   },
   async deleteProduct(id) {
-    console.log("DELETE PRODUCT", id);
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/products/${id}`, {
+      method: "DELETE",
+      headers: this._h(),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Khong the xoa san pham");
+    }
     return true;
   },
 
   // ── CATEGORIES ──────────────────────────────────────────────
-  async getCategories() {
-    return MOCK.categories;
+  async getCategories(page = 0) {
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/categories?page=${page}&size=10`,
+      { headers: this._h() },
+    );
+    if (!response.ok) {
+      throw new Error("Khong the tai danh sach danh muc");
+    }
+    return response.json();
   },
   async createCategory(d) {
     console.log("CREATE CAT", d);
@@ -152,8 +223,15 @@ const API = {
   },
 
   // ── REVIEWS ─────────────────────────────────────────────────
-  async getReviews() {
-    return MOCK.reviews;
+  async getReviews(page = 0) {
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/reviews?page=${page}&size=10`,
+      { headers: this._h() },
+    );
+    if (!response.ok) {
+      throw new Error("Khong the tai danh sach danh gia");
+    }
+    return response.json();
   },
   async deleteReview(id) {
     console.log("DELETE REVIEW", id);
@@ -161,8 +239,23 @@ const API = {
   },
 
   // ── DISCOUNTS ────────────────────────────────────────────────
-  async getDiscounts() {
-    return MOCK.discounts;
+  async getDiscounts(page = 0) {
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/discounts?page=${page}&size=10`,
+      { headers: this._h() },
+    );
+    if (!response.ok) {
+      throw new Error("Khong the tai danh sach ma giam gia");
+    }
+    const data = await response.json();
+    return {
+      ...data,
+      content: (data.content || []).map((d) => ({
+        ...d,
+        is_valid: d.is_valid ?? d.isValid,
+        times_used: d.times_used ?? d.timesUsed ?? 0,
+      })),
+    };
   },
   async createDiscount(d) {
     console.log("CREATE DISC", d);
@@ -180,12 +273,16 @@ const API = {
   // ── DASHBOARD STATS ──────────────────────────────────────────
   // Replace with: await (await fetch(`${DB_CONFIG.apiBase}/dashboard/stats`,{headers:this._h()})).json()
   async getDashboardStats() {
-    const [orders, users, products, discounts] = await Promise.all([
-      this.getOrders(),
+    const [ordersPage, users, productsPage, discountsPage] = await Promise.all([
+      this.getOrders(0),
       this.getUsers(),
-      this.getProducts(),
-      this.getDiscounts(),
+      this.getProducts(0),
+      this.getDiscounts(0),
     ]);
+    const orders = ordersPage.content || [];
+    const products = productsPage.content || [];
+    const discounts = discountsPage.content || [];
+
     return {
       totalRevenue: orders
         .filter((o) => o.status === "completed")
@@ -279,6 +376,39 @@ const Utils = {
     document.querySelectorAll(".chart-bar").forEach((b) => {
       b.style.height = "0%";
     });
+  },
+
+  renderPagination(containerId, page, totalPages, onChange) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    if (!totalPages || totalPages <= 1) {
+      container.innerHTML = "";
+      return;
+    }
+
+    const current = Number(page) || 0;
+    const pages = [];
+
+    const addBtn = (label, targetPage, disabled = false, active = false) => {
+      const button = document.createElement("button");
+      button.className = `page-btn${active ? " active" : ""}`;
+      button.textContent = label;
+      button.disabled = disabled;
+      if (!disabled) {
+        button.addEventListener("click", () => onChange(targetPage));
+      }
+      pages.push(button);
+    };
+
+    addBtn("<", current - 1, current <= 0, false);
+    for (let i = 0; i < totalPages; i++) {
+      addBtn(String(i + 1), i, false, i === current);
+    }
+    addBtn(">", current + 1, current >= totalPages - 1, false);
+
+    container.innerHTML = "";
+    pages.forEach((btn) => container.appendChild(btn));
   },
 };
 

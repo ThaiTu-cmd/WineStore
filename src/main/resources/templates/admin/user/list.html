@@ -3,58 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Users �?" WineStore Admin</title>
+    <title>Users - WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
     <div class="admin-layout">
-      <aside class="sidebar" id="sidebar">
-        <div class="sidebar-logo">
-          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg></div>
-          <div>
-            <div class="logo-text">WineStore</div>
-            <div class="logo-sub">Admin Panel</div>
-          </div>
-        </div>
-        <nav class="sidebar-nav">
-          <div class="nav-section-label">T�.ng quan</div>
-          <a class="nav-item" th:href="@{/admin}"
-            ><span class="nav-icon">�Y��</span> Dashboard</a
-          >
-          <div class="nav-section-label">Quản lý �'ơn hàng</div>
-          <a class="nav-item" th:href="@{/admin/order/list}"
-            ><span class="nav-icon">�Y"�</span> Orders</a
-          >
-          <div class="nav-section-label">Sản phẩm</div>
-          <a class="nav-item" th:href="@{/admin/product/list}"
-            ><span class="nav-icon">�Y>�</span> Products</a
-          >
-          <a class="nav-item" th:href="@{/admin/product/category}"
-            ><span class="nav-icon">�Y-,</span> Categories</a
-          >
-          <div class="nav-section-label">Người dùng</div>
-          <a class="nav-item active" th:href="@{/admin/user/list}"
-            ><span class="nav-icon">�Y'�</span> Users</a
-          >
-          <div class="nav-section-label">Marketing</div>
-          <a class="nav-item" th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">�Y��</span> Discounts</a
-          >
-          <div class="nav-section-label">Reviews</div>
-          <a class="nav-item" th:href="@{/admin/reviews/review}"
-            ><span class="nav-icon">⭐</span> Reviews</a
-          >
-        </nav>
-        <div class="sidebar-bottom">
-          <div class="admin-profile">
-            <div class="admin-avatar">A</div>
-            <div>
-              <div class="admin-name">Admin Master</div>
-              <div class="admin-role">Super Admin</div>
-            </div>
-          </div>
-        </div>
-      </aside>
+      <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
 
       <div class="main-wrap">
         <header class="topbar">
@@ -65,10 +19,10 @@
           <div class="topbar-right">
             <button
               class="icon-btn"
-              title="Cài �'ặt"
+              title="Cài đặt"
               onclick="toggleLogoutDropdown()"
             >
-              �sT️
+              ⚙️
             </button>
             <div
               class="dropdown-menu"
@@ -79,7 +33,7 @@
                 class="dropdown-item dropdown-item-logout"
                 onclick="logout()"
               >
-                �O Đ�fng xuất
+                Đăng xuất
               </button>
             </div>
           </div>
@@ -90,7 +44,7 @@
             <div>
               <div class="page-title">Quản lý Users</div>
               <div class="page-subtitle">
-                Tất cả tài khoản người dùng và quản tr�< viên
+                Tất cả tài khoản người dùng và quản trị viên
               </div>
             </div>
             <button class="btn btn-primary" onclick="openAdd()">
@@ -101,31 +55,31 @@
           <!-- SUMMARY CARDS -->
           <div class="stats-grid" style="margin-bottom: 20px">
             <div class="stat-card">
-              <div class="stat-icon blue">�Y'�</div>
+              <div class="stat-icon blue">👥</div>
               <div>
-                <div class="stat-val" id="countAll">�?"</div>
-                <div class="stat-label">T�.ng tài khoản</div>
+                <div class="stat-val" id="countAll">0</div>
+                <div class="stat-label">Tổng tài khoản</div>
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon cyan">�Y'�</div>
+              <div class="stat-icon cyan">👤</div>
               <div>
-                <div class="stat-val" id="countUsers">�?"</div>
+                <div class="stat-val" id="countUsers">0</div>
                 <div class="stat-label">Người dùng</div>
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon orange">�Y''</div>
+              <div class="stat-icon orange">🛡️</div>
               <div>
-                <div class="stat-val" id="countAdmins">�?"</div>
-                <div class="stat-label">Quản tr�< viên</div>
+                <div class="stat-val" id="countAdmins">0</div>
+                <div class="stat-label">Quản trị viên</div>
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon green">�o"</div>
+              <div class="stat-icon green">✅</div>
               <div>
-                <div class="stat-val" id="countActive">�?"</div>
-                <div class="stat-label">Đang hoạt �'�Tng</div>
+                <div class="stat-val" id="countActive">0</div>
+                <div class="stat-label">Đang hoạt động</div>
               </div>
             </div>
           </div>
@@ -134,11 +88,11 @@
             <div class="card-header">
               <div class="toolbar">
                 <div class="search-box">
-                  <span class="search-icon">�Y"�</span>
+                  <span class="search-icon">🔎</span>
                   <input
                     type="text"
                     id="searchInput"
-                    placeholder="Tìm tên, email, s�' �'i�?n thoại..."
+                    placeholder="Tìm tên, email, số điện thoại..."
                     oninput="filterUsers()"
                   />
                 </div>
@@ -161,7 +115,7 @@
                   <option value="INACTIVE">Inactive</option>
                 </select>
               </div>
-              <span class="badge badge-info" id="userCount">�?"</span>
+              <span class="badge badge-info" id="userCount">0</span>
             </div>
 
             <div class="table-wrap">
@@ -194,73 +148,104 @@
               </table>
             </div>
 
-            <div class="pagination">
-              <button class="page-btn">�?�</button>
-              <button class="page-btn active">1</button>
-              <button class="page-btn">2</button>
-              <button class="page-btn">�?�</button>
-            </div>
+            <div class="pagination pagination-inline" id="userPagination"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- �"?�"? USER MODAL �"?�"? -->
+    <!-- USER MODAL -->
     <div class="modal-overlay" id="userModalOverlay">
       <div class="modal">
         <div class="modal-header">
           <div class="modal-title" id="userModalTitle">Thêm người dùng</div>
           <button
             class="btn btn-ghost btn-icon"
+            type="button"
             onclick="Modal.close('userModalOverlay')"
           >
-            �o.
+            ✕
           </button>
         </div>
-        <div class="modal-body">
+        <form class="modal-body" autocomplete="off" onsubmit="return false;">
           <input type="hidden" id="uId" />
           <div class="form-group">
             <label class="form-label">Họ và tên *</label>
-            <input class="form-control" id="uName" required />
+            <input
+              class="form-control"
+              id="uName"
+              required
+              autocomplete="off"
+              autocapitalize="off"
+              autocorrect="off"
+              spellcheck="false"
+            />
           </div>
           <div class="form-group">
             <label class="form-label">Email *</label>
-            <input class="form-control" id="uEmail" type="email" required />
+            <input
+              class="form-control"
+              id="uEmail"
+              type="email"
+              required
+              autocomplete="off"
+              autocapitalize="off"
+              autocorrect="off"
+              spellcheck="false"
+            />
           </div>
           <div class="form-grid">
             <div class="form-group">
-              <label class="form-label">S�' �'i�?n thoại</label>
-              <input class="form-control" id="uPhone" />
+              <label class="form-label">Số điện thoại</label>
+              <input
+                class="form-control"
+                id="uPhone"
+                autocomplete="off"
+                autocapitalize="off"
+                autocorrect="off"
+                spellcheck="false"
+              />
             </div>
             <div class="form-group">
               <label class="form-label">Vai trò</label>
-              <select class="form-control" id="uRole">
-                <option value="CUSTOMER">�Y'� User</option>
-                <option value="ADMIN">�Y'' Admin</option>
+              <select class="form-control" id="uRole" autocomplete="off">
+                <option value="CUSTOMER">User</option>
+                <option value="ADMIN">Admin</option>
               </select>
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Trạng thái</label>
-            <select class="form-control" id="uStatus">
-              <option value="ACTIVE">�-� Active</option>
-              <option value="INACTIVE">�-� Inactive</option>
+            <select class="form-control" id="uStatus" autocomplete="off">
+              <option value="ACTIVE">Active</option>
+              <option value="INACTIVE">Inactive</option>
             </select>
           </div>
           <div class="form-group" id="passwordField">
             <label class="form-label">Mật khẩu</label>
-            <input class="form-control" id="uPassword" type="password" />
+            <input
+              class="form-control"
+              id="uPassword"
+              type="password"
+              autocomplete="new-password"
+            />
           </div>
-        </div>
+        </form>
         <div class="modal-footer">
           <button
             class="btn btn-outline"
+            type="button"
             onclick="Modal.close('userModalOverlay')"
           >
             Hủy
           </button>
-          <button class="btn btn-primary" id="uSaveBtn" onclick="saveUser()">
-            �Y'� Lưu
+          <button
+            class="btn btn-primary"
+            id="uSaveBtn"
+            type="button"
+            onclick="saveUser()"
+          >
+            Lưu
           </button>
         </div>
       </div>
@@ -273,10 +258,10 @@
           class="modal-body"
           style="padding: 32px 28px 20px; text-align: center"
         >
-          <div class="confirm-icon">�Y-'️</div>
+          <div class="confirm-icon">🗑️</div>
           <div class="confirm-title">Xác nhận xóa tài khoản</div>
           <div class="confirm-text">
-            Bạn �'ang xóa tài khoản<br /><strong id="deleteTargetLabel"></strong>
+            Bạn đang xóa tài khoản<br /><strong id="deleteTargetLabel"></strong>
           </div>
           <div class="countdown-bar">
             <div class="countdown-fill" id="countdownFill"></div>
@@ -305,6 +290,8 @@
     <script>
       let allUsers = [];
       let editUserId = null;
+      let currentPage = 1;
+      const pageSize = 10;
 
       async function loadUsers() {
         allUsers = await API.getUsers();
@@ -324,52 +311,106 @@
       }
 
       function renderUsers(list) {
+        const totalPages = Math.max(1, Math.ceil(list.length / pageSize));
+        if (currentPage > totalPages) {
+          currentPage = totalPages;
+        }
+
+        const startIndex = (currentPage - 1) * pageSize;
+        const pageItems = list.slice(startIndex, startIndex + pageSize);
+
         document.getElementById("userCount").textContent =
           `${list.length} tài khoản`;
-        document.getElementById("usersBody").innerHTML = list.length
-          ? list
+        document.getElementById("usersBody").innerHTML = pageItems.length
+          ? pageItems
               .map(
                 (u) => `
         <tr>
           <td class="td-mono">${u.id}</td>
           <td><strong>${u.fullName}</strong></td>
           <td style="color:var(--text-secondary)">${u.email}</td>
-          <td class="td-mono">${u.phone || "�?""}</td>
+          <td class="td-mono">${u.phone || "N/A"}</td>
           <td>${Utils.roleBadge(u.role)}</td>
           <td>${Utils.userStatusBadge(u.status)}</td>
           <td>
             <div class="action-group">
-              <button class="btn btn-sm btn-outline" onclick='openEdit(${JSON.stringify(u)})'>�o�️ Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${u.id},'${u.fullName}')">�Y-'</button>
+              <button class="btn btn-sm btn-outline" onclick='openEdit(${JSON.stringify(u)})'>✏️ Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${u.id},'${u.fullName}')">🗑</button>
             </div>
           </td>
         </tr>`,
               )
               .join("")
           : `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted)">Không tìm thấy</td></tr>`;
+
+        renderPagination(list.length, totalPages);
       }
 
-      function filterUsers() {
+      function renderPagination(totalItems, totalPages) {
+        const pagination = document.getElementById("userPagination");
+
+        pagination.innerHTML = totalItems
+          ? `
+            <button class="page-btn" ${currentPage === 1 ? "disabled" : ""} onclick="goToPage(${currentPage - 1})">‹</button>
+            ${buildPageButtons(totalPages)}
+            <button class="page-btn" ${currentPage === totalPages ? "disabled" : ""} onclick="goToPage(${currentPage + 1})">›</button>
+          `
+          : "";
+      }
+
+      function buildPageButtons(totalPages) {
+        const buttons = [];
+        const visiblePages = 5;
+        let start = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+        let end = Math.min(totalPages, start + visiblePages - 1);
+
+        if (end - start + 1 < visiblePages) {
+          start = Math.max(1, end - visiblePages + 1);
+        }
+
+        for (let page = start; page <= end; page += 1) {
+          buttons.push(
+            `<button class="page-btn ${page === currentPage ? "active" : ""}" onclick="goToPage(${page})">${page}</button>`,
+          );
+        }
+
+        return buttons.join("");
+      }
+
+      function goToPage(page) {
+        const totalPages = Math.max(
+          1,
+          Math.ceil(getFilteredUsers().length / pageSize),
+        );
+        currentPage = Math.min(Math.max(1, page), totalPages);
+        renderUsers(getFilteredUsers());
+      }
+
+      function getFilteredUsers() {
         const q = document.getElementById("searchInput").value.toLowerCase();
         const r = document.getElementById("roleFilter").value;
         const st = document.getElementById("statusFilter").value;
-        renderUsers(
-          allUsers.filter(
-            (u) =>
-              (!q ||
-                u.fullName.toLowerCase().includes(q) ||
-                u.email.toLowerCase().includes(q) ||
-                (u.phone || "").toLowerCase().includes(q)) &&
-              (!r || u.role === r) &&
-              (!st || u.status === st),
-          ),
+
+        return allUsers.filter(
+          (u) =>
+            (!q ||
+              u.fullName.toLowerCase().includes(q) ||
+              u.email.toLowerCase().includes(q) ||
+              (u.phone || "").toLowerCase().includes(q)) &&
+            (!r || u.role === r) &&
+            (!st || u.status === st),
         );
+      }
+
+      function filterUsers() {
+        currentPage = 1;
+        renderUsers(getFilteredUsers());
       }
 
       function openAdd() {
         editUserId = null;
         document.getElementById("userModalTitle").textContent =
-          "Thêm người dùng m�>i";
+          "Thêm người dùng mới";
         ["uId", "uName", "uEmail", "uPhone", "uPassword"].forEach(
           (id) => (document.getElementById(id).value = ""),
         );
@@ -381,7 +422,7 @@
       function openEdit(u) {
         editUserId = u.id;
         document.getElementById("userModalTitle").textContent =
-          "Ch�?nh sửa người dùng";
+          "Chỉnh sửa người dùng";
         document.getElementById("uId").value = u.id;
         document.getElementById("uName").value = u.fullName;
         document.getElementById("uEmail").value = u.email;
@@ -397,12 +438,12 @@
         const email = document.getElementById("uEmail").value.trim();
         const password = document.getElementById("uPassword").value.trim();
         if (!name || !email) {
-          Utils.toast("Vui lòng �'iền tên và email!", "error");
+          Utils.toast("Vui lòng điền tên và email!", "error");
           return;
         }
 
         if (!editUserId && !password) {
-          Utils.toast("Vui lòng nhập mật khẩu khi tạo user m�>i!", "error");
+          Utils.toast("Vui lòng nhập mật khẩu khi tạo user mới!", "error");
           return;
         }
 
@@ -425,16 +466,16 @@
             Utils.toast("Đã cập nhật tài khoản!");
           } else {
             await API.createUser(data);
-            Utils.toast("Đã thêm người dùng m�>i!");
+            Utils.toast("Đã thêm người dùng mới!");
           }
 
           await loadUsers();
           Modal.close("userModalOverlay");
         } catch (error) {
-          Utils.toast(error.message || "Có l�-i khi lưu người dùng", "error");
+          Utils.toast(error.message || "Có lỗi khi lưu người dùng", "error");
         } finally {
           btn.disabled = false;
-          btn.innerHTML = "�Y'� Lưu";
+          btn.innerHTML = "Lưu";
         }
       }
 
@@ -445,7 +486,7 @@
             await loadUsers();
             Utils.toast(`Đã xóa tài khoản "${name}"`);
           } catch (error) {
-            Utils.toast(error.message || "Có l�-i khi xóa người dùng", "error");
+            Utils.toast(error.message || "Có lỗi khi xóa người dùng", "error");
           }
         });
       }
@@ -454,4 +495,3 @@
     </script>
   </body>
 </html>
-

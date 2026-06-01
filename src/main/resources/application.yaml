@@ -15,6 +15,6 @@ spring:
 
 app:
   jwt:
-    secret: "ProFitJwtSecretKeyMustBeAtLeastSixtyFourCharactersLongForHS512Secure"
-    expiration-ms: 86400000
-    remember-expiration-ms: 604800000
+    secret: "TaoThachThucChungMayDoanDuocJWTSercetKeyCuaTaoDoDoanDuocLamConChohahaha"
+    expiration-ms: 1800000
+    remember-expiration-ms: 86400000

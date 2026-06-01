@@ -10,40 +10,28 @@
     <div class="admin-layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg></div>
+          <div class="logo-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg>
+          </div>
           <div>
             <div class="logo-text">WineStore</div>
             <div class="logo-sub">Admin Panel</div>
           </div>
         </div>
         <nav class="sidebar-nav">
-          <div class="nav-section-label">T�.ng quan</div>
-          <a class="nav-item" th:href="@{/admin}"
-            ><span class="nav-icon">�Y��</span> Dashboard</a
-          >
-          <div class="nav-section-label">Quản lý �'ơn hàng</div>
-          <a class="nav-item" th:href="@{/admin/order/list}"
-            ><span class="nav-icon">�Y"�</span> Orders</a
-          >
+          <div class="nav-section-label">Tổng quan</div>
+          <a class="nav-item" data-page="dashboard" th:href="@{/admin}"><span class="nav-icon">🏠</span> Dashboard</a>
+          <div class="nav-section-label">Quản lý đơn hàng</div>
+          <a class="nav-item" data-page="orders" th:href="@{/admin/order/list}"><span class="nav-icon">📦</span> Orders</a>
           <div class="nav-section-label">Sản phẩm</div>
-          <a class="nav-item active" th:href="@{/admin/product/list}"
-            ><span class="nav-icon">�Y>�</span> Products</a
-          >
-          <a class="nav-item" th:href="@{/admin/product/category}"
-            ><span class="nav-icon">�Y-,</span> Categories</a
-          >
+          <a class="nav-item active" data-page="products" th:href="@{/admin/product/list}"><span class="nav-icon">🛍</span> Products</a>
+          <a class="nav-item" data-page="categories" th:href="@{/admin/product/category}"><span class="nav-icon">🗂</span> Categories</a>
           <div class="nav-section-label">Người dùng</div>
-          <a class="nav-item" th:href="@{/admin/user/list}"
-            ><span class="nav-icon">�Y'�</span> Users</a
-          >
+          <a class="nav-item" data-page="users" th:href="@{/admin/user/list}"><span class="nav-icon">👥</span> Users</a>
           <div class="nav-section-label">Marketing</div>
-          <a class="nav-item" th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">�Y��</span> Discounts</a
-          >
+          <a class="nav-item" data-page="discounts" th:href="@{/admin/marketing/discount}"><span class="nav-icon">🎁</span> Discounts</a>
           <div class="nav-section-label">Reviews</div>
-          <a class="nav-item" th:href="@{/admin/reviews/review}"
-            ><span class="nav-icon">⭐</span> Reviews</a
-          >
+          <a class="nav-item" data-page="reviews" th:href="@{/admin/reviews/review}"><span class="nav-icon">⭐</span> Reviews</a>
         </nav>
         <div class="sidebar-bottom">
           <div class="admin-profile">
@@ -57,55 +45,8 @@
       </aside>
 
       <div class="main-wrap">
-        <header class="topbar">
-          <div class="topbar-info">
-            <div class="topbar-title" id="topbarTitle">Add Product</div>
-            <div class="topbar-breadcrumb" id="topbarBreadcrumb">
-              Products �?' Thêm m�>i
-            </div>
-          </div>
-          <div class="topbar-right">
-            <button
-              class="icon-btn"
-              title="Cài �'ặt"
-              onclick="toggleLogoutDropdown()"
-            >
-              �sT️
-            </button>
-            <div
-              class="dropdown-menu"
-              id="logoutDropdown"
-              style="display: none"
-            >
-              <button
-                class="dropdown-item dropdown-item-logout"
-                onclick="logout()"
-              >
-                �O Đ�fng xuất
-              </button>
-            </div>
-          </div>
-        </header>
-
-        <div class="page-wrap">
-          <a th:href="@{/admin/product/list}" class="back-btn"
-            >�?� Quay lại danh sách Products</a
-          >
-
-          <div class="page-header">
-            <div>
-              <div class="page-title" id="pageTitle">Thêm sản phẩm m�>i</div>
-              <div class="page-subtitle">
-                Điền thông tin sản phẩm thực phẩm chức n�fng
-              </div>
-            </div>
-            <span class="badge badge-info" id="modeTag">Chế �'�T: Thêm m�>i</span>
-          </div>
-
-          <div class="grid-2" style="align-items: start">
-            <!-- MAIN FORM -->
-            <div class="card">
-              <div class="card-header">
+        <div class="admin-layout">
+          <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
                 <div class="card-title">�Y"� Thông tin cơ bản</div>
               </div>
               <div style="padding: 24px">
@@ -230,12 +171,13 @@
 
       async function initPage() {
         // Load categories
-        const cats = await API.getCategories();
+        const catsResponse = await API.getCategories();
+        const cats = catsResponse.content || [];
         const sel = document.getElementById("fCategory");
         cats.forEach((c) => {
           const opt = document.createElement("option");
           opt.value = c.id;
-          opt.textContent = `${c.id} �?" ${c.name}`;
+          opt.textContent = `${c.id} - ${c.name}`;
           sel.appendChild(opt);
         });
 
@@ -247,12 +189,12 @@
           editId = parseInt(id);
           document.getElementById("topbarTitle").textContent = "Edit Product";
           document.getElementById("topbarBreadcrumb").textContent =
-            "Products �?' Ch�?nh sửa";
+            "Products - Chinh sua";
           document.getElementById("pageTitle").textContent =
-            "Ch�?nh sửa sản phẩm";
-          document.getElementById("modeTag").textContent = "Chế �'�T: Ch�?nh sửa";
+            "Chinh sua san pham";
+          document.getElementById("modeTag").textContent = "Che do: Chinh sua";
           document.getElementById("modeTag").className = "badge badge-warning";
-          document.getElementById("submitIcon").textContent = "�o�️";
+          document.getElementById("submitIcon").textContent = "✏️";
           document.getElementById("submitLabel").textContent =
             "Cập nhật sản phẩm";
           document.getElementById("editStatsCard").style.display = "block";
@@ -261,7 +203,7 @@
           if (p) {
             document.getElementById("productId").value = p.id;
             document.getElementById("fName").value = p.name;
-            document.getElementById("fCategory").value = p.category_id;
+            document.getElementById("fCategory").value = p.category_id ?? p.categoryId;
             document.getElementById("fPrice").value = p.price;
             document.getElementById("fStock").value = p.stock_quantity;
             document.getElementById("showRating").innerHTML = Utils.stars(
@@ -270,7 +212,7 @@
             document.getElementById("showRatingCount").textContent =
               p.rating_count;
             document.getElementById("showId").textContent = p.id;
-            document.getElementById("showCatId").textContent = p.category_id;
+            document.getElementById("showCatId").textContent = p.category_id ?? p.categoryId;
           }
         }
       }
@@ -281,26 +223,37 @@
 
         const data = {
           name: document.getElementById("fName").value.trim(),
-          category_id: +document.getElementById("fCategory").value,
+          categoryId: +document.getElementById("fCategory").value,
           price: +document.getElementById("fPrice").value,
-          stock_quantity: +document.getElementById("fStock").value,
+          stockQuantity: +document.getElementById("fStock").value,
+          shortDescription: document.getElementById("fDesc").value.trim(),
+          description: document.getElementById("fDesc").value.trim(),
+          isActive: true,
         };
 
-        if (!data.name || !data.category_id || !data.price) {
-          Utils.toast("Vui lòng �'iền �'ầy �'ủ thông tin bắt bu�Tc!", "error");
+        if (!data.name || !data.categoryId || !data.price) {
+          Utils.toast("Vui lòng điền đầy đủ thông tin bắt buộc!", "error");
           btn.textContent = editMode ? "Cập nhật sản phẩm" : "Lưu sản phẩm";
           return;
         }
 
-        if (editMode) {
-          await API.updateProduct(editId, data);
-          Utils.toast("Đã cập nhật sản phẩm thành công!");
-        } else {
-          await API.createProduct(data);
-          Utils.toast("Đã thêm sản phẩm m�>i!");
-          document.getElementById("fName").value = "";
-          document.getElementById("fPrice").value = "";
-          document.getElementById("fStock").value = "";
+        try {
+          if (editMode) {
+            await API.updateProduct(editId, data);
+            Utils.toast("Đã cập nhật sản phẩm thành công!");
+          } else {
+            await API.createProduct(data);
+            Utils.toast("Đã thêm sản phẩm mới!");
+            document.getElementById("fName").value = "";
+            document.getElementById("fPrice").value = "";
+            document.getElementById("fStock").value = "";
+            document.getElementById("fDesc").value = "";
+          }
+          if (!editMode) {
+            document.getElementById("fCategory").value = "";
+          }
+        } catch (error) {
+          Utils.toast(error?.message || "Không thể lưu sản phẩm", "error");
         }
         btn.textContent = editMode ? "Cập nhật sản phẩm" : "Lưu sản phẩm";
       }

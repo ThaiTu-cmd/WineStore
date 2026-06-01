@@ -3,76 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Orders �?" WineStore Admin</title>
+    <title>Orders - WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
     <div class="admin-layout">
-      <!-- SIDEBAR -->
-      <aside class="sidebar" id="sidebar">
-        <div class="sidebar-logo">
-          <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg></div>
-          <div>
-            <div class="logo-text">WineStore</div>
-            <div class="logo-sub">Admin Panel</div>
-          </div>
-        </div>
-        <nav class="sidebar-nav">
-          <div class="nav-section-label">T�.ng quan</div>
-          <a class="nav-item" data-page="dashboard" th:href="@{/admin}"
-            ><span class="nav-icon">�Y��</span> Dashboard</a
-          >
-          <div class="nav-section-label">Quản lý �'ơn hàng</div>
-          <a
-            class="nav-item active"
-            data-page="orders"
-            th:href="@{/admin/order/list}"
-            ><span class="nav-icon">�Y"�</span> Orders</a
-          >
-          <div class="nav-section-label">Sản phẩm</div>
-          <a class="nav-item" th:href="@{/admin/product/list}"
-            ><span class="nav-icon">�Y>�</span> Products</a
-          >
-          <a class="nav-item" th:href="@{/admin/product/category}"
-            ><span class="nav-icon">�Y-,</span> Categories</a
-          >
-          <div class="nav-section-label">Người dùng</div>
-          <a class="nav-item" th:href="@{/admin/user/list}"
-            ><span class="nav-icon">�Y'�</span> Users</a
-          >
-          <div class="nav-section-label">Marketing</div>
-          <a class="nav-item" th:href="@{/admin/marketing/discount}"
-            ><span class="nav-icon">�Y��</span> Discounts</a
-          >
-          <div class="nav-section-label">Reviews</div>
-          <a class="nav-item" th:href="@{/admin/reviews/review}"
-            ><span class="nav-icon">⭐</span> Reviews</a
-          >
-        </nav>
-        <div class="sidebar-bottom">
-          <div class="admin-profile">
-            <div class="admin-avatar">A</div>
-            <div>
-              <div class="admin-name">Admin Master</div>
-              <div class="admin-role">Super Admin</div>
-            </div>
-          </div>
-        </div>
-      </aside>
+      <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
 
       <div class="main-wrap">
         <header class="topbar">
           <div class="topbar-info">
             <div class="topbar-title">Orders</div>
-            <div class="topbar-breadcrumb">Quản lý �'ơn hàng</div>
+            <div class="topbar-breadcrumb">Quản lý đơn hàng</div>
           </div>
           <div class="topbar-right">
             <button
               class="icon-btn"
-              title="Cài �'ặt"
+              title="Cài đặt"
               onclick="toggleLogoutDropdown()"
             >
-              �sT️
+              ⚙️
             </button>
             <div
               class="dropdown-menu"
@@ -83,7 +33,7 @@
                 class="dropdown-item dropdown-item-logout"
                 onclick="logout()"
               >
-                �O Đ�fng xuất
+                Đăng xuất
               </button>
             </div>
           </div>
@@ -93,7 +43,7 @@
           <div class="page-header">
             <div>
               <div class="page-title">Danh sách Orders</div>
-              <div class="page-subtitle">Tất cả �'ơn hàng trong h�? th�'ng</div>
+              <div class="page-subtitle">Tất cả đơn hàng trong hệ thống</div>
             </div>
           </div>
 
@@ -101,11 +51,11 @@
             <div class="card-header">
               <div class="toolbar">
                 <div class="search-box">
-                  <span class="search-icon">�Y"�</span>
+                  <span class="search-icon">🔎</span>
                   <input
                     type="text"
                     id="searchInput"
-                    placeholder="Tìm mã �'ơn, tên khách..."
+                    placeholder="Tìm mã đơn, tên khách..."
                     oninput="filterOrders()"
                   />
                 </div>
@@ -121,7 +71,7 @@
                   <option value="cancelled">Đã hủy</option>
                 </select>
               </div>
-              <span class="badge badge-info" id="orderCount">�?" �'ơn</span>
+              <span class="badge badge-info" id="orderCount">0 đơn</span>
             </div>
 
             <div class="table-wrap">
@@ -154,24 +104,24 @@
               </table>
             </div>
 
-            <div class="pagination" id="pagination"></div>
+            <div class="pagination pagination-inline" id="pagination"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- �"?�"? DELETE CONFIRM MODAL �"?�"? -->
+    <!-- DELETE CONFIRM MODAL -->
     <div class="modal-overlay" id="deleteModalOverlay">
       <div class="modal modal-sm">
         <div
           class="modal-body"
           style="padding: 32px 28px 20px; text-align: center"
         >
-          <div class="confirm-icon">�Y-'️</div>
-          <div class="confirm-title">Xác nhận xóa �'ơn hàng</div>
+          <div class="confirm-icon">🗑️</div>
+          <div class="confirm-title">Xác nhận xóa đơn hàng</div>
           <div class="confirm-text">
-            Bạn �'ang xóa �'ơn hàng<br /><strong id="deleteTargetLabel"></strong
-            ><br />Hành �'�Tng này không th�f hoàn tác!
+            Bạn đang xóa đơn hàng<br /><strong id="deleteTargetLabel"></strong
+            ><br />Hành động này không thể hoàn tác!
           </div>
           <div class="countdown-bar">
             <div class="countdown-fill" id="countdownFill"></div>
@@ -199,15 +149,28 @@
     <script th:src="@{/admin/js/admin.js}"></script>
     <script>
       let allOrders = [];
+      let currentPage = 0;
+      let totalPages = 0;
+      let totalElements = 0;
 
-      async function loadOrders() {
-        allOrders = await API.getOrders();
+      async function loadOrders(page = 0) {
+        const response = await API.getOrders(page);
+        allOrders = response.content || [];
+        currentPage = response.page || 0;
+        totalPages = response.totalPages || 0;
+        totalElements = response.totalElements || 0;
         renderOrders(allOrders);
+        Utils.renderPagination(
+          "pagination",
+          currentPage,
+          totalPages,
+          loadOrders,
+        );
       }
 
       function renderOrders(list) {
         document.getElementById("orderCount").textContent =
-          `${list.length} �'ơn`;
+          `${totalElements} đơn`;
         document.getElementById("ordersBody").innerHTML = list.length
           ? list
               .map(
@@ -221,14 +184,14 @@
           <td>${Utils.statusBadge(o.status)}</td>
           <td>
             <div class="action-group">
-              <a th:href="@{/admin/order/detail}?id=${o.id}" class="btn btn-sm btn-outline">�Y'� View</a>
-              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${o.id},'${o.order_code}')">�Y-'</button>
+              <a href="/admin/order/detail?id=${o.id}" class="btn btn-sm btn-outline">👁 View</a>
+              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${o.id},'${o.order_code}')">🗑</button>
             </div>
           </td>
         </tr>`,
               )
               .join("")
-          : `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted)">Không tìm thấy �'ơn hàng nào</td></tr>`;
+          : `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted)">Không tìm thấy đơn hàng nào</td></tr>`;
       }
 
       function filterOrders() {
@@ -243,6 +206,12 @@
               (!st || o.status === st),
           ),
         );
+        Utils.renderPagination(
+          "pagination",
+          currentPage,
+          totalPages,
+          loadOrders,
+        );
       }
 
       function confirmDelete(id, code) {
@@ -250,7 +219,7 @@
           await API.deleteOrder(id);
           allOrders = allOrders.filter((o) => o.id !== id);
           renderOrders(allOrders);
-          Utils.toast(`Đã xóa �'ơn hàng ${code}`);
+          Utils.toast(`Đã xóa đơn hàng ${code}`);
         });
       }
 
@@ -258,4 +227,3 @@
     </script>
   </body>
 </html>
-
