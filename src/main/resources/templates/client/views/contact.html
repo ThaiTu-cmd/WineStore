@@ -435,12 +435,6 @@
             </div>
 
             <form th:action="@{/contact}" method="post">
-              <input
-                type="hidden"
-                th:name="${_csrf.parameterName}"
-                th:value="${_csrf.token}"
-              />
-
               <div
                 style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px"
               >
