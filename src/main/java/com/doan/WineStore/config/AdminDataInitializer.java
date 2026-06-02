@@ -19,7 +19,7 @@ public class AdminDataInitializer {
             PasswordEncoder passwordEncoder,
             @Value("${app.bootstrap.admin.enabled:true}") boolean adminBootstrapEnabled,
             @Value("${app.bootstrap.admin.full-name:Default Admin}") String fullName,
-            @Value("${app.bootstrap.admin.email:admin@profit.com}") String email,
+            @Value("${app.bootstrap.admin.email:admin@winestore.com}") String email,
             @Value("${app.bootstrap.admin.phone:0900000000}") String phone,
             @Value("${app.bootstrap.admin.password:Admin@123}") String password) {
         return args -> {
@@ -39,7 +39,7 @@ public class AdminDataInitializer {
             admin.setPasswordHash(passwordEncoder.encode(password));
 
             userRepository.save(admin);
-            System.out.println("[ProFit] Default admin is ready: " + email);
+            System.out.println("[Winestore] Default admin is ready: " + email);
         };
     }
 }

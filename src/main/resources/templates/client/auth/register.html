@@ -13,10 +13,85 @@
     <link rel="stylesheet" th:href="@{/client/css/main.css}" />
     <link rel="stylesheet" th:href="@{/client/css/components.css}" />
     <link rel="stylesheet" th:href="@{/client/css/pages.css}" />
+    <style>
+      .auth-card {
+        border: 1px solid #e8e0d8;
+      }
+      .auth-title {
+        color: #2c1810;
+      }
+      .auth-subtitle {
+        color: #7a6a5a;
+      }
+      .form-label {
+        color: #4a3a2a;
+        font-weight: 600;
+      }
+      .form-control {
+        background: #fafafa;
+        border-color: #ddd5cc;
+        color: #2c1810;
+      }
+      .form-control:focus {
+        border-color: #58111a;
+        box-shadow: 0 0 0 3px rgba(88, 17, 26, 0.1);
+        background: #ffffff;
+      }
+      .form-control::placeholder {
+        color: #b0a090;
+      }
+      .input-icon-wrap .input-icon {
+        color: #b0a090;
+      }
+      .input-icon-wrap .input-eye,
+      .input-icon-wrap .input-eye svg {
+        color: #b0a090;
+      }
+      .input-icon-wrap .input-eye:hover {
+        color: #58111a;
+      }
+      .btn-primary {
+        background: #58111a;
+        color: #ffffff;
+        box-shadow: 0 4px 14px rgba(88, 17, 26, 0.3);
+      }
+      .btn-primary:hover {
+        background: #430d14;
+        box-shadow: 0 6px 20px rgba(88, 17, 26, 0.4);
+      }
+      .btn-ghost {
+        color: #4a3a2a;
+        border-color: #ddd5cc;
+      }
+      .btn-ghost:hover {
+        background: #f5f0eb;
+      }
+      .divider-or {
+        color: #b0a090;
+      }
+      .divider-or::before,
+      .divider-or::after {
+        background: #e0d8d0;
+      }
+      .auth-footer {
+        color: #7a6a5a;
+      }
+      .auth-footer a {
+        color: #58111a;
+      }
+      .logo-text {
+        color: #2c1810;
+      }
+      .logo-icon {
+        background: #58111a;
+        border-color: #58111a;
+      }
+      .logo-icon svg {
+        color: #ffffff;
+      }
+    </style>
   </head>
   <body>
-    <div th:replace="~{client/fragments/header :: header}"></div>
-
     <div class="auth-page" style="padding: 40px 16px">
       <div class="auth-card" style="max-width: 500px">
         <!-- Logo -->
@@ -82,12 +157,6 @@
           id="registerForm"
           novalidate
         >
-          <input
-            type="hidden"
-            th:name="${_csrf.parameterName}"
-            th:value="${_csrf.token}"
-          />
-
           <div class="form-grid-2">
             <div class="form-group">
               <label class="form-label">Họ</label>
