@@ -45,46 +45,6 @@
           </p>
         </div>
 
-        <!-- Category Chips -->
-        <div class="category-row" style="margin-bottom: 24px">
-          <a
-            th:href="@{/shop}"
-            class="category-chip"
-            th:classappend="${param.category == null} ? 'active'"
-            >Tất cả</a
-          >
-          <a
-            th:href="@{/shop(category='vang-do')}"
-            class="category-chip"
-            th:classappend="${param.category != null and #lists.contains(param.category, 'vang-do')} ? 'active'"
-            >🍷 Vang đỏ</a
-          >
-          <a
-            th:href="@{/shop(category='vang-trang')}"
-            class="category-chip"
-            th:classappend="${param.category != null and #lists.contains(param.category, 'vang-trang')} ? 'active'"
-            >🥂 Vang trắng</a
-          >
-          <a
-            th:href="@{/shop(category='champagne')}"
-            class="category-chip"
-            th:classappend="${param.category != null and #lists.contains(param.category, 'champagne')} ? 'active'"
-            >🍾 Champagne & Sparkling</a
-          >
-          <a
-            th:href="@{/shop(category='whisky')}"
-            class="category-chip"
-            th:classappend="${param.category != null and #lists.contains(param.category, 'whisky')} ? 'active'"
-            >🥃 Whisky & Rượu Mạnh</a
-          >
-          <a
-            th:href="@{/shop(category='hop-qua')}"
-            class="category-chip"
-            th:classappend="${param.category != null and #lists.contains(param.category, 'hop-qua')} ? 'active'"
-            >🎁 Hộp Quà Tặng</a
-          >
-        </div>
-
         <!-- Shop Layout -->
         <div class="shop-layout">
           <!-- Sidebar Filter -->
@@ -101,7 +61,7 @@
                 >
                 sản phẩm
               </div>
-              <div class="shop-sort">
+              <div class="shop-sort" style="margin-left: auto">
                 <span class="sort-label">Sắp xếp:</span>
                 <select class="sort-select">
                   <option
@@ -148,40 +108,6 @@
                   </option>
                 </select>
               </div>
-              <div class="view-toggle">
-                <button class="view-btn active" data-view="grid" title="Lưới">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <rect x="3" y="3" width="7" height="7" />
-                    <rect x="14" y="3" width="7" height="7" />
-                    <rect x="14" y="14" width="7" height="7" />
-                    <rect x="3" y="14" width="7" height="7" />
-                  </svg>
-                </button>
-                <button class="view-btn" data-view="list" title="Danh sách">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <line x1="8" y1="6" x2="21" y2="6" />
-                    <line x1="8" y1="12" x2="21" y2="12" />
-                    <line x1="8" y1="18" x2="21" y2="18" />
-                    <line x1="3" y1="6" x2="3.01" y2="6" />
-                    <line x1="3" y1="12" x2="3.01" y2="12" />
-                    <line x1="3" y1="18" x2="3.01" y2="18" />
-                  </svg>
-                </button>
-              </div>
             </div>
 
             <!-- Product Grid -->
@@ -204,27 +130,7 @@
                     th:alt="${product.name}"
                     src="/images/placeholder.png"
                   />
-                  <div class="product-card-actions">
-                    <a
-                      th:href="@{/products/{id}(id=${product.id})}"
-                      class="product-action-btn"
-                      title="Xem chi tiết"
-                    >
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-                        />
-                        <circle cx="12" cy="12" r="3" />
-                      </svg>
-                    </a>
-                  </div>
+
                 </div>
                 <div class="product-card-body">
                   <div
@@ -257,7 +163,7 @@
                       </div>
                       <div
                         class="product-price-old"
-                        th:if="${product.originalPrice > product.price}"
+                        th:if="${product.originalPrice != null and product.originalPrice.compareTo(product.price) > 0}"
                         th:text="${#numbers.formatInteger(product.originalPrice,1,'COMMA') + 'đ'}"
                       ></div>
                     </div>
@@ -324,7 +230,7 @@
             <div class="pagination" th:if="${totalPages > 1}">
               <a
                 class="page-btn"
-                th:href="@{/shop(page=${currentPage - 1})}"
+                th:href="@{/shop(page=${currentPage - 1}, category=${param.category}, sort=${param.sort}, price=${param.price})}"
                 th:classappend="${currentPage <= 1} ? 'disabled'"
                 th:if="${currentPage > 1}"
                 >‹</a
@@ -332,14 +238,14 @@
               <a
                 class="page-btn"
                 th:each="i : ${#numbers.sequence(1, totalPages)}"
-                th:href="@{/shop(page=${i})}"
+                th:href="@{/shop(page=${i}, category=${param.category}, sort=${param.sort}, price=${param.price})}"
                 th:text="${i}"
                 th:classappend="${i == currentPage} ? 'active'"
                 >1</a
               >
               <a
                 class="page-btn"
-                th:href="@{/shop(page=${currentPage + 1})}"
+                th:href="@{/shop(page=${currentPage + 1}, category=${param.category}, sort=${param.sort}, price=${param.price})}"
                 th:if="${currentPage < totalPages}"
                 >›</a
               >

@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
@@ -38,6 +40,27 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
             WHERE o.id = :id
             """, nativeQuery = true)
     OrderListProjection findAdminOrderById(@Param("id") Long id);
+
+    @Query(value = "SELECT COUNT(*) FROM orders WHERE LOWER(status) = :status", nativeQuery = true)
+    long countByStatus(@Param("status") String status);
+
+    @Query(value = "SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE LOWER(status) = 'completed'", nativeQuery = true)
+    BigDecimal sumCompletedRevenue();
+
+    @Query(value = "SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE LOWER(status) = 'completed' AND created_at >= CURDATE() - INTERVAL 13 DAY AND created_at < CURDATE() - INTERVAL 6 DAY", nativeQuery = true)
+    BigDecimal sumCompletedRevenuePreviousPeriod();
+
+    @Query(value = """
+            SELECT DATE(created_at) AS day, COALESCE(SUM(total_amount), 0) AS revenue
+            FROM orders WHERE LOWER(status) = 'completed' AND created_at >= CURDATE() - INTERVAL 6 DAY
+            GROUP BY DATE(created_at) ORDER BY DATE(created_at)
+            """, nativeQuery = true)
+    List<DailyRevenueProjection> findRevenueLast7Days();
+
+    interface DailyRevenueProjection {
+        LocalDate getDay();
+        BigDecimal getRevenue();
+    }
 
     interface OrderListProjection {
         Long getId();

@@ -242,69 +242,6 @@
             <!-- Payment Method -->
             <div class="checkout-section">
               <div class="checkout-section-title">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-                  <line x1="1" y1="10" x2="23" y2="10" />
-                </svg>
-                Phương thức thanh toán
-              </div>
-
-              <label class="payment-option selected">
-                <input type="radio" name="paymentMethod" value="cod" checked />
-                <div style="font-size: 1.5rem">💵</div>
-                <div class="payment-option-label">
-                  <div style="font-weight: 600">
-                    Thanh toán khi nhận hàng (COD)
-                  </div>
-                  <div style="font-size: 0.8rem; color: var(--color-grey-500)">
-                    Thanh toán bằng tiền mặt khi nhận hàng
-                  </div>
-                </div>
-              </label>
-
-              <label class="payment-option">
-                <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="bank-transfer"
-                />
-                <div style="font-size: 1.5rem">🏦</div>
-                <div class="payment-option-label">
-                  <div style="font-weight: 600">Chuyển khoản ngân hàng</div>
-                  <div style="font-size: 0.8rem; color: var(--color-grey-500)">
-                    Chuyển khoản qua tài khoản ngân hàng
-                  </div>
-                </div>
-              </label>
-
-              <label class="payment-option">
-                <input type="radio" name="paymentMethod" value="momo" />
-                <div style="font-size: 1.5rem">📱</div>
-                <div class="payment-option-label">
-                  <div style="font-weight: 600">Ví MoMo</div>
-                  <div style="font-size: 0.8rem; color: var(--color-grey-500)">
-                    Thanh toán qua ví điện tử MoMo
-                  </div>
-                </div>
-              </label>
-
-              <label class="payment-option">
-                <input type="radio" name="paymentMethod" value="zalopay" />
-                <div style="font-size: 1.5rem">💙</div>
-                <div class="payment-option-label">
-                  <div style="font-weight: 600">ZaloPay</div>
-                  <div style="font-size: 0.8rem; color: var(--color-grey-500)">
-                    Thanh toán qua ZaloPay
-                  </div>
-                </div>
-              </label>
             </div>
           </div>
 
@@ -390,7 +327,7 @@
               <div class="summary-row total">
                 <span>Tổng cộng</span>
                 <span
-                  style="color: var(--color-green)"
+                  style="color: var(--color-on-dark)"
                   th:text="${#numbers.formatInteger(total,1,'COMMA') + 'đ'}"
                   >0đ</span
                 >

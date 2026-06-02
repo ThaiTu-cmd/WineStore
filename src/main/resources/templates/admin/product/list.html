@@ -37,7 +37,8 @@
           >
           <div class="nav-section-label">Quản lý đơn hàng</div>
           <a class="nav-item" data-page="orders" th:href="@{/admin/order/list}"
-            ><span class="nav-icon">📦</span> Orders</a
+            ><span class="nav-icon">📦</span> Orders
+            <span class="nav-badge" id="navBadgeOrders">0</span></a
           >
           <div class="nav-section-label">Sản phẩm</div>
           <a
@@ -230,57 +231,48 @@
 
     <script th:src="@{/admin/js/admin.js}"></script>
     <script>
-      let allProducts = [];
       let currentPage = 0;
       let totalPages = 0;
-      let totalElements = 0;
 
-      async function loadProducts(page = 0) {
+      async function loadCategories() {
         try {
-          const response = await API.getProducts(page);
-          allProducts = response.content || [];
-          currentPage = response.page || 0;
-          totalPages = response.totalPages || 0;
-          totalElements = response.totalElements || 0;
-
-          const catSel = document.getElementById("catFilter");
-          const currentValue = catSel.value;
-          catSel.innerHTML = '<option value="">Tất cả danh mục</option>';
-          const uniqueCats = [
-            ...new Set(
-              allProducts.map((p) => String(p.category_id)).filter(Boolean),
-            ),
-          ];
-          uniqueCats.forEach((catId) => {
+          const data = await API.getCategories(0, 100);
+          const cats = data.content || [];
+          const sel = document.getElementById("catFilter");
+          cats.forEach((c) => {
             const opt = document.createElement("option");
-            opt.value = catId;
-            opt.textContent = `Category #${catId}`;
-            catSel.appendChild(opt);
+            opt.value = c.id;
+            opt.textContent = c.name;
+            sel.appendChild(opt);
           });
-          catSel.value = currentValue;
-
-          renderProducts(allProducts);
-          Utils.renderPagination(
-            "pagination",
-            currentPage,
-            totalPages,
-            loadProducts,
-          );
-        } catch (error) {
-          document.getElementById("productsBody").innerHTML =
-            '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--danger)">Không thể tải sản phẩm</td></tr>';
-          document.getElementById("productCount").textContent = "0 sản phẩm";
-          Utils.toast(error?.message || "Không thể tải sản phẩm", "error");
+        } catch (e) {
+          console.warn("Không thể tải danh mục:", e);
         }
       }
 
-      function renderProducts(list) {
-        document.getElementById("productCount").textContent =
-          `${totalElements} sản phẩm`;
-        document.getElementById("productsBody").innerHTML = list.length
-          ? list
-              .map(
-                (p) => `
+      function getFilterValues() {
+        return {
+          search: document.getElementById("searchInput").value.trim(),
+          categoryId: document.getElementById("catFilter").value,
+          stockStatus: document.getElementById("stockFilter").value,
+        };
+      }
+
+      async function loadProducts(page = 0) {
+        try {
+          const { search, categoryId, stockStatus } = getFilterValues();
+          const response = await API.getProducts(page, search, categoryId, stockStatus);
+          const list = response.content || [];
+          currentPage = response.page || 0;
+          totalPages = response.totalPages || 0;
+          const totalElements = response.totalElements || 0;
+
+          document.getElementById("productCount").textContent =
+            `${totalElements} sản phẩm`;
+          document.getElementById("productsBody").innerHTML = list.length
+            ? list
+                .map(
+                  (p) => `
         <tr>
           <td class="td-mono">${p.id}</td>
           <td class="td-mono">${p.category_id}</td>
@@ -298,36 +290,30 @@
           <td>
             <div class="action-group">
               <a href="add?edit=${p.id}" class="btn btn-sm btn-outline">✏️ Edit</a>
-              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${p.id},'${p.name}')">🗑 Delete</button>
+              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${p.id},'${p.name.replace(/'/g, "\\'")}')">🗑 Delete</button>
             </div>
           </td>
         </tr>`,
-              )
-              .join("")
-          : `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted)">Không tìm thấy sản phẩm</td></tr>`;
+                )
+                .join("")
+            : `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted)">Không tìm thấy sản phẩm</td></tr>`;
+
+          Utils.renderPagination(
+            "pagination",
+            currentPage,
+            totalPages,
+            loadProducts,
+          );
+        } catch (error) {
+          document.getElementById("productsBody").innerHTML =
+            '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--danger)">Không thể tải sản phẩm</td></tr>';
+          document.getElementById("productCount").textContent = "0 sản phẩm";
+          Utils.toast(error?.message || "Không thể tải sản phẩm", "error");
+        }
       }
 
       function filterProducts() {
-        const q = document.getElementById("searchInput").value.toLowerCase();
-        const cat = document.getElementById("catFilter").value;
-        const stk = document.getElementById("stockFilter").value;
-        renderProducts(
-          allProducts.filter(
-            (p) =>
-              (!q || p.name.toLowerCase().includes(q)) &&
-              (!cat || p.category_id == cat) &&
-              (!stk ||
-                (stk === "low"
-                  ? p.stock_quantity < 50
-                  : p.stock_quantity >= 50)),
-          ),
-        );
-        Utils.renderPagination(
-          "pagination",
-          currentPage,
-          totalPages,
-          loadProducts,
-        );
+        loadProducts(0);
       }
 
       function confirmDelete(id, name) {
@@ -342,7 +328,10 @@
         });
       }
 
-      document.addEventListener("DOMContentLoaded", () => loadProducts(0));
+      document.addEventListener("DOMContentLoaded", () => {
+        loadCategories();
+        loadProducts(0);
+      });
     </script>
   </body>
 </html>

@@ -10,6 +10,8 @@ public record ProductDetailResponse(
         String sku,
         String slug,
         String name,
+        @JsonProperty("image_url") String imageUrl,
+        String brand,
         @JsonProperty("short_description") String shortDescription,
         String description,
         BigDecimal price,

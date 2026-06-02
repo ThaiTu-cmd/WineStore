@@ -21,6 +21,47 @@
           <span class="filter-clear">Xóa tất cả</span>
         </div>
 
+        <!-- Category Filter -->
+        <div class="filter-section">
+          <div class="filter-section-title">
+            <span>Danh mục</span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+          <div class="filter-options">
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="category"
+                value=""
+                th:checked="${param.category == null}"
+              />
+              <span>Tất cả</span>
+            </label>
+            <label
+              class="filter-option"
+              th:each="cat : ${categories}"
+            >
+              <input
+                type="checkbox"
+                name="category"
+                th:value="${cat.slug}"
+                th:checked="${param.category != null and #lists.contains(param.category, cat.slug)}"
+              />
+              <span th:text="${cat.name}">Danh mục</span>
+              <span class="count" th:text="${cat.products}">0</span>
+            </label>
+          </div>
+        </div>
+
         <!-- Price Filter -->
         <div class="filter-section">
           <div class="filter-section-title">
@@ -80,143 +121,7 @@
           </div>
         </div>
 
-        <!-- Origin Filter -->
-        <div class="filter-section">
-          <div class="filter-section-title">
-            <span>Xuất xứ</span>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </div>
-          <div class="filter-options">
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="origin"
-                value="france"
-                th:checked="${param.origin != null and #lists.contains(param.origin, 'france')}"
-              />
-              <span>Vang Pháp (France)</span>
-              <span class="count">18</span>
-            </label>
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="origin"
-                value="italy"
-                th:checked="${param.origin != null and #lists.contains(param.origin, 'italy')}"
-              />
-              <span>Vang Ý (Italy)</span>
-              <span class="count">22</span>
-            </label>
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="origin"
-                value="chile"
-                th:checked="${param.origin != null and #lists.contains(param.origin, 'chile')}"
-              />
-              <span>Vang Chile</span>
-              <span class="count">14</span>
-            </label>
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="origin"
-                value="scotland"
-                th:checked="${param.origin != null and #lists.contains(param.origin, 'scotland')}"
-              />
-              <span>Whisky Scotland</span>
-              <span class="count">31</span>
-            </label>
-          </div>
-        </div>
 
-        <!-- Brand Filter -->
-        <div class="filter-section">
-          <div class="filter-section-title">
-            <span>Thương hiệu</span>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </div>
-          <div class="filter-options">
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="brand"
-                value="chateau-lafite"
-                th:checked="${param.brand != null and #lists.contains(param.brand, 'chateau-lafite')}"
-              />
-              <span>Chateau Lafite</span>
-              <span class="count">15</span>
-            </label>
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="brand"
-                value="gaja"
-                th:checked="${param.brand != null and #lists.contains(param.brand, 'gaja')}"
-              />
-              <span>Gaja</span>
-              <span class="count">8</span>
-            </label>
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="brand"
-                value="almaviva"
-                th:checked="${param.brand != null and #lists.contains(param.brand, 'almaviva')}"
-              />
-              <span>Almaviva</span>
-              <span class="count">12</span>
-            </label>
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="brand"
-                value="macallan"
-                th:checked="${param.brand != null and #lists.contains(param.brand, 'macallan')}"
-              />
-              <span>Macallan</span>
-              <span class="count">20</span>
-            </label>
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="brand"
-                value="chivas-regal"
-                th:checked="${param.brand != null and #lists.contains(param.brand, 'chivas-regal')}"
-              />
-              <span>Chivas Regal</span>
-              <span class="count">17</span>
-            </label>
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="brand"
-                value="penfolds"
-                th:checked="${param.brand != null and #lists.contains(param.brand, 'penfolds')}"
-              />
-              <span>Penfolds</span>
-              <span class="count">10</span>
-            </label>
-          </div>
-        </div>
       </form>
     </aside>
   </body>

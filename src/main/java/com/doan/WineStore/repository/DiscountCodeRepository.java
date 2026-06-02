@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DiscountCodeRepository extends JpaRepository<DiscountCodeEntity, Long> {
     Page<DiscountCodeEntity> findAllByOrderByIdDesc(Pageable pageable);
+
+    long countByIsValidTrue();
 }

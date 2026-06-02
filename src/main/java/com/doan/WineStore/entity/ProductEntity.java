@@ -31,6 +31,12 @@ public class ProductEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
+    @Column(name = "brand", length = 255)
+    private String brand;
+
     @Column(name = "short_description", length = 500)
     private String shortDescription;
 
@@ -104,6 +110,22 @@ public class ProductEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public String getShortDescription() {

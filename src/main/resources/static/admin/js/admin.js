@@ -135,9 +135,13 @@ const API = {
   },
 
   // ── PRODUCTS ─────────────────────────────────────────────────
-  async getProducts(page = 0) {
+  async getProducts(page = 0, search = "", categoryId = "", stockStatus = "") {
+    const params = new URLSearchParams({ page, size: 10 });
+    if (search) params.set("search", search);
+    if (categoryId) params.set("categoryId", categoryId);
+    if (stockStatus) params.set("stockStatus", stockStatus);
     const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/products?page=${page}&size=10`,
+      `${DB_CONFIG.apiBase}/api/products?${params}`,
       { headers: this._h(), credentials: "include" },
     );
     if (!response.ok) {
@@ -209,9 +213,9 @@ const API = {
   },
 
   // ── CATEGORIES ──────────────────────────────────────────────
-  async getCategories(page = 0) {
+  async getCategories(page = 0, size = 10) {
     const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/categories?page=${page}&size=10`,
+      `${DB_CONFIG.apiBase}/api/categories?page=${page}&size=${size}`,
       { headers: this._h(), credentials: "include" },
     );
     if (!response.ok) {
@@ -326,38 +330,13 @@ const API = {
   },
 
   // ── DASHBOARD STATS ──────────────────────────────────────────
-  // Replace with: await (await fetch(`${DB_CONFIG.apiBase}/dashboard/stats`,{headers:this._h()})).json()
   async getDashboardStats() {
-    const [ordersPage, users, productsPage, discountsPage] = await Promise.all([
-      this.getOrders(0),
-      this.getUsers(),
-      this.getProducts(0),
-      this.getDiscounts(0),
-    ]);
-    const orders = ordersPage.content || [];
-    const products = productsPage.content || [];
-    const discounts = discountsPage.content || [];
-
-    return {
-      totalRevenue: orders
-        .filter((o) => (o.status || "").toLowerCase() === "completed")
-        .reduce((s, o) => s + (o.total || 0), 0),
-      totalOrders: orders.length,
-      pendingOrders: orders.filter(
-        (o) => (o.status || "").toLowerCase() === "pending",
-      ).length,
-      activeProducts: products.filter((p) => (p.stock_quantity || 0) > 0)
-        .length,
-      lowStock: products.filter((p) => (p.stock_quantity || 0) < 50).length,
-      totalUsers: users.filter(
-        (u) => String(u.role || "").toUpperCase() === "CUSTOMER",
-      ).length,
-      activeDiscounts: discounts.filter((d) => d.is_valid).length,
-      recentOrders: orders.slice(0, 5),
-      topProducts: [...products]
-        .sort((a, b) => (b.rating_avg || 0) - (a.rating_avg || 0))
-        .slice(0, 4),
-    };
+    const response = await fetch(
+      `${DB_CONFIG.apiBase}/api/dashboard/stats`,
+      { headers: this._h(), credentials: "include" },
+    );
+    if (!response.ok) throw new Error("Cannot load dashboard stats");
+    return response.json();
   },
 };
 
@@ -433,6 +412,28 @@ const Utils = {
   initChartBars() {
     document.querySelectorAll(".chart-bar").forEach((b) => {
       b.style.height = "0%";
+    });
+  },
+
+  renderRevenueChart(revenueData) {
+    const bars = document.querySelectorAll("#revenueChart .chart-bar");
+    const labels = document.querySelectorAll(".chart-labels span");
+    if (!bars.length) return;
+
+    const max = Math.max(...revenueData.map((d) => d.revenue || 0), 1);
+
+    revenueData.forEach((d, i) => {
+      if (i < bars.length) {
+        const pct = ((d.revenue || 0) / max) * 100;
+        bars[i].style.height = Math.max(pct, 2) + "%";
+
+        const dayNames = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
+        const date = new Date(d.date + "T00:00:00");
+        bars[i].title = Utils.formatCurrency(d.revenue || 0);
+        if (i < labels.length) {
+          labels[i].textContent = dayNames[date.getDay()] || labels[i].textContent;
+        }
+      }
     });
   },
 
@@ -597,6 +598,20 @@ function setActiveNav(page) {
 }
 
 /* ───────────────────────────────────────────────────────────────
+   ORDER BADGE — fetch pending order count for sidebar
+─────────────────────────────────────────────────────────────── */
+async function loadOrderBadge() {
+  const badge = document.getElementById("navBadgeOrders");
+  if (!badge) return;
+  try {
+    const stats = await API.getDashboardStats();
+    badge.textContent = stats.pendingOrders ?? 0;
+  } catch {
+    badge.textContent = "?";
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
    CLOSE MODAL ON OVERLAY CLICK
 ─────────────────────────────────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", () => {
@@ -617,4 +632,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   Utils.initChartBars();
+  loadOrderBadge();
 });

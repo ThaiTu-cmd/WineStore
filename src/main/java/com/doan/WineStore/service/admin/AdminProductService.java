@@ -6,7 +6,7 @@ import com.doan.WineStore.dto.response.admin.ProductDetailResponse;
 import com.doan.WineStore.dto.response.admin.ProductListItemResponse;
 
 public interface AdminProductService {
-    PageResponse<ProductListItemResponse> getProducts(int page);
+    PageResponse<ProductListItemResponse> getProducts(int page, String search, Long categoryId, String stockStatus);
 
     ProductDetailResponse getProductById(Long id);
 

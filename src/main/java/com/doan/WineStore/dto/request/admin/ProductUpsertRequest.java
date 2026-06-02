@@ -10,6 +10,9 @@ public class ProductUpsertRequest {
     private String sku;
     private String slug;
     private String name;
+    @JsonProperty("image_url")
+    private String imageUrl;
+    private String brand;
     @JsonProperty("short_description")
     private String shortDescription;
     private String description;
@@ -51,6 +54,22 @@ public class ProductUpsertRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public String getShortDescription() {

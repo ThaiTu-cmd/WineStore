@@ -5,7 +5,9 @@ import com.doan.WineStore.security.dto.AdminAuthResponse;
 import com.doan.WineStore.security.dto.AdminLoginRequest;
 import com.doan.WineStore.security.jwt.JwtUtils;
 import com.doan.WineStore.security.service.UserDetailsImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -76,7 +78,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletResponse response) {
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
         ResponseCookie cookie = ResponseCookie.from(jwtUtils.getJwtCookieName(), "")
                 .httpOnly(true)
                 .secure(false)
@@ -86,6 +88,12 @@ public class AuthController {
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
         return ResponseEntity.ok(Map.of("message", "Đăng xuất thành công."));
     }
 }

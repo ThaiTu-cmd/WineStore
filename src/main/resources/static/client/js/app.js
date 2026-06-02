@@ -123,9 +123,6 @@ const ShopFilter = (() => {
   const FILTER_KEYS = [
     "price",
     "category",
-    "origin",
-    "brand",
-    "target",
     "sort",
     "q",
   ];
@@ -135,18 +132,9 @@ const ShopFilter = (() => {
     // Price: single-choice
     const selectedPrice = document.querySelector('input[name="price"]:checked');
     if (selectedPrice) params.set("price", selectedPrice.value);
-    // Category checkboxes
-    document
-      .querySelectorAll('input[name="category"]:checked')
-      .forEach((el) => params.append("category", el.value));
-    // Origin checkboxes
-    document
-      .querySelectorAll('input[name="origin"]:checked')
-      .forEach((el) => params.append("origin", el.value));
-    // Brand checkboxes
-    document
-      .querySelectorAll('input[name="brand"]:checked')
-      .forEach((el) => params.append("brand", el.value));
+    // Category: single-choice
+    const selectedCategory = document.querySelector('input[name="category"]:checked');
+    if (selectedCategory && selectedCategory.value) params.set("category", selectedCategory.value);
     // Sort
     const sort = document.querySelector(".sort-select");
     if (sort && sort.value && sort.value !== "default") {
@@ -159,8 +147,7 @@ const ShopFilter = (() => {
   };
 
   const buildShopUrl = (params) => {
-    const url = new URL(window.location.href);
-    FILTER_KEYS.forEach((key) => url.searchParams.delete(key));
+    const url = new URL(window.location.origin + window.location.pathname);
     params.forEach((value, key) => url.searchParams.append(key, value));
     return url;
   };
@@ -195,6 +182,11 @@ const ShopFilter = (() => {
       cb.addEventListener("change", () => {
         if (cb.name === "price" && cb.checked) {
           filterForm.querySelectorAll('input[name="price"]').forEach((el) => {
+            if (el !== cb) el.checked = false;
+          });
+        }
+        if (cb.name === "category" && cb.checked) {
+          filterForm.querySelectorAll('input[name="category"]').forEach((el) => {
             if (el !== cb) el.checked = false;
           });
         }

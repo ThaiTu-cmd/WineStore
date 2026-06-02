@@ -14,80 +14,98 @@
     <link rel="stylesheet" th:href="@{/client/css/components.css}" />
     <link rel="stylesheet" th:href="@{/client/css/pages.css}" />
     <style>
+      body {
+        position: relative;
+        overflow: hidden;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(76, 175, 80, 0.12) 0%, transparent 70%);
+        top: -200px;
+        right: -150px;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      body::after {
+        content: "";
+        position: fixed;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(33, 150, 243, 0.1) 0%, transparent 70%);
+        bottom: -120px;
+        left: -100px;
+        border-radius: 50%;
+        pointer-events: none;
+      }
       .auth-card {
-        border: 1px solid #e8e0d8;
+        position: relative;
+        z-index: 1;
+        animation: authFadeIn 0.5s ease both;
       }
-      .auth-title {
-        color: #2c1810;
-      }
-      .auth-subtitle {
-        color: #7a6a5a;
-      }
-      .form-label {
-        color: #4a3a2a;
-        font-weight: 600;
-      }
-      .form-control {
-        background: #fafafa;
-        border-color: #ddd5cc;
-        color: #2c1810;
-      }
-      .form-control:focus {
-        border-color: #58111a;
-        box-shadow: 0 0 0 3px rgba(88, 17, 26, 0.1);
-        background: #ffffff;
-      }
-      .form-control::placeholder {
-        color: #b0a090;
-      }
-      .input-icon-wrap .input-icon {
-        color: #b0a090;
-      }
-      .input-icon-wrap .input-eye,
-      .input-icon-wrap .input-eye svg {
-        color: #b0a090;
-      }
-      .input-icon-wrap .input-eye:hover {
-        color: #58111a;
-      }
-      .btn-primary {
-        background: #58111a;
-        color: #ffffff;
-        box-shadow: 0 4px 14px rgba(88, 17, 26, 0.3);
-      }
-      .btn-primary:hover {
-        background: #430d14;
-        box-shadow: 0 6px 20px rgba(88, 17, 26, 0.4);
-      }
-      .btn-ghost {
-        color: #4a3a2a;
-        border-color: #ddd5cc;
-      }
-      .btn-ghost:hover {
-        background: #f5f0eb;
-      }
-      .divider-or {
-        color: #b0a090;
-      }
-      .divider-or::before,
-      .divider-or::after {
-        background: #e0d8d0;
-      }
-      .auth-footer {
-        color: #7a6a5a;
-      }
-      .auth-footer a {
-        color: #58111a;
-      }
-      .logo-text {
-        color: #2c1810;
+      @keyframes authFadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
       }
       .logo-icon {
-        background: #58111a;
-        border-color: #58111a;
+        background: linear-gradient(135deg, var(--color-green), #66bb6a);
+        border: none;
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
       }
-      .logo-icon svg {
-        color: #ffffff;
+      .logo-icon svg { color: #fff; }
+      .logo-text {
+        color: var(--color-grey-900);
+        font-weight: 700;
+      }
+      .auth-title { color: var(--color-grey-900); }
+      .auth-subtitle { color: var(--color-grey-500); }
+      .form-label { color: var(--color-grey-700); font-weight: 600; }
+      .form-control {
+        background: var(--color-grey-100);
+        border-color: var(--color-grey-300);
+        color: var(--color-grey-900);
+      }
+      .form-control:focus {
+        border-color: var(--color-green);
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+        background: var(--color-white);
+      }
+
+      .input-icon-wrap .input-icon { color: var(--color-grey-400); }
+      .input-icon-wrap .input-eye,
+      .input-icon-wrap .input-eye svg { color: var(--color-grey-400); }
+      .input-icon-wrap .input-eye:hover { color: var(--color-green); }
+      .divider-or { color: var(--color-grey-400); }
+      .divider-or::before,
+      .divider-or::after { background: var(--color-border); }
+      .auth-footer { color: var(--color-grey-500); }
+      .auth-footer a { color: var(--color-green); }
+      .btn-ghost {
+        color: var(--color-grey-700);
+        border-color: var(--color-grey-300);
+      }
+      .btn-ghost:hover { background: var(--color-grey-100); }
+      .auth-alert {
+        background: #fef2f2;
+        color: var(--color-danger);
+        padding: 10px 14px;
+        border-radius: var(--radius-md);
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--space-5);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #fecaca;
+      }
+      .form-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-4);
+      }
+      @media (max-width: 480px) {
+        .form-grid-2 { grid-template-columns: 1fr; }
       }
     </style>
   </head>
@@ -98,17 +116,11 @@
         <div class="auth-logo">
           <a th:href="@{/}" class="logo" style="justify-content: center">
             <div class="logo-icon">
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                stroke-width="2.5"
-              >
-                <path
-                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                />
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" />
+                <path d="M7 10h10" />
+                <path d="M12 14v8" />
+                <path d="M9 22h6" />
               </svg>
             </div>
             <span class="logo-text">WineStore</span>
@@ -123,17 +135,7 @@
         <!-- Error -->
         <div
           th:if="${error}"
-          style="
-            background: #ffebee;
-            color: #c62828;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-          "
+          class="auth-alert"
         >
           <svg
             width="16"
@@ -165,7 +167,6 @@
                 type="text"
                 name="firstName"
                 th:value="${param.firstName}"
-                placeholder="Nguyễn"
                 required
               />
             </div>
@@ -176,7 +177,6 @@
                 type="text"
                 name="lastName"
                 th:value="${param.lastName}"
-                placeholder="Văn A"
                 required
               />
             </div>
@@ -204,7 +204,6 @@
                 type="email"
                 name="email"
                 th:value="${param.email}"
-                placeholder="email@example.com"
                 autocomplete="email"
                 required
               />
@@ -232,7 +231,6 @@
                 type="tel"
                 name="phone"
                 th:value="${param.phone}"
-                placeholder="0966 042 071"
               />
             </div>
           </div>
@@ -257,7 +255,6 @@
                 type="password"
                 name="password"
                 id="regPwd"
-                placeholder="Tối thiểu 8 ký tự"
                 autocomplete="new-password"
                 required
                 minlength="8"
@@ -327,7 +324,6 @@
                 type="password"
                 name="confirmPassword"
                 id="regPwd2"
-                placeholder="Nhập lại mật khẩu"
                 autocomplete="new-password"
                 required
               />

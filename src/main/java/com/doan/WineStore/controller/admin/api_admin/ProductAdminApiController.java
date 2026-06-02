@@ -26,8 +26,11 @@ public class ProductAdminApiController {
     private AdminProductService adminProductService;
 
     @GetMapping
-    public PageResponse<ProductListItemResponse> getProducts(@RequestParam(defaultValue = "0") int page) {
-        return adminProductService.getProducts(page);
+    public PageResponse<ProductListItemResponse> getProducts(@RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(required = false) String search,
+                                                              @RequestParam(required = false) Long categoryId,
+                                                              @RequestParam(required = false) String stockStatus) {
+        return adminProductService.getProducts(page, search, categoryId, stockStatus);
     }
 
     @GetMapping("/{id}")

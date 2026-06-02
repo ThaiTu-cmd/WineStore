@@ -8,6 +8,8 @@ public record ProductListItemResponse(
         Long id,
         @JsonProperty("category_id") Long categoryId,
         String name,
+        @JsonProperty("image_url") String imageUrl,
+        String brand,
         BigDecimal price,
         @JsonProperty("rating_avg") Double ratingAvg,
         @JsonProperty("rating_count") Integer ratingCount,

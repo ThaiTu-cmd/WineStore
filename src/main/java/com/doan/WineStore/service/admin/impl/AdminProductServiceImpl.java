@@ -24,10 +24,12 @@ public class AdminProductServiceImpl implements AdminProductService {
     private ProductRepository productRepository;
 
     @Override
-    public PageResponse<ProductListItemResponse> getProducts(int page) {
+    public PageResponse<ProductListItemResponse> getProducts(int page, String search, Long categoryId, String stockStatus) {
         int safePage = Math.max(0, page);
+        String safeSearch = (search == null || search.isBlank()) ? null : search.trim();
+        String safeStock = (stockStatus == null || stockStatus.isBlank()) ? null : stockStatus.trim();
         Page<ProductListItemResponse> dtoPage = productRepository
-                .findAllByDeletedAtIsNullOrderByIdDesc(PageRequest.of(safePage, PAGE_SIZE))
+                .findAdminProducts(safeSearch, categoryId, safeStock, PageRequest.of(safePage, PAGE_SIZE))
                 .map(this::toListResponse);
         return PageResponse.fromPage(dtoPage);
     }
@@ -100,6 +102,8 @@ public class AdminProductServiceImpl implements AdminProductService {
         String existingSlug = entity.getSlug();
         entity.setSku(normalizeOrGenerate(request.getSku(), request.getName(), "SKU", existingSku));
         entity.setSlug(normalizeOrGenerate(request.getSlug(), request.getName(), "product", existingSlug));
+        entity.setImageUrl(emptyToNull(request.getImageUrl()));
+        entity.setBrand(emptyToNull(request.getBrand()));
         entity.setShortDescription(emptyToNull(request.getShortDescription()));
         entity.setDescription(emptyToNull(request.getDescription()));
         entity.setPrice(request.getPrice());
@@ -119,6 +123,8 @@ public class AdminProductServiceImpl implements AdminProductService {
                 entity.getId(),
                 entity.getCategoryId(),
                 entity.getName(),
+                entity.getImageUrl(),
+                entity.getBrand(),
                 entity.getPrice(),
                 entity.getRatingAvg() == null ? 0.0 : entity.getRatingAvg(),
                 entity.getRatingCount() == null ? 0 : entity.getRatingCount(),
@@ -132,6 +138,8 @@ public class AdminProductServiceImpl implements AdminProductService {
                 entity.getSku(),
                 entity.getSlug(),
                 entity.getName(),
+                entity.getImageUrl(),
+                entity.getBrand(),
                 entity.getShortDescription(),
                 entity.getDescription(),
                 entity.getPrice(),
