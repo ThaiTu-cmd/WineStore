@@ -1,4 +1,4 @@
-package com.doan.WineStore.repository;
+﻿package com.doan.WineStore.repository;
 
 import com.doan.WineStore.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,7 +8,10 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-	Optional<User> findByEmailOrPhone(String email, String phone);
 
-	boolean existsByRoleAndDeletedAtIsNull(com.doan.WineStore.enums.Role role);
+    Optional<User> findByEmailOrPhone(String email, String phone);
+
+    Optional<User> findByEmail(String email);
+
+    boolean existsByRoleAndDeletedAtIsNull(com.doan.WineStore.enums.Role role);
 }

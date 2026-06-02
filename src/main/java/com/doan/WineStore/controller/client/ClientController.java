@@ -1,8 +1,10 @@
-package com.doan.WineStore.controller.client;
+﻿package com.doan.WineStore.controller.client;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/")
@@ -43,18 +45,16 @@ public class ClientController {
     }
 
     @GetMapping("/auth/login")
-    public String login() {
+    public String login(@RequestParam(required = false) String success, Model model) {
+        if (success != null) {
+            model.addAttribute("success", success);
+        }
         return "client/auth/login";
     }
 
     @GetMapping("/auth/register")
     public String register() {
         return "client/auth/register";
-    }
-
-    @GetMapping("/auth/logout")
-    public String logout() {
-        return "redirect:/";
     }
 
     @GetMapping("/blog")

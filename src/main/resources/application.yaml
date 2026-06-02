@@ -1,4 +1,4 @@
-server:
+﻿server:
   port: 8080
   servlet:
     context-path: /WineStore
@@ -12,9 +12,22 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: trunghuutran2005@gmail.com
+    password: hzct sqsf fmfy ndao
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 app:
   jwt:
     secret: "TaoThachThucChungMayDoanDuocJWTSercetKeyCuaTaoDoDoanDuocLamConChohahaha"
     expiration-ms: 1800000
     remember-expiration-ms: 86400000
+  mail:
+    from: WineStore <trunghuutran2005@gmail.com>
