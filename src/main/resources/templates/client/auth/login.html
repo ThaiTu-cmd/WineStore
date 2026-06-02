@@ -13,6 +13,86 @@
     <link rel="stylesheet" th:href="@{/client/css/main.css}" />
     <link rel="stylesheet" th:href="@{/client/css/components.css}" />
     <link rel="stylesheet" th:href="@{/client/css/pages.css}" />
+<<<<<<< Updated upstream
+=======
+    <style>
+      .auth-card {
+        border: 1px solid #e0d8d0 !important;
+      }
+      .auth-title {
+        color: #2c1810 !important;
+      }
+      .auth-subtitle {
+        color: #7a6a5a !important;
+      }
+      .form-label {
+        color: #4a3a2a !important;
+        font-weight: 600 !important;
+      }
+      .form-control {
+        background: #fafafa !important;
+        border-color: #ddd5cc !important;
+        color: #2c1810 !important;
+      }
+      .form-control:focus {
+        border-color: #58111a !important;
+        box-shadow: 0 0 0 3px rgba(88, 17, 26, 0.1) !important;
+        background: #ffffff !important;
+      }
+      .form-control::placeholder {
+        color: #b0a090 !important;
+      }
+      .input-icon-wrap .input-icon {
+        color: #b0a090 !important;
+      }
+      .input-icon-wrap .input-eye,
+      .input-icon-wrap .input-eye svg {
+        color: #b0a090 !important;
+      }
+      .input-icon-wrap .input-eye:hover {
+        color: #58111a !important;
+      }
+      .btn-primary {
+        background: #58111a !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 14px rgba(88, 17, 26, 0.3) !important;
+      }
+      .btn-primary:hover {
+        background: #430d14 !important;
+        box-shadow: 0 6px 20px rgba(88, 17, 26, 0.4) !important;
+      }
+      .btn-ghost {
+        color: #4a3a2a !important;
+        border-color: #ddd5cc !important;
+      }
+      .btn-ghost:hover {
+        background: #f5f0eb !important;
+      }
+      .divider-or {
+        color: #b0a090 !important;
+      }
+      .divider-or::before,
+      .divider-or::after {
+        background: #e0d8d0 !important;
+      }
+      .auth-footer {
+        color: #7a6a5a !important;
+      }
+      .auth-footer a {
+        color: #58111a !important;
+      }
+      .logo-text {
+        color: #2c1810 !important;
+      }
+      .logo-icon {
+        background: #58111a !important;
+        border-color: #58111a !important;
+      }
+      .logo-icon svg {
+        color: #ffffff !important;
+      }
+    </style>
+>>>>>>> Stashed changes
   </head>
   <body>
     <div th:replace="~{client/fragments/header :: header}"></div>
@@ -36,7 +116,7 @@
                 />
               </svg>
             </div>
-            <span class="logo-text">Vita<span>Store</span></span>
+            <span class="logo-text">WineStore</span>
           </a>
         </div>
 
@@ -141,17 +221,7 @@
           </div>
 
           <div class="form-group">
-            <label
-              class="form-label"
-              style="display: flex; justify-content: space-between"
-            >
-              Mật khẩu
-              <a
-                th:href="@{/auth/forgot-password}"
-                style="font-size: 0.8rem; color: var(--color-green)"
-                >Quên mật khẩu?</a
-              >
-            </label>
+            <label class="form-label">Mật khẩu</label>
             <div class="input-icon-wrap">
               <svg
                 class="input-icon"
@@ -192,6 +262,10 @@
                 </svg>
               </span>
             </div>
+            <a
+              th:href="@{/auth/forgot-password}"
+              style="font-size: 0.8rem; color: #58111a; display: inline-block; margin-top: 6px"
+            >Quên mật khẩu?</a>
           </div>
 
           <div
@@ -228,6 +302,7 @@
           </button>
         </form>
 
+<<<<<<< Updated upstream
         <div class="divider-or">hoặc</div>
 
         <!-- Social Login Placeholder -->
@@ -271,6 +346,8 @@
           </button>
         </div>
 
+=======
+>>>>>>> Stashed changes
         <p class="auth-footer">
           Chưa có tài khoản?
           <a th:href="@{/auth/register}">Đăng ký ngay</a>
