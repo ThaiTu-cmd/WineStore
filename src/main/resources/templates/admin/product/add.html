@@ -1,17 +1,23 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Add / Edit Product �?" WineStore Admin</title>
+    <title>Add / Edit Product - WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
     <div class="admin-layout">
+      <!-- SIDEBAR -->
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
           <div class="logo-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" /><path d="M7 10h10" /><path d="M12 14v8" /><path d="M9 22h6" /></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8 2h8l-1 8a3 3 0 0 1-6 0L8 2z" />
+              <path d="M7 10h10" />
+              <path d="M12 14v8" />
+              <path d="M9 22h6" />
+            </svg>
           </div>
           <div>
             <div class="logo-text">WineStore</div>
@@ -19,19 +25,19 @@
           </div>
         </div>
         <nav class="sidebar-nav">
-          <div class="nav-section-label">Tổng quan</div>
-          <a class="nav-item" data-page="dashboard" th:href="@{/admin}"><span class="nav-icon">🏠</span> Dashboard</a>
-          <div class="nav-section-label">Quản lý đơn hàng</div>
-          <a class="nav-item" data-page="orders" th:href="@{/admin/order/list}"><span class="nav-icon">📦</span> Orders</a>
-          <div class="nav-section-label">Sản phẩm</div>
-          <a class="nav-item active" data-page="products" th:href="@{/admin/product/list}"><span class="nav-icon">🛍</span> Products</a>
-          <a class="nav-item" data-page="categories" th:href="@{/admin/product/category}"><span class="nav-icon">🗂</span> Categories</a>
-          <div class="nav-section-label">Người dùng</div>
-          <a class="nav-item" data-page="users" th:href="@{/admin/user/list}"><span class="nav-icon">👥</span> Users</a>
+          <div class="nav-section-label">Tong quan</div>
+          <a class="nav-item" data-page="dashboard" th:href="@{/admin}"><span class="nav-icon">&#x1F3E0;</span> Dashboard</a>
+          <div class="nav-section-label">Quan ly don hang</div>
+          <a class="nav-item" data-page="orders" th:href="@{/admin/order/list}"><span class="nav-icon">&#x1F4E6;</span> Orders</a>
+          <div class="nav-section-label">San pham</div>
+          <a class="nav-item active" data-page="products" th:href="@{/admin/product/list}"><span class="nav-icon">&#x1F6CD;</span> Products</a>
+          <a class="nav-item" data-page="categories" th:href="@{/admin/product/category}"><span class="nav-icon">&#x1F5C2;</span> Categories</a>
+          <div class="nav-section-label">Nguoi dung</div>
+          <a class="nav-item" data-page="users" th:href="@{/admin/user/list}"><span class="nav-icon">&#x1F465;</span> Users</a>
           <div class="nav-section-label">Marketing</div>
-          <a class="nav-item" data-page="discounts" th:href="@{/admin/marketing/discount}"><span class="nav-icon">🎁</span> Discounts</a>
+          <a class="nav-item" data-page="discounts" th:href="@{/admin/marketing/discount}"><span class="nav-icon">&#x1F381;</span> Discounts</a>
           <div class="nav-section-label">Reviews</div>
-          <a class="nav-item" data-page="reviews" th:href="@{/admin/reviews/review}"><span class="nav-icon">⭐</span> Reviews</a>
+          <a class="nav-item" data-page="reviews" th:href="@{/admin/reviews/review}"><span class="nav-icon">&#x2B50;</span> Reviews</a>
         </nav>
         <div class="sidebar-bottom">
           <div class="admin-profile">
@@ -44,121 +50,139 @@
         </div>
       </aside>
 
+      <!-- MAIN -->
       <div class="main-wrap">
-        <div class="admin-layout">
-          <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
-                <div class="card-title">�Y"� Thông tin cơ bản</div>
+        <header class="topbar">
+          <div class="topbar-info">
+            <div class="topbar-title" id="topbarTitle">Them san pham</div>
+            <div class="topbar-breadcrumb" id="topbarBreadcrumb">Products / Them moi</div>
+          </div>
+          <div class="topbar-right">
+            <div class="dropdown">
+              <button class="icon-btn" title="Cai dat" onclick="toggleLogoutDropdown()">&#x2699;&#xFE0F;</button>
+              <div class="dropdown-menu" id="logoutDropdown" style="display:none">
+                <button class="dropdown-item dropdown-item-logout" onclick="logout()">Dang xuat</button>
               </div>
-              <div style="padding: 24px">
+            </div>
+          </div>
+        </header>
+
+        <div class="page-wrap">
+          <div class="page-header">
+            <div>
+              <div class="page-title" id="pageTitle">Them san pham moi</div>
+              <div class="page-subtitle">
+                <span id="modeTag" class="badge badge-success">Che do: Them moi</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TWO-COLUMN LAYOUT -->
+          <div style="display:grid; grid-template-columns:1fr 320px; gap:20px; align-items:start;">
+
+            <!-- LEFT: MAIN FORM -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">&#x1F4DD; Thong tin co ban</div>
+              </div>
+              <div style="padding:24px">
                 <input type="hidden" id="productId" />
 
                 <div class="form-group">
-                  <label class="form-label">Tên sản phẩm *</label>
-                  <input class="form-control" id="fName" required />
+                  <label class="form-label">Ten san pham *</label>
+                  <input class="form-control" id="fName" placeholder="Nhap ten san pham..." required />
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label">Category ID *</label>
+                  <label class="form-label">Danh muc *</label>
                   <select class="form-control" id="fCategory">
-                    <option value="">�?" Chọn danh mục �?"</option>
+                    <option value="">-- Chon danh muc --</option>
                   </select>
-                  <div class="form-hint">
-                    Chọn danh mục phù hợp v�>i sản phẩm
-                  </div>
+                  <div class="form-hint">Chon danh muc phu hop voi san pham</div>
                 </div>
 
                 <div class="form-grid">
                   <div class="form-group">
-                    <label class="form-label">Giá bán (VNĐ) *</label>
-                    <input
-                      class="form-control"
-                      id="fPrice"
-                      type="number"
-                      min="0"
-                    />
+                    <label class="form-label">Gia ban (VND) *</label>
+                    <input class="form-control" id="fPrice" type="number" min="0" placeholder="0" />
                   </div>
                   <div class="form-group">
-                    <label class="form-label">T�"n kho *</label>
-                    <input
-                      class="form-control"
-                      id="fStock"
-                      type="number"
-                      min="0"
-                    />
+                    <label class="form-label">Gia goc (VND)</label>
+                    <input class="form-control" id="fOldPrice" type="number" min="0" placeholder="0" />
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label">Mô tả ngắn</label>
-                  <textarea
-                    class="form-control"
-                    id="fDesc"
-                    placeholder="Mô tả sản phẩm, thành phần, công dụng..."
-                  ></textarea>
+                  <label class="form-label">Ton kho *</label>
+                  <input class="form-control" id="fStock" type="number" min="0" placeholder="0" />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Mo ta ngan</label>
+                  <textarea class="form-control" id="fShortDesc" rows="2" placeholder="Mo ta ngan gon (toi da 500 ky tu)..."></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Mo ta chi tiet</label>
+                  <textarea class="form-control" id="fDesc" rows="5" placeholder="Mo ta day du ve san pham..."></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Anh san pham (URL)</label>
+                  <input class="form-control" id="fImage" type="text" placeholder="https://..." />
+                </div>
+
+                <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+                  <input type="checkbox" id="fActive" checked style="width:18px;height:18px;cursor:pointer;" />
+                  <label class="form-label" for="fActive" style="margin:0;cursor:pointer;">Hien thi san pham (Active)</label>
                 </div>
               </div>
             </div>
 
-            <!-- EXTRA INFO -->
+            <!-- RIGHT: STATS + ACTIONS -->
             <div>
-              <!-- Edit mode: show current stats -->
-              <div
-                class="card"
-                id="editStatsCard"
-                style="display: none; margin-bottom: 20px"
-              >
+              <!-- Edit mode stats -->
+              <div class="card" id="editStatsCard" style="display:none; margin-bottom:20px;">
                 <div class="card-header">
-                  <div class="card-title">�Y"S Thông tin hi�?n tại</div>
+                  <div class="card-title">&#x1F4CA; Thong tin hien tai</div>
                 </div>
-                <div style="padding: 18px">
+                <div style="padding:18px">
                   <div class="detail-grid">
                     <div class="detail-field">
-                      <div class="detail-field-label">Rating Avg</div>
-                      <div class="detail-field-value" id="showRating">�?"</div>
-                    </div>
-                    <div class="detail-field">
-                      <div class="detail-field-label">Rating Count</div>
-                      <div class="detail-field-value" id="showRatingCount">
-                        �?"
-                      </div>
-                    </div>
-                    <div class="detail-field">
                       <div class="detail-field-label">Product ID</div>
-                      <div class="detail-field-value" id="showId">�?"</div>
+                      <div class="detail-field-value" id="showId">--</div>
                     </div>
                     <div class="detail-field">
                       <div class="detail-field-label">Category ID</div>
-                      <div class="detail-field-value" id="showCatId">�?"</div>
+                      <div class="detail-field-value" id="showCatId">--</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-field-label">Rating Avg</div>
+                      <div class="detail-field-value" id="showRating">--</div>
+                    </div>
+                    <div class="detail-field">
+                      <div class="detail-field-label">Rating Count</div>
+                      <div class="detail-field-value" id="showRatingCount">--</div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- ACTIONS -->
+              <!-- Actions -->
               <div class="card">
                 <div class="card-header">
-                  <div class="card-title">�s� Thao tác</div>
+                  <div class="card-title">&#x2699;&#xFE0F; Thao tac</div>
                 </div>
-                <div
-                  style="
-                    padding: 20px;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                  "
-                >
+                <div style="padding:20px; display:flex; flex-direction:column; gap:10px;">
                   <button class="btn btn-primary btn-lg" onclick="submitForm()">
-                    <span id="submitIcon">�Y'�</span>
-                    <span id="submitLabel">Lưu sản phẩm</span>
+                    <span id="submitIcon">&#x1F4BE;</span>
+                    <span id="submitLabel">Luu san pham</span>
                   </button>
-                  <a
-                    th:href="@{/admin/product/list}"
-                    class="btn btn-outline btn-lg"
-                    >�o. Hủy bỏ</a
-                  >
+                  <a th:href="@{/admin/product/list}" class="btn btn-outline btn-lg">&#x2715; Huy bo</a>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -170,96 +194,102 @@
       let editId = null;
 
       async function initPage() {
-        // Load categories
-        const catsResponse = await API.getCategories();
-        const cats = catsResponse.content || [];
-        const sel = document.getElementById("fCategory");
-        cats.forEach((c) => {
-          const opt = document.createElement("option");
-          opt.value = c.id;
-          opt.textContent = `${c.id} - ${c.name}`;
-          sel.appendChild(opt);
-        });
+        try {
+          const catsResponse = await API.getCategories();
+          const cats = catsResponse.content || [];
+          const sel = document.getElementById("fCategory");
+          cats.forEach((c) => {
+            const opt = document.createElement("option");
+            opt.value = c.id;
+            opt.textContent = `${c.id} - ${c.name}`;
+            sel.appendChild(opt);
+          });
+        } catch (e) {
+          Utils.toast("Khong the tai danh muc: " + (e?.message || ""), "error");
+        }
 
-        // Check if edit mode (?edit=ID)
         const params = new URLSearchParams(location.search);
         const id = params.get("edit");
         if (id) {
           editMode = true;
           editId = parseInt(id);
-          document.getElementById("topbarTitle").textContent = "Edit Product";
-          document.getElementById("topbarBreadcrumb").textContent =
-            "Products - Chinh sua";
-          document.getElementById("pageTitle").textContent =
-            "Chinh sua san pham";
+          document.getElementById("topbarTitle").textContent = "Chinh sua san pham";
+          document.getElementById("topbarBreadcrumb").textContent = "Products / Chinh sua";
+          document.getElementById("pageTitle").textContent = "Chinh sua san pham";
           document.getElementById("modeTag").textContent = "Che do: Chinh sua";
           document.getElementById("modeTag").className = "badge badge-warning";
-          document.getElementById("submitIcon").textContent = "✏️";
-          document.getElementById("submitLabel").textContent =
-            "Cập nhật sản phẩm";
+          document.getElementById("submitIcon").textContent = "\u270F\uFE0F";
+          document.getElementById("submitLabel").textContent = "Cap nhat san pham";
           document.getElementById("editStatsCard").style.display = "block";
 
-          const p = await API.getProductById(editId);
-          if (p) {
-            document.getElementById("productId").value = p.id;
-            document.getElementById("fName").value = p.name;
-            document.getElementById("fCategory").value = p.category_id ?? p.categoryId;
-            document.getElementById("fPrice").value = p.price;
-            document.getElementById("fStock").value = p.stock_quantity;
-            document.getElementById("showRating").innerHTML = Utils.stars(
-              p.rating_avg,
-            );
-            document.getElementById("showRatingCount").textContent =
-              p.rating_count;
-            document.getElementById("showId").textContent = p.id;
-            document.getElementById("showCatId").textContent = p.category_id ?? p.categoryId;
+          try {
+            const p = await API.getProductById(editId);
+            if (p) {
+              document.getElementById("productId").value = p.id;
+              document.getElementById("fName").value = p.name || "";
+              document.getElementById("fCategory").value = p.category_id ?? p.categoryId ?? "";
+              document.getElementById("fPrice").value = p.price || 0;
+              document.getElementById("fOldPrice").value = p.old_price ?? p.oldPrice ?? "";
+              document.getElementById("fStock").value = p.stock_quantity ?? p.stockQuantity ?? 0;
+              document.getElementById("fShortDesc").value = p.short_description ?? p.shortDescription ?? "";
+              document.getElementById("fDesc").value = p.description || "";
+              document.getElementById("fImage").value = p.image || p.imageUrl || "";
+              document.getElementById("fActive").checked = p.is_active ?? p.isActive ?? true;
+              document.getElementById("showRating").innerHTML = Utils.stars(p.rating_avg ?? 0);
+              document.getElementById("showRatingCount").textContent = p.rating_count ?? p.ratingCount ?? 0;
+              document.getElementById("showId").textContent = p.id;
+              document.getElementById("showCatId").textContent = p.category_id ?? p.categoryId ?? "--";
+            }
+          } catch (e) {
+            Utils.toast("Khong the tai san pham: " + (e?.message || ""), "error");
           }
         }
       }
 
       async function submitForm() {
-        const btn = document.getElementById("submitLabel");
-        btn.textContent = "⏳ Đang lưu...";
+        const submitLabel = document.getElementById("submitLabel");
+        const original = submitLabel.textContent;
+        submitLabel.textContent = "\u23F3 Dang luu...";
 
         const data = {
           name: document.getElementById("fName").value.trim(),
-          categoryId: +document.getElementById("fCategory").value,
-          price: +document.getElementById("fPrice").value,
-          stockQuantity: +document.getElementById("fStock").value,
-          shortDescription: document.getElementById("fDesc").value.trim(),
+          categoryId: +document.getElementById("fCategory").value || undefined,
+          price: +document.getElementById("fPrice").value || 0,
+          oldPrice: +document.getElementById("fOldPrice").value || undefined,
+          stockQuantity: +document.getElementById("fStock").value || 0,
+          shortDescription: document.getElementById("fShortDesc").value.trim(),
           description: document.getElementById("fDesc").value.trim(),
-          isActive: true,
+          image: document.getElementById("fImage").value.trim() || undefined,
+          isActive: document.getElementById("fActive").checked,
         };
 
         if (!data.name || !data.categoryId || !data.price) {
-          Utils.toast("Vui lòng điền đầy đủ thông tin bắt buộc!", "error");
-          btn.textContent = editMode ? "Cập nhật sản phẩm" : "Lưu sản phẩm";
+          Utils.toast("Vui long dien day du thong tin bat buoc (Ten, Danh muc, Gia)!", "error");
+          submitLabel.textContent = original;
           return;
         }
 
         try {
           if (editMode) {
             await API.updateProduct(editId, data);
-            Utils.toast("Đã cập nhật sản phẩm thành công!");
+            Utils.toast("Da cap nhat san pham thanh cong!");
           } else {
             await API.createProduct(data);
-            Utils.toast("Đã thêm sản phẩm mới!");
-            document.getElementById("fName").value = "";
-            document.getElementById("fPrice").value = "";
-            document.getElementById("fStock").value = "";
-            document.getElementById("fDesc").value = "";
-          }
-          if (!editMode) {
+            Utils.toast("Da them san pham moi thanh cong!");
+            ["fName", "fPrice", "fOldPrice", "fStock", "fShortDesc", "fDesc", "fImage"].forEach((id) => {
+              document.getElementById(id).value = "";
+            });
             document.getElementById("fCategory").value = "";
+            document.getElementById("fActive").checked = true;
           }
         } catch (error) {
-          Utils.toast(error?.message || "Không thể lưu sản phẩm", "error");
+          Utils.toast(error?.message || "Khong the luu san pham", "error");
         }
-        btn.textContent = editMode ? "Cập nhật sản phẩm" : "Lưu sản phẩm";
+
+        submitLabel.textContent = original;
       }
 
       document.addEventListener("DOMContentLoaded", initPage);
     </script>
   </body>
 </html>
-

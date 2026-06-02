@@ -623,11 +623,18 @@
               return;
             }
 
+            // Đọc token từ response body và lưu vào localStorage
+            const data = await res.json().catch(() => ({}));
+            if (data.token) {
+              localStorage.setItem("authToken", data.token);
+            }
             loginBtn.textContent = "✓ Đăng nhập thành công!";
             loginBtn.style.background =
               "linear-gradient(135deg,#6a1823,#58111A)";
             loginBtn.style.boxShadow = "0 6px 18px rgba(88,17,26,0.45)";
-            window.location.href = adminIndexUrl;
+            setTimeout(() => {
+              window.location.href = adminIndexUrl;
+            }, 600);
           } catch (error) {
             document.getElementById("errorText").textContent =
               "Không thể kết nối tới máy chủ. Vui lòng thử lại.";

@@ -31,7 +31,7 @@ public class ProductEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "short_description", columnDefinition = "TEXT")
+    @Column(name = "short_description", length = 500)
     private String shortDescription;
 
     @Column(name = "description", columnDefinition = "LONGTEXT")

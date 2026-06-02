@@ -12,7 +12,7 @@ const APP_CONTEXT_PATH =
 
 const DB_CONFIG = {
   apiBase: `${APP_CONTEXT_PATH}/admin`,
-  token: null, // JWT token after login
+  token: localStorage.getItem("authToken") || null, // Đọc token đã lưu sau login
 };
 
 /* ───────────────────────────────────────────────────────────────
@@ -62,30 +62,30 @@ const API = {
     return response.json();
   },
   async getOrderById(id) {
-    const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/orders/${id}`,
-      { headers: this._h(), credentials: "include" },
-    );
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/orders/${id}`, {
+      headers: this._h(),
+      credentials: "include",
+    });
     if (!response.ok) {
       throw new Error("Khong the tai chi tiet don hang");
     }
     return response.json();
   },
   async updateOrder(id, d) {
-    const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/orders/${id}`,
-      { ...this._opts("PUT", d) },
-    );
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/orders/${id}`, {
+      ...this._opts("PUT", d),
+    });
     if (!response.ok) {
       throw new Error("Khong the cap nhat don hang");
     }
     return response.json();
   },
   async deleteOrder(id) {
-    const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/orders/${id}`,
-      { method: "DELETE", headers: this._h(), credentials: "include" },
-    );
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/orders/${id}`, {
+      method: "DELETE",
+      headers: this._h(),
+      credentials: "include",
+    });
     if (!response.ok) {
       throw new Error("Khong the xoa don hang");
     }
@@ -220,10 +220,9 @@ const API = {
     return response.json();
   },
   async createCategory(d) {
-    const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/categories`,
-      { ...this._opts("POST", d) },
-    );
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/categories`, {
+      ...this._opts("POST", d),
+    });
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Khong the tao danh muc");
@@ -231,10 +230,9 @@ const API = {
     return response.json();
   },
   async updateCategory(id, d) {
-    const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/categories/${id}`,
-      { ...this._opts("PUT", d) },
-    );
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/categories/${id}`, {
+      ...this._opts("PUT", d),
+    });
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Khong the cap nhat danh muc");
@@ -242,10 +240,11 @@ const API = {
     return response.json();
   },
   async deleteCategory(id) {
-    const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/categories/${id}`,
-      { method: "DELETE", headers: this._h(), credentials: "include" },
-    );
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/categories/${id}`, {
+      method: "DELETE",
+      headers: this._h(),
+      credentials: "include",
+    });
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Khong the xoa danh muc");
@@ -264,10 +263,11 @@ const API = {
     return response.json();
   },
   async deleteReview(id) {
-    const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/reviews/${id}`,
-      { method: "DELETE", headers: this._h(), credentials: "include" },
-    );
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/reviews/${id}`, {
+      method: "DELETE",
+      headers: this._h(),
+      credentials: "include",
+    });
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Khong the xoa danh gia");
@@ -294,10 +294,9 @@ const API = {
     };
   },
   async createDiscount(d) {
-    const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/discounts`,
-      { ...this._opts("POST", d) },
-    );
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/discounts`, {
+      ...this._opts("POST", d),
+    });
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Khong the tao ma giam gia");
@@ -305,10 +304,9 @@ const API = {
     return response.json();
   },
   async updateDiscount(id, d) {
-    const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/discounts/${id}`,
-      { ...this._opts("PUT", d) },
-    );
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/discounts/${id}`, {
+      ...this._opts("PUT", d),
+    });
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Khong the cap nhat ma giam gia");
@@ -316,10 +314,11 @@ const API = {
     return response.json();
   },
   async deleteDiscount(id) {
-    const response = await fetch(
-      `${DB_CONFIG.apiBase}/api/discounts/${id}`,
-      { method: "DELETE", headers: this._h(), credentials: "include" },
-    );
+    const response = await fetch(`${DB_CONFIG.apiBase}/api/discounts/${id}`, {
+      method: "DELETE",
+      headers: this._h(),
+      credentials: "include",
+    });
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || "Khong the xoa ma giam gia");
@@ -341,11 +340,14 @@ const API = {
 
     return {
       totalRevenue: orders
-        .filter((o) => (o.status || '').toLowerCase() === "completed")
+        .filter((o) => (o.status || "").toLowerCase() === "completed")
         .reduce((s, o) => s + (o.total || 0), 0),
       totalOrders: orders.length,
-      pendingOrders: orders.filter((o) => (o.status || '').toLowerCase() === "pending").length,
-      activeProducts: products.filter((p) => (p.stock_quantity || 0) > 0).length,
+      pendingOrders: orders.filter(
+        (o) => (o.status || "").toLowerCase() === "pending",
+      ).length,
+      activeProducts: products.filter((p) => (p.stock_quantity || 0) > 0)
+        .length,
       lowStock: products.filter((p) => (p.stock_quantity || 0) < 50).length,
       totalUsers: users.filter(
         (u) => String(u.role || "").toUpperCase() === "CUSTOMER",
