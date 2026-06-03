@@ -3,6 +3,7 @@ package com.doan.WineStore.dto.request.admin;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductUpsertRequest {
     @JsonProperty("category_id")
@@ -23,6 +24,7 @@ public class ProductUpsertRequest {
     private Integer stockQuantity;
     @JsonProperty("is_active")
     private Boolean isActive;
+    private List<String> images;
 
     public Long getCategoryId() {
         return categoryId;
@@ -118,5 +120,13 @@ public class ProductUpsertRequest {
 
     public void setIsActive(Boolean active) {
         isActive = active;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

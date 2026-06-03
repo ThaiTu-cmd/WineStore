@@ -128,8 +128,13 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label">Ảnh sản phẩm (URL)</label>
-                  <input class="form-control" id="fImage" type="text" placeholder="https://..." />
+                  <label class="form-label">Ảnh sản phẩm</label>
+                  <div style="display:flex;gap:8px;margin-bottom:8px">
+                    <input class="form-control" id="fImage" type="text" placeholder="Nhập URL ảnh..." style="flex:1" />
+                    <button type="button" class="btn btn-outline" onclick="addImageUrl()">Thêm</button>
+                  </div>
+                  <div id="imageList"></div>
+                  <div class="form-hint">Nhập URL ảnh và bấm "Thêm". Ảnh đầu tiên là ảnh chính.</div>
                 </div>
 
                 <div class="form-group" style="display:flex; align-items:center; gap:10px;">
@@ -193,6 +198,50 @@
       let editMode = false;
       let editId = null;
 
+      function getImages() {
+        const items = document.querySelectorAll("#imageList .image-item");
+        return Array.from(items).map(el => el.dataset.url).filter(u => u);
+      }
+
+      function renderImages() {
+        const container = document.getElementById("imageList");
+        const urls = getImages();
+        if (urls.length === 0) {
+          container.innerHTML = '<div style="color:var(--text-muted);font-size:13px;padding:8px 0">Chưa có ảnh nào</div>';
+          return;
+        }
+        container.innerHTML = urls.map((url, i) =>
+          `<div class="image-item" data-url="${url}" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+            <img src="${url}" style="width:48px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--border)" onerror="this.style.display='none'" />
+            <span style="flex:1;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${url} ${i === 0 ? '<span class="badge badge-success">Chính</span>' : ''}</span>
+            <button type="button" class="btn btn-sm btn-danger" onclick="removeImage(${i})" style="padding:2px 8px;font-size:12px">✕</button>
+          </div>`
+        ).join("");
+      }
+
+      function addImageUrl() {
+        const input = document.getElementById("fImage");
+        const url = input.value.trim();
+        if (!url) { Utils.toast("Vui lòng nhập URL ảnh", "warn"); return; }
+        const container = document.getElementById("imageList");
+        if (container.querySelector('.image-item') === null) container.innerHTML = "";
+        container.insertAdjacentHTML("beforeend",
+          `<div class="image-item" data-url="${url}" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+            <img src="${url}" style="width:48px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--border)" onerror="this.style.display='none'" />
+            <span style="flex:1;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${url}</span>
+            <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.image-item').remove();renderImages()" style="padding:2px 8px;font-size:12px">✕</button>
+          </div>`
+        );
+        renderImages();
+        input.value = "";
+      }
+
+      function removeImage(index) {
+        const items = document.querySelectorAll("#imageList .image-item");
+        if (items[index]) items[index].remove();
+        renderImages();
+      }
+
       async function initPage() {
         try {
           const catsResponse = await API.getCategories();
@@ -233,12 +282,21 @@
               document.getElementById("fStock").value = p.stock_quantity ?? p.stockQuantity ?? 0;
               document.getElementById("fShortDesc").value = p.short_description ?? p.shortDescription ?? "";
               document.getElementById("fDesc").value = p.description || "";
-              document.getElementById("fImage").value = p.image || p.imageUrl || "";
               document.getElementById("fActive").checked = p.is_active ?? p.isActive ?? true;
               document.getElementById("showRating").innerHTML = Utils.stars(p.rating_avg ?? 0);
               document.getElementById("showRatingCount").textContent = p.rating_count ?? p.ratingCount ?? 0;
               document.getElementById("showId").textContent = p.id;
               document.getElementById("showCatId").textContent = p.category_id ?? p.categoryId ?? "--";
+              const imgs = p.images || (p.imageUrl ? [p.imageUrl] : []);
+              if (imgs.length) {
+                document.getElementById("imageList").innerHTML = imgs.map((url, i) =>
+                  `<div class="image-item" data-url="${url}" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+                    <img src="${url}" style="width:48px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--border)" onerror="this.style.display='none'" />
+                    <span style="flex:1;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${url} ${i === 0 ? '<span class="badge badge-success">Chính</span>' : ''}</span>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="removeImage(${i})" style="padding:2px 8px;font-size:12px">✕</button>
+                  </div>`
+                ).join("");
+              }
             }
           } catch (e) {
             Utils.toast("Không thể tải sản phẩm: " + (e?.message || ""), "error");
@@ -251,6 +309,7 @@
         const original = submitLabel.textContent;
         submitLabel.textContent = "\u23F3 Đang lưu...";
 
+        const images = getImages();
         const data = {
           name: document.getElementById("fName").value.trim(),
           categoryId: +document.getElementById("fCategory").value || undefined,
@@ -259,8 +318,9 @@
           stockQuantity: +document.getElementById("fStock").value || 0,
           shortDescription: document.getElementById("fShortDesc").value.trim(),
           description: document.getElementById("fDesc").value.trim(),
-          image: document.getElementById("fImage").value.trim() || undefined,
+          imageUrl: images[0] || undefined,
           isActive: document.getElementById("fActive").checked,
+          images: images.length ? images : undefined,
         };
 
         if (!data.name || !data.categoryId || !data.price) {
@@ -281,6 +341,7 @@
             });
             document.getElementById("fCategory").value = "";
             document.getElementById("fActive").checked = true;
+            document.getElementById("imageList").innerHTML = '<div style="color:var(--text-muted);font-size:13px;padding:8px 0">Chưa có ảnh nào</div>';
           }
         } catch (error) {
           Utils.toast(error?.message || "Không thể lưu sản phẩm", "error");

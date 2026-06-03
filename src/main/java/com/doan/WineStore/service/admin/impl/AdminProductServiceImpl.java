@@ -5,6 +5,8 @@ import com.doan.WineStore.dto.response.admin.PageResponse;
 import com.doan.WineStore.dto.response.admin.ProductDetailResponse;
 import com.doan.WineStore.dto.response.admin.ProductListItemResponse;
 import com.doan.WineStore.entity.ProductEntity;
+import com.doan.WineStore.entity.ProductImageEntity;
+import com.doan.WineStore.repository.ProductImageRepository;
 import com.doan.WineStore.repository.ProductRepository;
 import com.doan.WineStore.service.admin.AdminProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -22,6 +26,9 @@ public class AdminProductServiceImpl implements AdminProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ProductImageRepository productImageRepository;
 
     @Override
     public PageResponse<ProductListItemResponse> getProducts(int page, String search, Long categoryId, String stockStatus) {
@@ -42,6 +49,7 @@ public class AdminProductServiceImpl implements AdminProductService {
     }
 
     @Override
+    @org.springframework.transaction.annotation.Transactional
     public ProductDetailResponse createProduct(ProductUpsertRequest request) {
         validateRequest(request);
         ProductEntity entity = new ProductEntity();
@@ -53,10 +61,12 @@ public class AdminProductServiceImpl implements AdminProductService {
         entity.setRatingCount(0);
         entity.setDeletedAt(null);
         ProductEntity saved = productRepository.save(entity);
+        saveImages(saved.getId(), request);
         return toDetailResponse(saved);
     }
 
     @Override
+    @org.springframework.transaction.annotation.Transactional
     public ProductDetailResponse updateProduct(Long id, ProductUpsertRequest request) {
         validateRequest(request);
         ProductEntity entity = productRepository.findByIdAndDeletedAtIsNull(id)
@@ -68,7 +78,28 @@ public class AdminProductServiceImpl implements AdminProductService {
         }
 
         ProductEntity saved = productRepository.save(entity);
+        saveImages(saved.getId(), request);
         return toDetailResponse(saved);
+    }
+
+    private void saveImages(Long productId, ProductUpsertRequest request) {
+        List<String> images = request.getImages();
+        if (images == null || images.isEmpty()) {
+            if (request.getImageUrl() != null) {
+                productImageRepository.deleteByProductId(productId);
+                ProductImageEntity img = new ProductImageEntity(productId, request.getImageUrl(), true, 0);
+                productImageRepository.save(img);
+            }
+            return;
+        }
+        productImageRepository.deleteByProductId(productId);
+        List<ProductImageEntity> entities = new ArrayList<>();
+        for (int i = 0; i < images.size(); i++) {
+            String url = images.get(i);
+            if (url == null || url.isBlank()) continue;
+            entities.add(new ProductImageEntity(productId, url.trim(), i == 0, i));
+        }
+        productImageRepository.saveAll(entities);
     }
 
     @Override
@@ -132,6 +163,11 @@ public class AdminProductServiceImpl implements AdminProductService {
     }
 
     private ProductDetailResponse toDetailResponse(ProductEntity entity) {
+        List<String> images = productImageRepository
+                .findByProductIdOrderBySortOrderAsc(entity.getId())
+                .stream()
+                .map(ProductImageEntity::getImageUrl)
+                .toList();
         return new ProductDetailResponse(
                 entity.getId(),
                 entity.getCategoryId(),
@@ -147,7 +183,8 @@ public class AdminProductServiceImpl implements AdminProductService {
                 entity.getRatingAvg() == null ? 0.0 : entity.getRatingAvg(),
                 entity.getRatingCount() == null ? 0 : entity.getRatingCount(),
                 entity.getStockQuantity() == null ? 0 : entity.getStockQuantity(),
-                entity.getIsActive());
+                entity.getIsActive(),
+                images);
     }
 
     private String normalizeOrGenerate(String value, String name, String prefix) {

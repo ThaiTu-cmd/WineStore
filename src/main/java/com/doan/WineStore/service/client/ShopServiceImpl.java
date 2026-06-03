@@ -3,7 +3,9 @@ package com.doan.WineStore.service.client;
 import com.doan.WineStore.dto.response.client.ShopProductResponse;
 import com.doan.WineStore.entity.CategoryEntity;
 import com.doan.WineStore.entity.ProductEntity;
+import com.doan.WineStore.entity.ProductImageEntity;
 import com.doan.WineStore.repository.CategoryRepository;
+import com.doan.WineStore.repository.ProductImageRepository;
 import com.doan.WineStore.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +15,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -30,6 +34,9 @@ public class ShopServiceImpl implements ShopService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductImageRepository productImageRepository;
 
     @Override
     public Page<ShopProductResponse> getProducts(String categorySlug, String sort, String search,
@@ -62,13 +69,26 @@ public class ShopServiceImpl implements ShopService {
             }
         }
 
+        String imageUrl = entity.getImageUrl();
+        Optional<ProductImageEntity> primaryImage = productImageRepository
+                .findTopByProductIdAndIsPrimaryTrue(entity.getId());
+        if (primaryImage.isPresent()) {
+            imageUrl = primaryImage.get().getImageUrl();
+        } else {
+            List<ProductImageEntity> images = productImageRepository
+                    .findByProductIdOrderBySortOrderAsc(entity.getId());
+            if (!images.isEmpty()) {
+                imageUrl = images.get(0).getImageUrl();
+            }
+        }
+
         return new ShopProductResponse(
                 entity.getId(),
                 entity.getCategoryId(),
                 categoryName,
                 categorySlug,
                 entity.getName(),
-                entity.getImageUrl(),
+                imageUrl,
                 entity.getBrand(),
                 entity.getPrice(),
                 entity.getOldPrice(),

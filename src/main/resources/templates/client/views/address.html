@@ -42,7 +42,7 @@
           <div class="card-header">
             <div class="card-title">
               <i class="ti ti-map-pins"></i> Địa chỉ nhận hàng
-              <span class="address-count-info">(<span th:text="${#lists.size(addresses)}">0</span>/5 địa chỉ)</span>
+              <span class="address-count-info">(<span th:text="${#lists.size(addresses)}">0</span> địa chỉ)</span>
             </div>
             <button class="btn btn-primary btn-sm" onclick="openAddModal()"><i class="ti ti-plus"></i> Thêm địa chỉ</button>
           </div>
@@ -200,7 +200,7 @@
       });
 
       function openAddModal() {
-        document.getElementById('addressForm').action = '/WineStore/address/add';
+        document.getElementById('addressForm').action = /*[[@{/address/add}]]*/ '/WineStore/address/add';
         document.getElementById('addressId').value = '';
         document.getElementById('modalTitle').innerHTML = '<i class="ti ti-map-pin-plus" style="color:var(--color-green);margin-right:8px"></i> Thêm địa chỉ mới';
         document.getElementById('addrName').value = '';
@@ -216,7 +216,7 @@
       }
 
       function openEditModal(id) {
-        document.getElementById('addressForm').action = '/WineStore/address/update';
+        document.getElementById('addressForm').action = /*[[@{/address/update}]]*/ '/WineStore/address/update';
         document.getElementById('addressId').value = id;
         document.getElementById('modalTitle').innerHTML = '<i class="ti ti-pencil" style="color:var(--color-accent);margin-right:8px"></i> Chỉnh sửa địa chỉ';
         var card = document.querySelector('[data-id="' + id + '"]');
