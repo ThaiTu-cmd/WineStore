@@ -1,0 +1,153 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đơn hàng – WineStore</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/client/css/variables.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/components.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/pages.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/shared.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/order.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  </head>
+  <body>
+    <div th:replace="~{client/fragments/header :: header}"></div>
+
+    <div class="page-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-user-card">
+          <div class="sidebar-avatar" th:text="${session.user != null ? session.user.name.substring(0,1).toUpperCase() : 'U'}">U</div>
+          <div class="sidebar-username" th:text="${session.user.name}">Người dùng</div>
+          <div class="sidebar-email" th:text="${session.user.email}">email@example.com</div>
+        </div>
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-group">
+            <div class="sidebar-nav-label">Tài khoản</div>
+            <a th:href="@{/userprofile}" class="sidebar-nav-item"><i class="ti ti-user"></i> Thông tin chung</a>
+          </div>
+          <div class="sidebar-nav-group">
+            <div class="sidebar-nav-label">Quản lí</div>
+            <a th:href="@{/orders}" class="sidebar-nav-item active"><i class="ti ti-shopping-bag"></i> Đơn hàng</a>
+            <a th:href="@{/address}" class="sidebar-nav-item"><i class="ti ti-map-pin"></i> Địa chỉ nhận hàng</a>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="ti ti-shopping-bag"></i> Đơn hàng</div>
+          </div>
+          <div class="card-body">
+            <div th:if="${orderSuccess != null}" class="notify notify-success">
+              <i class="ti ti-check-circle"></i> <span th:text="${orderSuccess}">Thành công</span>
+              <div class="notify-bar"></div>
+            </div>
+            <div th:if="${orderError != null}" class="notify notify-error">
+              <i class="ti ti-alert-circle"></i> <span th:text="${orderError}">Lỗi</span>
+              <div class="notify-bar"></div>
+            </div>
+
+            <div class="order-search-wrap">
+              <i class="ti ti-search order-search-icon"></i>
+              <input class="order-search" type="text" placeholder="Tìm theo mã đơn hàng..." id="searchInput" oninput="filterOrders()" />
+            </div>
+
+            <div class="orders-list">
+              <div th:each="order : ${orders}" class="order-card" th:attr="data-status=${order.status.toLowerCase()}">
+                <div class="order-card-header">
+                  <div class="order-card-left">
+                    <span class="order-code" th:text="${order.orderCode}">#DH001</span>
+                    <span class="order-date" th:text="${#temporals.format(order.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2025</span>
+                  </div>
+                  <div class="order-card-right">
+                    <span class="order-status" th:classappend="'order-status-' + ${order.status.toLowerCase()}" th:text="${order.status}">pending</span>
+                    <span class="order-payment" th:classappend="${order.paymentStatus.name() == 'PAID' ? 'payment-paid' : 'payment-unpaid'}" th:text="${order.paymentStatus.name() == 'PAID' ? 'Đã thanh toán' : 'Chưa thanh toán'}">UNPAID</span>
+                  </div>
+                </div>
+                <div class="order-card-body">
+                  <div class="order-total-label">Tổng tiền</div>
+                  <div class="order-total" th:text="${#numbers.formatInteger(order.totalAmount, 1, 'COMMA') + 'đ'}">0đ</div>
+                </div>
+                <div class="order-card-footer">
+                  <button class="order-btn order-btn-detail" th:onclick="'viewDetail(' + ${order.id} + ')'"><i class="ti ti-eye"></i> Chi tiết</button>
+                  <form th:action="@{/orders/cancel}" method="post" style="display:inline" onsubmit="return confirmCancel(this)">
+                    <input type="hidden" name="id" th:value="${order.id}" />
+                    <button type="submit" class="order-btn order-btn-cancel" th:if="${order.status.toLowerCase() != 'completed' and order.status.toLowerCase() != 'cancelled'}" th:disabled="${order.status.toLowerCase() == 'cancelled' or order.status.toLowerCase() == 'completed'}"><i class="ti ti-ban"></i> Hủy đơn</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(orders)}" class="orders-empty">
+              <i class="ti ti-shopping-bag-x"></i>
+              <div class="orders-empty-title">Không có đơn hàng nào</div>
+              <div class="orders-empty-desc">Bạn chưa có đơn hàng nào. Hãy mua sắm ngay!</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- MODAL: Chi tiết đơn hàng -->
+    <div class="modal-backdrop" id="detailModal">
+      <div class="modal-box" style="max-width:520px">
+        <div class="modal-header">
+          <span class="modal-title"><i class="ti ti-receipt" style="color:var(--color-green);margin-right:8px"></i>Chi tiết đơn hàng</span>
+          <button class="modal-close" onclick="closeModal('detailModal')"><i class="ti ti-x"></i></button>
+        </div>
+        <div class="modal-body" id="detailContent">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" onclick="closeModal('detailModal')">Đóng</button>
+        </div>
+      </div>
+    </div>
+
+    <div th:replace="~{client/fragments/footer :: footer}"></div>
+    <div th:replace="~{client/fragments/contact :: contact}"></div>
+
+    <script th:src="@{/client/js/app.js}"></script>
+    <script>
+      function openModal(id) { document.getElementById(id).classList.add('open'); }
+      function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+      document.querySelectorAll('.modal-backdrop').forEach(function(m) {
+        m.addEventListener('click', function(e) { if (e.target === m) m.classList.remove('open'); });
+      });
+
+      function filterOrders() {
+        var q = document.getElementById('searchInput').value.toLowerCase();
+        document.querySelectorAll('.order-card').forEach(function(c) {
+          var code = c.querySelector('.order-code');
+          c.style.display = (!q || (code && code.textContent.toLowerCase().includes(q))) ? '' : 'none';
+        });
+      }
+
+      function confirmCancel(form) {
+        if (!confirm('Bạn có chắc muốn hủy đơn hàng này?')) return false;
+        return true;
+      }
+
+      function viewDetail(id) {
+        closeModal('detailModal');
+      }
+
+      document.querySelectorAll('.notify').forEach(function(n) {
+        var bar = n.querySelector('.notify-bar');
+        if (bar) {
+          bar.style.transition = 'width 3s linear';
+          requestAnimationFrame(function() { bar.style.width = '0%'; });
+        }
+        setTimeout(function() {
+          n.style.transition = 'opacity 0.4s ease';
+          n.style.opacity = '0';
+          setTimeout(function() { n.remove(); }, 400);
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>

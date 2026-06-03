@@ -1,0 +1,268 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Địa chỉ nhận hàng – WineStore</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/client/css/variables.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/components.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/pages.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/shared.css}" />
+    <link rel="stylesheet" th:href="@{/client/css/address.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  </head>
+  <body>
+    <div th:replace="~{client/fragments/header :: header}"></div>
+
+    <div class="page-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-user-card">
+          <div class="sidebar-avatar" th:text="${session.user != null ? session.user.name.substring(0,1).toUpperCase() : 'U'}">U</div>
+          <div class="sidebar-username" th:text="${session.user.name}">Người dùng</div>
+          <div class="sidebar-email" th:text="${session.user.email}">email@example.com</div>
+        </div>
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-group">
+            <div class="sidebar-nav-label">Tài khoản</div>
+            <a th:href="@{/userprofile}" class="sidebar-nav-item"><i class="ti ti-user"></i> Thông tin chung</a>
+          </div>
+          <div class="sidebar-nav-group">
+            <div class="sidebar-nav-label">Quản lí</div>
+            <a th:href="@{/orders}" class="sidebar-nav-item"><i class="ti ti-shopping-bag"></i> Đơn hàng</a>
+            <a th:href="@{/address}" class="sidebar-nav-item active"><i class="ti ti-map-pin"></i> Địa chỉ nhận hàng</a>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="ti ti-map-pins"></i> Địa chỉ nhận hàng
+              <span class="address-count-info">(<span th:text="${#lists.size(addresses)}">0</span>/5 địa chỉ)</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openAddModal()"><i class="ti ti-plus"></i> Thêm địa chỉ</button>
+          </div>
+
+          <div class="card-body">
+            <div th:if="${addressSuccess != null}" class="notify notify-success">
+              <i class="ti ti-check-circle"></i> <span th:text="${addressSuccess}">Thành công</span>
+              <div class="notify-bar"></div>
+            </div>
+            <div th:if="${addressError != null}" class="notify notify-error">
+              <i class="ti ti-alert-circle"></i> <span th:text="${addressError}">Lỗi</span>
+              <div class="notify-bar"></div>
+            </div>
+
+            <div class="address-list" id="addressList">
+              <div th:each="addr : ${addresses}" class="address-card" th:classappend="${addr.isDefault} ? 'default'" th:attr="data-id=${addr.id}">
+                <div class="address-icon"><i class="ti ti-home" th:if="${addr.type == 'home'}"></i><i class="ti ti-building" th:if="${addr.type == 'office'}"></i><i class="ti ti-map-pin" th:if="${addr.type == 'other'}"></i></div>
+                <div class="address-content">
+                  <div class="address-top">
+                    <span class="address-name" th:text="${addr.fullName}">Tên</span>
+                    <span class="address-phone" th:text="${addr.phone}">SĐT</span>
+                    <span class="default-tag" th:if="${addr.isDefault}"><i class="ti ti-star-filled"></i> Mặc định</span>
+                    <span class="badge badge-orange" style="font-size:11px" th:if="${addr.type == 'home'}">Nhà riêng</span>
+                    <span class="badge badge-info" style="font-size:11px" th:if="${addr.type == 'office'}">Văn phòng</span>
+                    <span class="badge badge-premium" style="font-size:11px" th:if="${addr.type == 'other'}">Khác</span>
+                  </div>
+                  <div class="address-detail" th:text="${addr.fullAddress}">Địa chỉ</div>
+                </div>
+                <div class="address-actions">
+                  <button class="action-btn star" th:if="${!addr.isDefault}" title="Đặt mặc định" th:onclick="'openEditModal(' + ${addr.id} + ')'"><i class="ti ti-star"></i></button>
+                  <button class="action-btn edit" title="Chỉnh sửa" th:onclick="'openEditModal(' + ${addr.id} + ')'"><i class="ti ti-pencil"></i></button>
+                  <button class="action-btn delete" title="Xóa" th:onclick="'confirmDelete(' + ${addr.id} + ')'"><i class="ti ti-trash"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(addresses)}" class="orders-empty" style="text-align:center;padding:var(--space-8) 0">
+              <i class="ti ti-map-pin-off" style="font-size:40px;color:var(--color-grey-300)"></i>
+              <div class="orders-empty-title" style="margin-top:var(--space-3)">Chưa có địa chỉ nào</div>
+              <div class="orders-empty-desc">Thêm địa chỉ nhận hàng để tiện cho việc đặt mua rượu.</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- MODAL: Thêm / Chỉnh sửa địa chỉ -->
+    <div class="modal-backdrop" id="addModal">
+      <div class="modal-box">
+        <div class="modal-header">
+          <span class="modal-title" id="modalTitle"><i class="ti ti-map-pin-plus" style="color:var(--color-green);margin-right:8px"></i> Thêm địa chỉ mới</span>
+          <button class="modal-close" onclick="closeModal('addModal')"><i class="ti ti-x"></i></button>
+        </div>
+        <form th:action="@{/address/add}" method="post" id="addressForm">
+          <input type="hidden" name="id" id="addressId" value="" />
+          <div class="modal-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Họ và tên</label>
+                <input class="form-control" type="text" name="fullName" id="addrName" required placeholder="Tên người nhận" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Số điện thoại</label>
+                <input class="form-control" type="tel" name="phone" id="addrPhone" required placeholder="0901 234 567" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Tỉnh / Thành phố</label>
+                <select class="form-control form-select" name="city" id="addrCity" required>
+                  <option value="">-- Chọn tỉnh/thành --</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Quận / Huyện</label>
+                <select class="form-control form-select" name="province" id="addrProvince" required>
+                  <option value="">-- Chọn quận/huyện --</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full">
+                <label class="form-label">Phường / Xã</label>
+                <select class="form-control form-select" name="addressLine2" id="addrWard" required>
+                  <option value="">-- Chọn phường/xã --</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:var(--space-4)">
+              <label class="form-label">Địa chỉ cụ thể</label>
+              <input class="form-control" type="text" name="addressLine1" id="addrDetail" required placeholder="Số nhà, tên đường..." />
+            </div>
+            <input type="hidden" name="country" value="Việt Nam" />
+            <div class="form-group" style="margin-bottom:var(--space-4)">
+              <label class="form-label">Mã bưu điện (tùy chọn)</label>
+              <input class="form-control" type="text" name="postalCode" id="addrPostal" placeholder="VD: 700000" />
+            </div>
+            <div class="form-group" style="margin-bottom:var(--space-4)">
+              <label class="form-label">Loại địa chỉ</label>
+              <div class="type-radio-group">
+                <input type="radio" name="type" id="typeHome" value="home" class="type-radio" checked />
+                <label for="typeHome" class="type-radio-label"><i class="ti ti-home"></i> Nhà riêng</label>
+                <input type="radio" name="type" id="typeOffice" value="office" class="type-radio" />
+                <label for="typeOffice" class="type-radio-label"><i class="ti ti-building"></i> Văn phòng</label>
+                <input type="radio" name="type" id="typeOther" value="other" class="type-radio" />
+                <label for="typeOther" class="type-radio-label"><i class="ti ti-map-pin"></i> Khác</label>
+              </div>
+            </div>
+            <label class="default-check-wrap">
+              <input type="checkbox" name="isDefault" id="addrDefault" value="true" />
+              Đặt làm địa chỉ mặc định
+            </label>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="closeModal('addModal')">Hủy</button>
+            <button type="submit" class="btn btn-primary"><i class="ti ti-check"></i> Lưu địa chỉ</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: Xác nhận xóa -->
+    <div class="modal-backdrop" id="deleteModal">
+      <div class="modal-box" style="max-width:400px">
+        <div class="modal-body">
+          <div class="confirm-dialog">
+            <div class="confirm-icon"><i class="ti ti-map-pin-off"></i></div>
+            <div class="confirm-title">Xóa địa chỉ này?</div>
+            <div class="confirm-desc">Hành động này không thể hoàn tác. Địa chỉ sẽ bị xóa vĩnh viễn khỏi tài khoản của bạn.</div>
+          </div>
+        </div>
+        <form th:action="@{/address/delete}" method="post" id="deleteForm">
+          <input type="hidden" name="id" id="deleteId" value="" />
+          <div class="modal-footer" style="justify-content:center;gap:var(--space-4)">
+            <button type="button" class="btn btn-outline" onclick="closeModal('deleteModal')">Hủy</button>
+            <button type="submit" class="btn btn-danger"><i class="ti ti-trash"></i> Xóa địa chỉ</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div th:replace="~{client/fragments/footer :: footer}"></div>
+    <div th:replace="~{client/fragments/contact :: contact}"></div>
+
+    <script th:src="@{/client/js/app.js}"></script>
+    <script th:src="@{/client/js/vietnam-address.js}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (typeof initAddressSelects === 'function') initAddressSelects();
+      });
+      function openModal(id) { document.getElementById(id).classList.add('open'); }
+      function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+      document.querySelectorAll('.modal-backdrop').forEach(function(m) {
+        m.addEventListener('click', function(e) { if (e.target === m) m.classList.remove('open'); });
+      });
+
+      function openAddModal() {
+        document.getElementById('addressForm').action = '/WineStore/address/add';
+        document.getElementById('addressId').value = '';
+        document.getElementById('modalTitle').innerHTML = '<i class="ti ti-map-pin-plus" style="color:var(--color-green);margin-right:8px"></i> Thêm địa chỉ mới';
+        document.getElementById('addrName').value = '';
+        document.getElementById('addrPhone').value = '';
+        document.getElementById('addrCity').value = '';
+        document.getElementById('addrProvince').innerHTML = '<option value="">-- Chọn quận/huyện --</option>';
+        document.getElementById('addrWard').innerHTML = '<option value="">-- Chọn phường/xã --</option>';
+        document.getElementById('addrDetail').value = '';
+        document.getElementById('addrPostal').value = '';
+        document.getElementById('typeHome').checked = true;
+        document.getElementById('addrDefault').checked = false;
+        openModal('addModal');
+      }
+
+      function openEditModal(id) {
+        document.getElementById('addressForm').action = '/WineStore/address/update';
+        document.getElementById('addressId').value = id;
+        document.getElementById('modalTitle').innerHTML = '<i class="ti ti-pencil" style="color:var(--color-accent);margin-right:8px"></i> Chỉnh sửa địa chỉ';
+        var card = document.querySelector('[data-id="' + id + '"]');
+        if (!card) return;
+        var name = card.querySelector('.address-name');
+        var phone = card.querySelector('.address-phone');
+        var detail = card.querySelector('.address-detail');
+        if (name) document.getElementById('addrName').value = name.textContent.trim();
+        if (phone) document.getElementById('addrPhone').value = phone.textContent.trim();
+        if (detail) {
+          var parts = detail.textContent.split(', ');
+          var len = parts.length;
+          document.getElementById('addrDetail').value = parts[0] || '';
+          var ward = len > 1 ? parts[len-3] || '' : '';
+          var dist = len > 1 ? parts[len-2] || '' : '';
+          var city = len > 1 ? parts[len-1] || '' : '';
+          if (typeof setAddressByNames === 'function') setAddressByNames(city, dist, ward);
+        }
+        var badges = card.querySelectorAll('.badge');
+        badges.forEach(function(b) {
+          var t = b.textContent.trim();
+          if (t === 'Nhà riêng') document.getElementById('typeHome').checked = true;
+          else if (t === 'Văn phòng') document.getElementById('typeOffice').checked = true;
+          else if (t === 'Khác') document.getElementById('typeOther').checked = true;
+        });
+        document.getElementById('addrDefault').checked = card.classList.contains('default');
+        openModal('addModal');
+      }
+
+      function confirmDelete(id) {
+        document.getElementById('deleteId').value = id;
+        openModal('deleteModal');
+      }
+
+      document.querySelectorAll('.notify').forEach(function(n) {
+        var bar = n.querySelector('.notify-bar');
+        if (bar) {
+          bar.style.transition = 'width 3s linear';
+          requestAnimationFrame(function() { bar.style.width = '0%'; });
+        }
+        setTimeout(function() {
+          n.style.transition = 'opacity 0.4s ease';
+          n.style.opacity = '0';
+          setTimeout(function() { n.remove(); }, 400);
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>

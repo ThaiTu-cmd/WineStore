@@ -1,0 +1,290 @@
+/* =============================================
+   ADDRESS.CSS — Quản lý địa chỉ nhận hàng
+   ============================================= */
+
+.address-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.address-card {
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  background: var(--color-white);
+  transition: var(--transition);
+  position: relative;
+}
+
+.address-card.default {
+  border-color: var(--color-green);
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.03) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.address-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--color-green-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-green-dark);
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.address-card.default .address-icon {
+  background: linear-gradient(135deg, var(--color-green), var(--color-green-dark));
+  color: var(--color-on-dark);
+}
+
+.address-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.address-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.address-name {
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  color: var(--color-grey-900);
+}
+
+.address-phone {
+  font-size: var(--font-size-sm);
+  color: var(--color-grey-600);
+}
+
+.address-phone::before {
+  content: "·";
+  margin: 0 6px;
+  color: var(--color-grey-400);
+}
+
+.address-detail {
+  font-size: var(--font-size-sm);
+  color: var(--color-grey-600);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.default-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--color-green-light);
+  color: var(--color-green-dark);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.address-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.action-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-grey-500);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 16px;
+}
+
+.action-btn.edit:hover {
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  border-color: #bae6fd;
+}
+
+.action-btn.delete:hover {
+  background: #fef2f2;
+  color: var(--color-danger);
+  border-color: #fca5a5;
+}
+
+.action-btn.star:hover,
+.action-btn.star.active {
+  background: var(--color-green-light);
+  color: var(--color-green-dark);
+  border-color: var(--color-green);
+}
+
+.add-address-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 2px dashed var(--color-grey-300);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-grey-500);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  width: 100%;
+}
+
+.add-address-btn:hover {
+  border-color: var(--color-green);
+  background: var(--color-green-light);
+  color: var(--color-green-dark);
+}
+
+.add-address-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.type-radio-group {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.type-radio {
+  display: none;
+}
+
+.type-radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-grey-600);
+  transition: var(--transition);
+}
+
+.type-radio:checked + .type-radio-label {
+  border-color: var(--color-green);
+  background: var(--color-green-light);
+  color: var(--color-green-dark);
+}
+
+.default-check-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  color: var(--color-grey-700);
+  font-weight: 500;
+  user-select: none;
+}
+
+.default-check-wrap input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-green);
+  cursor: pointer;
+}
+
+.confirm-dialog {
+  text-align: center;
+  padding: var(--space-3) 0;
+}
+
+.confirm-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fef2f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: var(--color-danger);
+  margin: 0 auto var(--space-4);
+}
+
+.confirm-title {
+  font-weight: 700;
+  font-size: var(--font-size-xl);
+  color: var(--color-grey-900);
+  margin-bottom: var(--space-2);
+}
+
+.confirm-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-grey-600);
+  line-height: 1.6;
+}
+
+.address-count-info {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.address-count-info svg {
+  width: 14px;
+  height: 14px;
+}
+
+.notify {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  margin-bottom: var(--space-5);
+  overflow: hidden;
+}
+.notify-success {
+  background: var(--color-green-light);
+  color: var(--color-green-dark);
+  border: 1px solid var(--color-green);
+}
+.notify-error {
+  background: #fef2f2;
+  color: var(--color-danger);
+  border: 1px solid #fca5a5;
+}
+.notify-bar {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 3px; width: 100%;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+.notify-success .notify-bar { background: var(--color-green); }
+.notify-error .notify-bar { background: var(--color-danger); }
+
+@media (max-width: 700px) {
+  .address-card { flex-direction: column; }
+  .address-actions { align-self: flex-end; }
+}

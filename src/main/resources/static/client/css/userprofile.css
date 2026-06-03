@@ -1,0 +1,118 @@
+/* =============================================
+   USERPROFILE.CSS — Thông tin người dùng
+   ============================================= */
+
+.profile-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: visible;
+}
+
+.profile-body {
+  padding: var(--space-6);
+}
+
+.field-group {
+  margin-bottom: var(--space-5);
+}
+
+.field-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-grey-600);
+  margin-bottom: var(--space-2);
+}
+
+.field-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  color: var(--color-grey-900);
+  background: var(--color-white);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+}
+
+.field-input:disabled {
+  background: var(--color-grey-100);
+  color: var(--color-grey-500);
+  cursor: not-allowed;
+}
+
+.field-input::placeholder {
+  color: var(--color-grey-400);
+}
+
+.role-display {
+  padding: 4px 0;
+}
+
+.password-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.password-row .field-input {
+  max-width: 220px;
+  flex-shrink: 0;
+}
+
+.form-actions {
+  margin-top: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.notify {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  margin-bottom: var(--space-5);
+  overflow: hidden;
+}
+
+.notify-success {
+  background: var(--color-green-light);
+  color: var(--color-green-dark);
+  border: 1px solid var(--color-green);
+}
+
+.notify-error {
+  background: #fef2f2;
+  color: var(--color-danger);
+  border: 1px solid #fca5a5;
+}
+
+.notify-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.notify-success .notify-bar {
+  background: var(--color-green);
+}
+
+.notify-error .notify-bar {
+  background: var(--color-danger);
+}

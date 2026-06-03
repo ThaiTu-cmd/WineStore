@@ -54,8 +54,62 @@ public class CustomerAuthService {
         session.setAttribute("user", Map.of(
             "id", user.getId(),
             "name", user.getFullName(),
-            "email", user.getEmail()
+            "email", user.getEmail(),
+            "phone", user.getPhone() != null ? user.getPhone() : "",
+            "createdAt", user.getCreatedAt() != null ? user.getCreatedAt().toString() : "",
+            "role", user.getRole().name()
         ));
+
+        return null;
+    }
+
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+
+    public String updateProfile(Long userId, String fullName, String email, String phone, HttpSession session) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return "Nguoi dung khong ton tai.";
+
+        if (fullName == null || fullName.isBlank()) return "Vui long nhap ho va ten.";
+        if (email == null || email.isBlank()) return "Vui long nhap email.";
+
+        if (!email.equals(user.getEmail()) && userRepository.findByEmail(email.trim()).isPresent()) {
+            return "Email nay da duoc su dung.";
+        }
+
+        user.setFullName(fullName.trim());
+        user.setEmail(email.trim());
+        user.setPhone(phone != null ? phone.trim() : null);
+        userRepository.save(user);
+
+        Map<String, Object> currentSession = (Map<String, Object>) session.getAttribute("user");
+        if (currentSession != null) {
+            Map<String, Object> updated = new java.util.HashMap<>(currentSession);
+            updated.put("name", user.getFullName());
+            updated.put("email", user.getEmail());
+            updated.put("phone", user.getPhone() != null ? user.getPhone() : "");
+            session.setAttribute("user", updated);
+        }
+
+        return null;
+    }
+
+    public String changePassword(Long userId, String currentPassword, String newPassword, String confirmPassword) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return "Nguoi dung khong ton tai.";
+
+        if (!passwordEncoder.matches(currentPassword, user.getPasswordHash())) {
+            return "Mat khau hien tai khong dung.";
+        }
+
+        if (newPassword == null || newPassword.isBlank()) return "Vui long nhap mat khau moi.";
+        if (confirmPassword == null || confirmPassword.isBlank()) return "Vui long nhap lai mat khau moi.";
+        if (!newPassword.equals(confirmPassword)) return "Mat khau xac nhan khong khop.";
+        if (newPassword.length() < 8) return "Mat khau phai co it nhat 8 ky tu.";
+
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
 
         return null;
     }

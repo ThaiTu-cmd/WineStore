@@ -22,28 +22,17 @@
       <div class="container" style="padding-top: 32px; padding-bottom: 64px">
         <!-- ===== HERO ===== -->
         <section class="hero-section">
-          <div class="hero-bg-shape"></div>
-          <div class="hero-bottle-photo" aria-hidden="true">
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-glow"></div>
             <img
-              th:src="@{/client/images/hero-wine-combo.svg}"
-              src="/client/images/hero-wine-combo.svg"
+              th:src="@{/client/images/ruou-nho-gia-bao-nhieu-1-683x1024.jpg}"
               alt=""
-              loading="lazy"
             />
           </div>
           <div class="hero-content">
             <div class="hero-badge">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
               </svg>
               Ủ lâu năm • Nhập khẩu nguyên chai
             </div>
@@ -54,37 +43,13 @@
             </p>
             <div class="hero-actions">
               <a th:href="@{/shop}" class="hero-btn-primary">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <circle cx="9" cy="21" r="1" />
-                  <circle cx="20" cy="21" r="1" />
-                  <path
-                    d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
-                  />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
                 </svg>
-                Mua ngay
+                Khám phá ngay
               </a>
               <a th:href="@{/about}" class="hero-btn-outline">Tìm hiểu thêm</a>
-            </div>
-            <div class="hero-stats">
-              <div class="hero-stat">
-                <div class="hero-stat-num">500+</div>
-                <div class="hero-stat-label">Dòng rượu</div>
-              </div>
-              <div class="hero-stat">
-                <div class="hero-stat-num">10k+</div>
-                <div class="hero-stat-label">Khách hàng thân thiết</div>
-              </div>
-              <div class="hero-stat">
-                <div class="hero-stat-num">50+</div>
-                <div class="hero-stat-label">Thương hiệu quốc tế</div>
-              </div>
             </div>
           </div>
         </section>
@@ -174,300 +139,6 @@
           </div>
         </div>
 
-        <!-- ===== PREMIUM CATEGORIES ===== -->
-        <section class="section-sm">
-          <div class="section-title section-title-serif">
-            <h2>Danh mục thượng hạng</h2>
-            <p>Khám phá nhanh các dòng rượu đẳng cấp được tuyển chọn</p>
-            <div class="title-line"></div>
-          </div>
-          <div class="premium-categories-grid">
-            <a
-              th:href="@{/shop(category='vang-do')}"
-              class="premium-category-card"
-              style="
-                --cat-bg: url(&quot;https://images.unsplash.com/photo-1516594798947-e65505dbb29d?auto=format&fit=crop&w=900&q=80&quot;);
-              "
-            >
-              <span class="premium-category-label">Vang Đỏ</span>
-            </a>
-            <a
-              th:href="@{/shop(category='vang-trang')}"
-              class="premium-category-card"
-              style="
-                --cat-bg: url(&quot;https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=900&q=80&quot;);
-              "
-            >
-              <span class="premium-category-label">Vang Trắng</span>
-            </a>
-            <a
-              th:href="@{/shop(category='champagne')}"
-              class="premium-category-card"
-              style="
-                --cat-bg: url(&quot;https://images.unsplash.com/photo-1551751299-1b51cab2694c?auto=format&fit=crop&w=900&q=80&quot;);
-              "
-            >
-              <span class="premium-category-label"
-                >Champagne &amp; Sparkling</span
-              >
-            </a>
-            <a
-              th:href="@{/shop(category='whisky')}"
-              class="premium-category-card"
-              style="
-                --cat-bg: url(&quot;https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=900&q=80&quot;);
-              "
-            >
-              <span class="premium-category-label">Whisky &amp; Rượu Mạnh</span>
-            </a>
-            <a
-              th:href="@{/shop(category='hop-qua')}"
-              class="premium-category-card"
-              style="
-                --cat-bg: url(&quot;https://images.unsplash.com/photo-1515688594390-b649af70d282?auto=format&fit=crop&w=900&q=80&quot;);
-              "
-            >
-              <span class="premium-category-label">Hộp Quà Tặng</span>
-            </a>
-          </div>
-        </section>
-
-        <!-- ===== BEST SELLERS CAROUSEL ===== -->
-        <section class="section-sm">
-          <div class="section-title section-title-serif">
-            <h2>Tuyệt phẩm bán chạy</h2>
-            <p>
-              Những nhãn rượu được giới sành rượu lựa chọn nhiều nhất tuần này
-            </p>
-            <div class="title-line"></div>
-          </div>
-          <div class="bestseller-shell">
-            <button
-              class="bestseller-nav-btn"
-              type="button"
-              data-bs-nav="prev"
-              aria-label="Trước"
-            >
-              ‹
-            </button>
-            <div class="bestseller-track" id="bestSellerTrack">
-              <article
-                class="bestseller-card"
-                th:each="product : ${featuredProducts}"
-              >
-                <a
-                  th:href="@{/products/{id}(id=${product.id})}"
-                  class="bestseller-media"
-                >
-                  <img
-                    th:src="${product.imageUrl}"
-                    th:alt="${product.name}"
-                    src="/images/placeholder.png"
-                  />
-                </a>
-                <div class="bestseller-body">
-                  <div class="bestseller-origin" th:text="${product.brand}">
-                    Pháp
-                  </div>
-                  <a
-                    th:href="@{/products/{id}(id=${product.id})}"
-                    class="bestseller-name"
-                    th:text="${product.name}"
-                    >Tên chai rượu</a
-                  >
-                  <div
-                    class="bestseller-price"
-                    th:text="${#numbers.formatInteger(product.price,1,'COMMA') + 'đ'}"
-                  >
-                    0đ
-                  </div>
-                </div>
-                <button
-                  class="bestseller-quick-add"
-                  data-add-cart
-                  th:data-id="${product.id}"
-                  th:data-name="${product.name}"
-                  th:data-price="${product.price}"
-                  th:data-img="${product.imageUrl}"
-                  th:data-brand="${product.brand}"
-                >
-                  Thêm vào giỏ
-                </button>
-              </article>
-            </div>
-            <button
-              class="bestseller-nav-btn"
-              type="button"
-              data-bs-nav="next"
-              aria-label="Sau"
-            >
-              ›
-            </button>
-          </div>
-        </section>
-
-        <!-- ===== PROMOTIONAL DUO ===== -->
-        <section class="section-sm">
-          <div class="promo-duo-grid">
-            <a
-              th:href="@{/shop(category='hop-qua')}"
-              class="promo-duo-card"
-              style="
-                --promo-bg: url(&quot;https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80&quot;);
-              "
-            >
-              <div class="promo-duo-content">
-                <h3>Giải pháp quà tặng đẳng cấp</h3>
-                <p>
-                  Bộ sưu tập hộp quà vang Tết và quà tặng doanh nghiệp sang
-                  trọng.
-                </p>
-                <span class="promo-duo-cta">Khám phá ngay</span>
-              </div>
-            </a>
-            <a
-              th:href="@{/about}"
-              class="promo-duo-card"
-              style="
-                --promo-bg: url(&quot;https://images.unsplash.com/photo-1470158499416-75be9aa0c4db?auto=format&fit=crop&w=1200&q=80&quot;);
-              "
-            >
-              <div class="promo-duo-content">
-                <h3>Khám phá hầm rượu WineStore</h3>
-                <p>
-                  Từ thùng gỗ sồi đến bàn tiệc, mỗi chai vang đều có một câu
-                  chuyện riêng.
-                </p>
-                <span class="promo-duo-cta">Xem câu chuyện thương hiệu</span>
-              </div>
-            </a>
-          </div>
-        </section>
-
-        <!-- ===== TESTIMONIALS ===== -->
-        <section class="section-sm">
-          <div class="section-title section-title-serif">
-            <h2>Ý kiến từ chuyên gia &amp; khách hàng</h2>
-            <p>
-              Niềm tin của người yêu rượu là giá trị cốt lõi mà WineStore luôn
-              gìn giữ
-            </p>
-            <div class="title-line"></div>
-          </div>
-          <div class="testimonial-grid">
-            <article class="testimonial-card">
-              <div class="testimonial-head">
-                <img
-                  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80"
-                  alt="Sommelier"
-                />
-                <div>
-                  <h4>Nguyễn Minh Đức</h4>
-                  <p>Sommelier WSET Level 3</p>
-                </div>
-              </div>
-              <div class="testimonial-stars">★★★★★</div>
-              <blockquote>
-                “Danh mục vang đỏ của WineStore có chiều sâu, hậu vị rất tốt và
-                được bảo quản đúng chuẩn.”
-              </blockquote>
-            </article>
-            <article class="testimonial-card">
-              <div class="testimonial-head">
-                <img
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80"
-                  alt="Khách hàng"
-                />
-                <div>
-                  <h4>Lê Thanh Hà</h4>
-                  <p>Khách hàng thân thiết</p>
-                </div>
-              </div>
-              <div class="testimonial-stars">★★★★★</div>
-              <blockquote>
-                “Tư vấn rất tinh tế, chọn đúng chai vang Ý cho tiệc kỷ niệm công
-                ty. Dịch vụ cực kỳ chuyên nghiệp.”
-              </blockquote>
-            </article>
-            <article class="testimonial-card">
-              <div class="testimonial-head">
-                <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80"
-                  alt="Chuyên gia"
-                />
-                <div>
-                  <h4>Phạm Gia Bảo</h4>
-                  <p>Wine Collector</p>
-                </div>
-              </div>
-              <div class="testimonial-stars">★★★★★</div>
-              <blockquote>
-                “Rượu đến tay luôn ổn định nhiệt, đóng gói chống sốc tốt. Trải
-                nghiệm mua hàng đáng tin cậy.”
-              </blockquote>
-            </article>
-          </div>
-        </section>
-
-        <!-- ===== WINE JOURNAL ===== -->
-        <section class="section-sm">
-          <div class="section-title section-title-serif">
-            <h2>Tin tức &amp; kiến thức thưởng thức</h2>
-            <p>
-              Gợi ý pairing, bảo quản và văn hóa rượu dành cho người yêu hương
-              vị thượng hạng
-            </p>
-            <div class="title-line"></div>
-          </div>
-          <div class="journal-grid">
-            <a th:href="@{/blog}" class="journal-card">
-              <img
-                src="https://images.unsplash.com/photo-1547595628-c61a29f496f0?auto=format&fit=crop&w=900&q=80"
-                alt="Pairing vang đỏ"
-              />
-              <div class="journal-body">
-                <h4>
-                  Cách kết hợp rượu Vang Đỏ với các món thịt bò chuẩn vị Pháp
-                </h4>
-                <p>
-                  Khám phá quy tắc pairing giúp nâng tầng hương vị cho mọi bữa
-                  tiệc tối.
-                </p>
-              </div>
-            </a>
-            <a th:href="@{/blog}" class="journal-card">
-              <img
-                src="https://images.unsplash.com/photo-1560093464-cee1c2faee19?auto=format&fit=crop&w=900&q=80"
-                alt="Champagne"
-              />
-              <div class="journal-body">
-                <h4>
-                  Nhiệt độ lý tưởng để thưởng thức một ly Champagne là bao
-                  nhiêu?
-                </h4>
-                <p>
-                  Bí quyết giữ bọt mịn và hương trái cây tươi trong từng lần
-                  khui chai.
-                </p>
-              </div>
-            </a>
-            <a th:href="@{/blog}" class="journal-card">
-              <img
-                src="https://images.unsplash.com/photo-1481671703460-040cb8a2d909?auto=format&fit=crop&w=900&q=80"
-                alt="Whisky"
-              />
-              <div class="journal-body">
-                <h4>
-                  Whisky neat hay on the rocks: đâu là cách thưởng thức phù hợp?
-                </h4>
-                <p>
-                  So sánh cảm nhận hương vị và lựa chọn phong cách uống đúng gu
-                  cá nhân.
-                </p>
-              </div>
-            </a>
-          </div>
-        </section>
       </div>
     </main>
 
@@ -478,24 +149,5 @@
     <div th:replace="~{client/fragments/contact :: contact}"></div>
 
     <script th:src="@{/client/js/app.js}"></script>
-    <script>
-      (() => {
-        const track = document.getElementById("bestSellerTrack");
-        if (!track) return;
-
-        const step = () => {
-          const card = track.querySelector(".bestseller-card");
-          return card ? card.clientWidth + 20 : 320;
-        };
-
-        document.querySelectorAll("[data-bs-nav]").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            const direction =
-              btn.getAttribute("data-bs-nav") === "next" ? 1 : -1;
-            track.scrollBy({ left: direction * step(), behavior: "smooth" });
-          });
-        });
-      })();
-    </script>
   </body>
 </html>

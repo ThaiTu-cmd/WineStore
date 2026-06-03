@@ -13,6 +13,8 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
+    List<OrderEntity> findByUserIdOrderByCreatedAtDesc(Long userId);
+
     @Query(value = """
             SELECT o.id AS id,
                    o.order_code AS orderCode,
