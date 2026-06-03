@@ -19,15 +19,17 @@
     <div th:replace="~{client/fragments/header :: header}"></div>
 
     <main>
-      <div class="container" style="padding-top: 32px; padding-bottom: 64px">
+      <div class="container" style="padding-top: 48px; padding-bottom: 80px">
         <!-- ===== HERO ===== -->
         <section class="hero-section">
           <div class="hero-visual" aria-hidden="true">
             <div class="hero-glow"></div>
-            <img
-              th:src="@{/client/images/ruou-nho-gia-bao-nhieu-1-683x1024.jpg}"
-              alt=""
-            />
+            <div class="hero-slides">
+              <img class="hero-slide active" th:src="@{/client/images/ruou-nho-gia-bao-nhieu-1-683x1024.jpg}" alt="" />
+              <img class="hero-slide" th:src="@{/client/images/Calum's+Website+Images+-+2024-03-19T162229.334.webp}" alt="" />
+              <img class="hero-slide" th:src="@{/client/images/vinhoverde.jpeg}" alt="" />
+              <img class="hero-slide" th:src="@{/client/images/logo-design_liquorStore_01.jpg}" alt="" />
+            </div>
           </div>
           <div class="hero-content">
             <div class="hero-badge">
@@ -149,5 +151,17 @@
     <div th:replace="~{client/fragments/contact :: contact}"></div>
 
     <script th:src="@{/client/js/app.js}"></script>
+    <script>
+      (function() {
+        var slides = document.querySelectorAll('.hero-slide');
+        if (slides.length < 2) return;
+        var current = 0;
+        setInterval(function() {
+          slides[current].classList.remove('active');
+          current = (current + 1) % slides.length;
+          slides[current].classList.add('active');
+        }, 3000);
+      })();
+    </script>
   </body>
 </html>

@@ -32,7 +32,7 @@
   --color-wishlist: #e91e63;
   --color-premium: #7c3aed;
 
-  --font-family: "Roboto", "Montserrat", sans-serif;
+  --font-family: "Montserrat", "Roboto", sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -67,7 +67,7 @@
   --transition: all 0.2s ease;
   --transition-slow: all 0.35s ease;
 
-  --header-height: 70px;
+  --header-height: 82px;
   --sidebar-width: 260px;
   --container-max: 1280px;
 }
