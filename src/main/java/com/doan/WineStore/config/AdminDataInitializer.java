@@ -1,14 +1,18 @@
 package com.doan.WineStore.config;
 
+import com.doan.WineStore.entity.ShippingMethodEntity;
 import com.doan.WineStore.entity.User;
 import com.doan.WineStore.enums.Role;
 import com.doan.WineStore.enums.Status;
+import com.doan.WineStore.repository.ShippingMethodRepository;
 import com.doan.WineStore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.math.BigDecimal;
 
 @Configuration
 public class AdminDataInitializer {
@@ -40,6 +44,16 @@ public class AdminDataInitializer {
 
             userRepository.save(admin);
             System.out.println("[Winestore] Default admin is ready: " + email);
+        };
+    }
+
+    @Bean
+    public CommandLineRunner seedShippingMethods(ShippingMethodRepository shippingMethodRepository) {
+        return args -> {
+            if (shippingMethodRepository.count() > 0) return;
+            shippingMethodRepository.save(new ShippingMethodEntity("Giao hàng tiêu chuẩn", "STANDARD", new BigDecimal("30000"), true));
+            shippingMethodRepository.save(new ShippingMethodEntity("Giao hàng nhanh", "EXPRESS", new BigDecimal("50000"), true));
+            System.out.println("[Winestore] Seeded shipping methods");
         };
     }
 }

@@ -5,21 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Thanh toán – WineStore</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" th:href="@{/client/css/variables.css}" />
     <link rel="stylesheet" th:href="@{/client/css/main.css}" />
     <link rel="stylesheet" th:href="@{/client/css/components.css}" />
     <link rel="stylesheet" th:href="@{/client/css/pages.css}" />
   </head>
-  <body th:data-logged-in="${session.user != null}">
+  <body>
     <div th:replace="~{client/fragments/header :: header}"></div>
 
     <main>
       <div class="container" style="padding-top: 28px; padding-bottom: 64px">
-        <!-- Breadcrumb -->
         <nav class="breadcrumb">
           <a th:href="@{/}">Trang chủ</a>
           <span class="breadcrumb-sep">›</span>
@@ -28,344 +24,111 @@
           <span class="breadcrumb-current">Thanh toán</span>
         </nav>
 
-        <!-- Steps indicator -->
-        <div
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 32px;
-          "
-        >
-          <div style="display: flex; align-items: center; gap: 8px">
-            <div
-              style="
-                width: 28px;
-                height: 28px;
-                border-radius: 50%;
-                background: var(--color-grey-300);
-                color: white;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 0.75rem;
-                font-weight: 700;
-              "
-            >
-              1
-            </div>
-            <span style="font-size: 0.8rem; color: var(--color-grey-500)"
-              >Giỏ hàng</span
-            >
-          </div>
-          <div
-            style="width: 48px; height: 2px; background: var(--color-grey-300)"
-          ></div>
-          <div style="display: flex; align-items: center; gap: 8px">
-            <div
-              style="
-                width: 28px;
-                height: 28px;
-                border-radius: 50%;
-                background: var(--color-green);
-                color: white;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 0.75rem;
-                font-weight: 700;
-              "
-            >
-              2
-            </div>
-            <span
-              style="
-                font-size: 0.8rem;
-                color: var(--color-green);
-                font-weight: 600;
-              "
-              >Thanh toán</span
-            >
-          </div>
-          <div
-            style="width: 48px; height: 2px; background: var(--color-grey-300)"
-          ></div>
-          <div style="display: flex; align-items: center; gap: 8px">
-            <div
-              style="
-                width: 28px;
-                height: 28px;
-                border-radius: 50%;
-                background: var(--color-grey-300);
-                color: white;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 0.75rem;
-                font-weight: 700;
-              "
-            >
-              3
-            </div>
-            <span style="font-size: 0.8rem; color: var(--color-grey-500)"
-              >Xác nhận</span
-            >
-          </div>
+        <div th:if="${checkoutError != null}" class="notify notify-error" style="margin-bottom:16px">
+          <span th:text="${checkoutError}">Lỗi</span>
         </div>
 
         <div class="checkout-layout">
-          <!-- Left: Forms -->
+          <!-- LEFT -->
           <div>
-            <!-- Shipping Info -->
+            <!-- SHIPPING ADDRESS -->
             <div class="checkout-section">
               <div class="checkout-section-title">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                Thông tin giao hàng
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Địa chỉ giao hàng
               </div>
-              <form
-                th:action="@{/checkout/place-order}"
-                method="post"
-                id="checkoutForm"
-              >
-                <div class="form-grid-2">
-                  <div class="form-group">
-                    <label class="form-label">Họ</label>
-                    <input
-                      class="form-control"
-                      type="text"
-                      name="firstName"
-                      th:value="${session.user?.firstName}"
-                      placeholder="Nguyễn"
-                      required
-                    />
+              <div th:if="${#lists.isEmpty(addresses)}" style="padding:12px 0;color:var(--color-grey-500);font-size:14px">
+                Bạn chưa có địa chỉ nào.
+                <a th:href="@{/address}" style="color:var(--color-green)">Thêm địa chỉ mới</a>
+              </div>
+              <div th:each="addr : ${addresses}" class="address-radio" th:classappend="${addr.isDefault} ? 'selected'" style="cursor:pointer;padding:10px 0;border-bottom:1px solid var(--color-border)">
+                <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+                  <input type="radio" name="addressId" th:value="${addr.id}" th:checked="${addr.isDefault}" form="checkoutForm" required style="margin-top:3px" />
+                  <div>
+                    <div><strong th:text="${addr.fullName}">Tên</strong> <span th:text="${addr.phone}" style="color:var(--color-grey-500)">SĐT</span></div>
+                    <div style="font-size:13px;color:var(--color-grey-600)" th:text="${addr.fullAddress}">Địa chỉ</div>
                   </div>
-                  <div class="form-group">
-                    <label class="form-label">Tên</label>
-                    <input
-                      class="form-control"
-                      type="text"
-                      name="lastName"
-                      th:value="${session.user?.lastName}"
-                      placeholder="Văn A"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div class="form-grid-2">
-                  <div class="form-group">
-                    <label class="form-label">Số điện thoại</label>
-                    <input
-                      class="form-control"
-                      type="tel"
-                      name="phone"
-                      th:value="${session.user?.phone}"
-                      placeholder="0966 042 071"
-                      required
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input
-                      class="form-control"
-                      type="email"
-                      name="email"
-                      th:value="${session.user?.email}"
-                      placeholder="email@example.com"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Địa chỉ</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="address"
-                    placeholder="Số nhà, tên đường..."
-                    required
-                  />
-                </div>
-
-                <div class="form-grid-2">
-                  <div class="form-group">
-                    <label class="form-label">Tỉnh / Thành phố</label>
-                    <select
-                      class="form-control form-select"
-                      name="province"
-                      required
-                    >
-                      <option value="">Chọn tỉnh/thành...</option>
-                      <option>TP. Hồ Chí Minh</option>
-                      <option>Hà Nội</option>
-                      <option>Đà Nẵng</option>
-                      <option>Cần Thơ</option>
-                      <option>Khác</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Quận / Huyện</label>
-                    <input
-                      class="form-control"
-                      type="text"
-                      name="district"
-                      placeholder="Quận 7..."
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Ghi chú đơn hàng (tùy chọn)</label>
-                  <textarea
-                    class="form-control"
-                    name="note"
-                    rows="3"
-                    placeholder="Ghi chú về đơn hàng, thời gian giao hàng..."
-                  ></textarea>
-                </div>
-              </form>
+                </label>
+              </div>
             </div>
 
-            <!-- Payment Method -->
+            <!-- SHIPPING METHOD -->
             <div class="checkout-section">
               <div class="checkout-section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                Phương thức vận chuyển
+              </div>
+              <div th:each="sm : ${shippingMethods}" class="shipping-radio" style="padding:10px 0;border-bottom:1px solid var(--color-border)">
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                  <input type="radio" name="shippingMethodId" th:value="${sm.id}" th:checked="${smStat.first}" form="checkoutForm" required onchange="updateShippingFee()" />
+                  <div style="flex:1">
+                    <div style="font-weight:600" th:text="${sm.name}">Giao hàng</div>
+                    <div style="font-size:12px;color:var(--color-grey-500)">Giao hàng toàn quốc</div>
+                  </div>
+                  <div style="font-weight:700;color:var(--color-green)" th:text="${sm.fee.compareTo(0) == 0 ? 'Miễn phí' : #numbers.formatInteger(sm.fee,1,'COMMA') + 'đ'}">30.000đ</div>
+                </label>
+              </div>
+            </div>
+
+            <!-- PAYMENT METHOD -->
+            <div class="checkout-section">
+              <div class="checkout-section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                Phương thức thanh toán
+              </div>
+              <div class="payment-option selected" style="padding:12px;border:1.5px solid var(--color-border);border-radius:8px;margin-bottom:8px;cursor:pointer">
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                  <input type="radio" name="paymentMethod" value="COD" checked form="checkoutForm" />
+                  <div>
+                    <div style="font-weight:600">Thanh toán khi nhận hàng (COD)</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- NOTE -->
+            <div class="checkout-section">
+              <div class="checkout-section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                Ghi chú
+              </div>
+              <textarea class="form-control" name="note" form="checkoutForm" rows="2" placeholder="Ghi chú về đơn hàng, thời gian giao hàng..." style="margin-top:4px"></textarea>
             </div>
           </div>
 
-          <!-- Right: Order Summary -->
+          <!-- RIGHT: SUMMARY -->
           <div>
             <div class="cart-summary">
               <div class="summary-title">Đơn hàng của bạn</div>
-
-              <!-- Order Items (from session/cart) -->
-              <div id="checkout-items" style="margin-bottom: 16px">
-                <!-- Rendered by JS or Thymeleaf -->
-                <div
-                  th:each="item : ${cartItems}"
-                  style="
-                    display: flex;
-                    gap: 12px;
-                    align-items: center;
-                    padding: 10px 0;
-                    border-bottom: 1px solid var(--color-border);
-                  "
-                >
-                  <img
-                    th:src="${item.imageUrl}"
-                    style="
-                      width: 52px;
-                      height: 52px;
-                      border-radius: 8px;
-                      object-fit: contain;
-                      background: var(--color-grey-100);
-                      padding: 4px;
-                    "
-                    alt=""
-                  />
-                  <div style="flex: 1; min-width: 0">
-                    <div
-                      style="
-                        font-size: 0.8rem;
-                        font-weight: 600;
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                      "
-                      th:text="${item.name}"
-                    >
-                      Tên SP
-                    </div>
-                    <div
-                      style="font-size: 0.75rem; color: var(--color-grey-500)"
-                      th:text="${'x' + item.qty}"
-                    >
-                      x1
-                    </div>
-                  </div>
-                  <div
-                    style="
-                      font-size: 0.875rem;
-                      font-weight: 600;
-                      white-space: nowrap;
-                    "
-                    th:text="${#numbers.formatInteger(item.price * item.qty,1,'COMMA') + 'đ'}"
-                  >
-                    0đ
-                  </div>
-                </div>
-              </div>
+              <div id="checkout-items"></div>
 
               <div class="summary-row">
                 <span>Tạm tính</span>
-                <span
-                  th:text="${#numbers.formatInteger(subtotal,1,'COMMA') + 'đ'}"
-                  id="co-subtotal"
-                  >0đ</span
-                >
+                <span id="co-subtotal">0đ</span>
               </div>
               <div class="summary-row">
                 <span>Phí vận chuyển</span>
-                <span
-                  class="green"
-                  th:text="${shippingFee == 0 ? 'Miễn phí' : #numbers.formatInteger(shippingFee,1,'COMMA') + 'đ'}"
-                  >Miễn phí</span
-                >
+                <span id="co-shipping" class="green">Miễn phí</span>
               </div>
               <div class="summary-row total">
                 <span>Tổng cộng</span>
-                <span
-                  style="color: var(--color-on-dark)"
-                  th:text="${#numbers.formatInteger(total,1,'COMMA') + 'đ'}"
-                  >0đ</span
-                >
+                <span id="co-total" style="color:var(--color-on-dark)">0đ</span>
               </div>
 
-              <button
-                type="submit"
-                form="checkoutForm"
-                class="btn btn-primary btn-full btn-lg"
-                style="margin-top: 16px"
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
+              <form th:action="@{/checkout/place-order}" method="post" id="checkoutForm">
+                <input type="hidden" name="cartData" id="cartData" value="" />
+                <input type="hidden" name="addressId" id="hiddenAddressId" value="" />
+                <input type="hidden" name="shippingMethodId" id="hiddenShippingMethodId" value="" />
+                <input type="hidden" name="note" id="hiddenNote" value="" />
+              </form>
+
+              <button type="button" class="btn btn-primary btn-full btn-lg" style="margin-top:16px" onclick="submitOrder()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
                 Đặt hàng ngay
               </button>
 
-              <p
-                style="
-                  font-size: 0.75rem;
-                  color: var(--color-grey-500);
-                  text-align: center;
-                  margin-top: 12px;
-                  line-height: 1.6;
-                "
-              >
-                Bằng cách đặt hàng, bạn đồng ý với
-                <a href="#" style="color: var(--color-green)"
-                  >Điều khoản dịch vụ</a
-                >
-                của WineStore
+              <p style="font-size:0.75rem;color:var(--color-grey-500);text-align:center;margin-top:12px;line-height:1.6">
+                Bằng cách đặt hàng, bạn đồng ý với <a href="#" style="color:var(--color-green)">Điều khoản dịch vụ</a> của WineStore
               </p>
             </div>
           </div>
@@ -375,6 +138,86 @@
 
     <div th:replace="~{client/fragments/footer :: footer}"></div>
     <div th:replace="~{client/fragments/contact :: contact}"></div>
+
     <script th:src="@{/client/js/app.js}"></script>
+    <script th:inline="javascript">
+      const SHIPPING_FEES = [(${shippingFeesJson})];
+    </script>
+
+    <script>
+      const formatPrice = (p) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(p);
+
+      function renderCheckoutItems() {
+        const items = Cart.getItems();
+        const container = document.getElementById('checkout-items');
+        if (!container) return;
+        if (items.length === 0) {
+          container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--color-grey-500)">Giỏ hàng trống</div>';
+          return;
+        }
+        container.innerHTML = items.map(item => `
+          <div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--color-border)">
+            <img src="${item.img || '/client/images/placeholder.svg'}" style="width:52px;height:52px;border-radius:8px;object-fit:contain;background:var(--color-grey-100);padding:4px" alt="" onerror="this.src='/client/images/placeholder.svg'" />
+            <div style="flex:1;min-width:0">
+              <div style="font-size:0.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${item.name}</div>
+              <div style="font-size:0.75rem;color:var(--color-grey-500)">x${item.qty}</div>
+            </div>
+            <div style="font-size:0.875rem;font-weight:600;white-space:nowrap">${formatPrice(item.price * item.qty)}</div>
+          </div>
+        `).join('');
+      }
+
+      function calcTotal() {
+        const items = Cart.getItems();
+        const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);
+        let shippingFee = 0;
+        const selectedShipping = document.querySelector('input[name="shippingMethodId"]:checked');
+        if (selectedShipping) {
+          shippingFee = Number(SHIPPING_FEES[selectedShipping.value] || 0);
+          if (subtotal >= 500000) shippingFee = 0;
+        }
+        const total = subtotal + shippingFee;
+        document.getElementById('co-subtotal').textContent = formatPrice(subtotal);
+        document.getElementById('co-shipping').textContent = shippingFee === 0 ? 'Miễn phí' : formatPrice(shippingFee);
+        document.getElementById('co-total').textContent = formatPrice(total);
+      }
+
+      function updateShippingFee() {
+        calcTotal();
+      }
+
+      function submitOrder() {
+        const items = Cart.getItems();
+        if (!items.length) { alert('Giỏ hàng trống!'); return; }
+        const addressInput = document.querySelector('input[name="addressId"]:checked');
+        const shippingInput = document.querySelector('input[name="shippingMethodId"]:checked');
+        if (!addressInput) { alert('Vui lòng chọn địa chỉ giao hàng!'); return; }
+        if (!shippingInput) { alert('Vui lòng chọn phương thức vận chuyển!'); return; }
+
+        const noteEl = document.querySelector('textarea[name="note"]');
+        document.getElementById('cartData').value = JSON.stringify(items);
+        document.getElementById('hiddenAddressId').value = addressInput.value;
+        document.getElementById('hiddenShippingMethodId').value = shippingInput.value;
+        document.getElementById('hiddenNote').value = noteEl ? noteEl.value : '';
+
+        Cart.clear();
+        document.getElementById('checkoutForm').submit();
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        renderCheckoutItems();
+        calcTotal();
+        document.querySelectorAll('input[name="shippingMethodId"]').forEach(el => {
+          el.addEventListener('change', updateShippingFee);
+        });
+        document.querySelectorAll('.payment-option').forEach(opt => {
+          opt.addEventListener('click', () => {
+            document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            opt.querySelector('input[type="radio"]').checked = true;
+          });
+        });
+      });
+    </script>
   </body>
 </html>

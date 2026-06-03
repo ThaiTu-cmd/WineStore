@@ -308,7 +308,7 @@ const initCheckoutGuard = () => {
   const checkoutBtn = document.querySelector("[data-checkout]");
   if (!checkoutBtn) return;
   checkoutBtn.addEventListener("click", (e) => {
-    const isLoggedIn = document.body.dataset.loggedIn === "true";
+    const isLoggedIn = document.querySelector('.user-dropdown') !== null;
     if (!isLoggedIn) {
       e.preventDefault();
       const overlay = document.querySelector(".login-required-overlay");

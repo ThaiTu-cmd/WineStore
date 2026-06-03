@@ -1,0 +1,329 @@
+/* =============================================
+   ORDERDETAIL.CSS — Chi tiết đơn hàng
+   ============================================= */
+
+/* Top bar */
+.detail-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.detail-order-code {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-green);
+}
+
+.detail-order-date {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.detail-top-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Two-column grid */
+.detail-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.detail-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Cards */
+.detail-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.detail-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  padding: 14px 20px;
+  background: var(--color-grey-100);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.detail-card-body {
+  padding: 16px 20px;
+}
+
+.detail-card-totals {
+  padding: 12px 20px;
+  background: var(--color-grey-100);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Product rows */
+.detail-product-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.detail-product-row + .detail-product-row {
+  border-top: 1px solid var(--color-border);
+}
+
+.detail-product-img {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  object-fit: contain;
+  background: var(--color-grey-100);
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.detail-product-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.detail-product-name {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-grey-800);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.detail-product-sku {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  margin-top: 1px;
+}
+
+.detail-product-qty {
+  font-size: 0.8rem;
+  color: var(--color-grey-500);
+  white-space: nowrap;
+}
+
+.detail-product-price {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-green);
+  white-space: nowrap;
+  min-width: 80px;
+  text-align: right;
+}
+
+/* Totals */
+.detail-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding: 4px 0;
+  color: var(--color-grey-600);
+}
+
+.detail-total-grand {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-green);
+  padding-top: 8px;
+  margin-top: 4px;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Info grid (key: value) */
+.detail-info-grid {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 10px 16px;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.detail-info-grid dt {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.detail-info-grid dd {
+  color: var(--color-grey-800);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Editable fields */
+.detail-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  background: var(--color-white);
+  transition: var(--transition);
+  outline: none;
+}
+
+.detail-input:focus {
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.12);
+}
+
+/* Action buttons */
+.detail-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.detail-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-grey-700);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.detail-btn:hover {
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+.detail-btn-primary {
+  background: var(--color-green);
+  color: var(--color-on-dark);
+  border-color: var(--color-green);
+}
+
+.detail-btn-primary:hover {
+  background: var(--color-green-dark);
+  border-color: var(--color-green-dark);
+  color: var(--color-on-dark);
+}
+
+.detail-btn-cancel {
+  border-color: #fca5a5;
+  color: var(--color-danger);
+}
+
+.detail-btn-cancel:hover {
+  background: #fef2f2;
+  border-color: var(--color-danger);
+}
+
+/* Status Timeline */
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.timeline-item {
+  position: relative;
+  padding: 0 0 20px 16px;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -24px;
+  top: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-grey-300);
+  border: 2px solid var(--color-white);
+}
+
+.timeline-dot.active {
+  background: var(--color-green);
+}
+
+.timeline-dot.cancelled {
+  background: var(--color-danger);
+}
+
+.timeline-status {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-grey-800);
+}
+
+.timeline-note {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.timeline-time {
+  font-size: 0.75rem;
+  color: var(--color-grey-400);
+  margin-top: 2px;
+}
+
+/* Tracking code */
+.tracking-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-success);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .detail-grid-2col {
+    grid-template-columns: 1fr;
+  }
+  .detail-info-grid {
+    grid-template-columns: 90px 1fr;
+  }
+  .detail-top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

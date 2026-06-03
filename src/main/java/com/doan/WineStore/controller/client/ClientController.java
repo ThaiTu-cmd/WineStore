@@ -3,9 +3,13 @@ package com.doan.WineStore.controller.client;
 import com.doan.WineStore.dto.response.client.ShopProductResponse;
 import com.doan.WineStore.entity.AddressEntity;
 import com.doan.WineStore.entity.OrderEntity;
+import com.doan.WineStore.entity.OrderItemEntity;
+import com.doan.WineStore.entity.OrderStatusHistoryEntity;
+import com.doan.WineStore.entity.ShippingMethodEntity;
 import com.doan.WineStore.entity.User;
 import com.doan.WineStore.repository.CategoryRepository;
 import com.doan.WineStore.service.AddressService;
+import com.doan.WineStore.service.CheckoutService;
 import com.doan.WineStore.service.CustomerAuthService;
 import com.doan.WineStore.service.client.ShopService;
 import com.doan.WineStore.repository.OrderRepository;
@@ -17,13 +21,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/")
@@ -46,6 +58,9 @@ public class ClientController {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private CheckoutService checkoutService;
 
     @GetMapping({ "", "/", "/home" })
     public String home() {
@@ -99,7 +114,19 @@ public class ClientController {
     }
 
     @GetMapping("/checkout")
-    public String checkout() {
+    public String checkout(HttpSession session, Model model) {
+        Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
+        if (userMap == null) return "redirect:/auth/login";
+        Long userId = (Long) userMap.get("id");
+
+        List<AddressEntity> addresses = checkoutService.getUserAddresses(userId);
+        List<ShippingMethodEntity> shippingMethods = checkoutService.getActiveShippingMethods();
+
+        model.addAttribute("addresses", addresses);
+        model.addAttribute("shippingMethods", shippingMethods);
+        model.addAttribute("shippingFeesJson", new ObjectMapper().writeValueAsString(
+                shippingMethods.stream()
+                        .collect(HashMap::new, (m, sm) -> m.put(sm.getId().toString(), sm.getFee()), HashMap::putAll)));
         return "client/views/checkout";
     }
 
@@ -142,7 +169,36 @@ public class ClientController {
         Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
         if (userMap == null) return "redirect:/auth/login";
         Long userId = (Long) userMap.get("id");
-        model.addAttribute("orders", orderRepository.findByUserIdOrderByCreatedAtDesc(userId));
+        List<OrderEntity> orders = orderRepository.findByUserIdOrderByCreatedAtDesc(userId);
+        model.addAttribute("orders", orders);
+
+        Map<Long, List<OrderItemEntity>> orderItemsMap = new HashMap<>();
+        Map<Long, Map<Long, String>> orderProductImages = new HashMap<>();
+        Set<Long> allProductIds = new HashSet<>();
+        for (OrderEntity order : orders) {
+            List<OrderItemEntity> items = checkoutService.getOrderItems(order.getId());
+            orderItemsMap.put(order.getId(), items);
+            for (OrderItemEntity item : items) {
+                if (item.getProductId() != null) {
+                    allProductIds.add(item.getProductId());
+                }
+            }
+        }
+        Map<Long, String> primaryImages = checkoutService.getProductPrimaryImages(new ArrayList<>(allProductIds));
+        for (OrderEntity order : orders) {
+            Map<Long, String> imgMap = new HashMap<>();
+            List<OrderItemEntity> items = orderItemsMap.get(order.getId());
+            if (items != null) {
+                for (OrderItemEntity item : items) {
+                    if (item.getProductId() != null && primaryImages.containsKey(item.getProductId())) {
+                        imgMap.put(item.getProductId(), primaryImages.get(item.getProductId()));
+                    }
+                }
+            }
+            orderProductImages.put(order.getId(), imgMap);
+        }
+        model.addAttribute("orderItemsMap", orderItemsMap);
+        model.addAttribute("orderProductImages", orderProductImages);
         return "client/views/orders";
     }
 
@@ -286,6 +342,36 @@ public class ClientController {
         return "redirect:/address";
     }
 
+    @PostMapping("/checkout/place-order")
+    public String placeOrder(
+            @RequestParam Long addressId,
+            @RequestParam Long shippingMethodId,
+            @RequestParam(required = false) String note,
+            @RequestParam String cartData,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
+        if (userMap == null) return "redirect:/auth/login";
+        Long userId = (Long) userMap.get("id");
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            List<Map<String, Object>> items = mapper.readValue(cartData, new TypeReference<List<Map<String, Object>>>() {});
+
+            OrderEntity order = checkoutService.placeOrder(userId, addressId,
+                    shippingMethodId, note, items);
+            redirectAttributes.addFlashAttribute("orderSuccess",
+                    "Đặt hàng thành công! Mã đơn hàng: " + order.getOrderCode());
+            return "redirect:/orders";
+        } catch (Exception e) {
+            log.error("Place order failed", e);
+            redirectAttributes.addFlashAttribute("checkoutError",
+                    "Đặt hàng thất bại: " + e.getMessage());
+            return "redirect:/checkout";
+        }
+    }
+
     @PostMapping("/orders/cancel")
     public String cancelOrder(@RequestParam Long id, HttpSession session, RedirectAttributes redirectAttributes) {
         Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
@@ -301,9 +387,55 @@ public class ClientController {
             return "redirect:/orders";
         }
         order.setStatus("cancelled");
+        order.setCanceledAt(LocalDateTime.now());
+        order.setUpdatedAt(LocalDateTime.now());
         orderRepository.save(order);
         redirectAttributes.addFlashAttribute("orderSuccess", "Đã hủy đơn hàng thành công!");
         return "redirect:/orders";
+    }
+
+    @GetMapping("/orders/{id}")
+    public String orderDetail(@PathVariable Long id, HttpSession session, Model model) {
+        Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
+        if (userMap == null) return "redirect:/auth/login";
+        Long userId = (Long) userMap.get("id");
+
+        OrderEntity order = checkoutService.getOrderForUser(id, userId);
+        if (order == null) {
+            return "redirect:/orders";
+        }
+
+        List<OrderItemEntity> items = checkoutService.getOrderItems(id);
+        List<Long> productIds = items.stream().map(OrderItemEntity::getProductId).toList();
+        Map<Long, String> productImages = checkoutService.getProductPrimaryImages(productIds);
+        ShippingMethodEntity shipping = checkoutService.getShippingMethod(order.getShippingMethodId());
+        List<OrderStatusHistoryEntity> history = checkoutService.getOrderHistory(id);
+
+        model.addAttribute("order", order);
+        model.addAttribute("items", items);
+        model.addAttribute("productImages", productImages);
+        model.addAttribute("shipping", shipping);
+        model.addAttribute("history", history);
+        return "client/views/orderdetail";
+    }
+
+    @PostMapping("/orders/{id}/update")
+    public String updateOrderRecipient(@PathVariable Long id,
+                                       @RequestParam String recipientName,
+                                       @RequestParam String recipientPhone,
+                                       HttpSession session,
+                                       RedirectAttributes redirectAttributes) {
+        Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
+        if (userMap == null) return "redirect:/auth/login";
+        Long userId = (Long) userMap.get("id");
+
+        OrderEntity order = checkoutService.updateOrderRecipient(id, userId, recipientName, recipientPhone);
+        if (order == null) {
+            redirectAttributes.addFlashAttribute("orderError", "Không tìm thấy đơn hàng!");
+        } else {
+            redirectAttributes.addFlashAttribute("orderSuccess", "Cập nhật thông tin thành công!");
+        }
+        return "redirect:/orders/" + id;
     }
 
     @GetMapping("/blog")
