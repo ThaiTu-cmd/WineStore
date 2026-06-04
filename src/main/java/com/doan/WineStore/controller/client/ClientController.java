@@ -7,6 +7,7 @@ import com.doan.WineStore.entity.OrderItemEntity;
 import com.doan.WineStore.entity.OrderStatusHistoryEntity;
 import com.doan.WineStore.entity.ShippingMethodEntity;
 import com.doan.WineStore.entity.User;
+import com.doan.WineStore.repository.OrderStatusHistoryRepository;
 import com.doan.WineStore.repository.CategoryRepository;
 import com.doan.WineStore.service.AddressService;
 import com.doan.WineStore.service.CheckoutService;
@@ -61,6 +62,9 @@ public class ClientController {
 
     @Autowired
     private CheckoutService checkoutService;
+
+    @Autowired
+    private OrderStatusHistoryRepository orderStatusHistoryRepository;
 
     @GetMapping({ "", "/", "/home" })
     public String home() {
@@ -407,10 +411,16 @@ public class ClientController {
             redirectAttributes.addFlashAttribute("orderError", "Đơn hàng không thể hủy!");
             return "redirect:/orders";
         }
+        String oldStatus = order.getStatus();
         order.setStatus("cancelled");
         order.setCanceledAt(LocalDateTime.now());
         order.setUpdatedAt(LocalDateTime.now());
         orderRepository.save(order);
+
+        OrderStatusHistoryEntity history = new OrderStatusHistoryEntity(
+                order.getId(), oldStatus, "cancelled", "Khách hàng đã hủy đơn hàng");
+        orderStatusHistoryRepository.save(history);
+
         redirectAttributes.addFlashAttribute("orderSuccess", "Đã hủy đơn hàng thành công!");
         return "redirect:/orders";
     }
@@ -425,13 +435,21 @@ public class ClientController {
             redirectAttributes.addFlashAttribute("orderError", "Không tìm thấy đơn hàng!");
             return "redirect:/orders";
         }
-        if (!"shipping".equalsIgnoreCase(order.getStatus())) {
-            redirectAttributes.addFlashAttribute("orderError", "Đơn hàng không ở trạng thái đang giao!");
+        if (!"shipping".equalsIgnoreCase(order.getStatus()) && !"processing".equalsIgnoreCase(order.getStatus())) {
+            redirectAttributes.addFlashAttribute("orderError", "Đơn hàng không ở trạng thái có thể nhận!");
             return "redirect:/orders";
         }
+        String oldStatus = order.getStatus();
         order.setStatus("completed");
+        order.setPaymentStatus(com.doan.WineStore.enums.PaymentStatus.PAID);
+        order.setPaidAt(LocalDateTime.now());
         order.setUpdatedAt(LocalDateTime.now());
         orderRepository.save(order);
+
+        OrderStatusHistoryEntity history = new OrderStatusHistoryEntity(
+                order.getId(), oldStatus, "completed", "Khách hàng đã xác nhận nhận hàng");
+        orderStatusHistoryRepository.save(history);
+
         redirectAttributes.addFlashAttribute("orderSuccess", "Đã xác nhận nhận hàng thành công!");
         return "redirect:/orders";
     }

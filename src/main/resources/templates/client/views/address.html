@@ -206,8 +206,10 @@
         document.getElementById('addrName').value = '';
         document.getElementById('addrPhone').value = '';
         document.getElementById('addrCity').value = '';
-        document.getElementById('addrProvince').innerHTML = '<option value="">-- Chọn quận/huyện --</option>';
-        document.getElementById('addrWard').innerHTML = '<option value="">-- Chọn phường/xã --</option>';
+        var pEl = document.getElementById('addrProvince');
+        if (pEl && pEl.tagName === 'SELECT') { pEl.innerHTML = '<option value="">-- Chọn quận/huyện --</option>'; } else if (pEl) { pEl.value = ''; }
+        var wEl = document.getElementById('addrWard');
+        if (wEl && wEl.tagName === 'SELECT') { wEl.innerHTML = '<option value="">-- Chọn phường/xã --</option>'; } else if (wEl) { wEl.value = ''; }
         document.getElementById('addrDetail').value = '';
         document.getElementById('addrPostal').value = '';
         document.getElementById('typeHome').checked = true;

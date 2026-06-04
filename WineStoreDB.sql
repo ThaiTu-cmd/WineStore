@@ -503,7 +503,7 @@ VALUES
   (4, 4, 'https://images.unsplash.com/photo-1552620896-a6ac30992d63?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 1, 1),
   (5, 5, 'https://images.unsplash.com/photo-1611571940159-425a28706d6f?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
   (6, 6, 'https://plus.unsplash.com/premium_photo-1698086426853-b3d45e9c0cbf?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2hhcmRvbm5heXxlbnwwfHwwfHx8MA%3D%3D', 1, 1),
-  (7, 7, 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&fit=crop', 1, 1),
+  (7, 7, 'https://images.unsplash.com/photo-1616186793090-b49b8ca005e8?w=600&q=80&fit=crop', 1, 1),
   (8, 8, 'https://images.unsplash.com/photo-1660814807174-85a4ce3af9ea?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Um9zJUMzJUE5JTIwRHJ5fGVufDB8fDB8fHww', 1, 1),
   (9, 9, 'https://plus.unsplash.com/premium_photo-1665949503006-f82ca4b7e132?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8U3BhcmtsaW5nJTIwQnJ1dCUyMDIwMjJ8ZW58MHx8MHx8fDA%3D', 1, 1),
   (10, 10, 'https://plus.unsplash.com/premium_photo-1677327746215-6d9411e306f1?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c3BhcmtsaW5nJTIwd2luZXxlbnwwfHwwfHx8MA%3D%3D', 1, 1),
@@ -520,35 +520,35 @@ VALUES
   (21, 21, 'https://images.unsplash.com/photo-1591704951890-0862b2e98acb?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
   (22, 22, 'https://images.unsplash.com/photo-1645784125144-4c06a561fc58?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
   (23, 23, 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80&fit=crop', 1, 1),
-  (24, 24, 'https://images.unsplash.com/photo-1571204829887-3b8d69e4094d?w=600&q=80&fit=crop', 1, 1),
+  (24, 24, 'https://images.unsplash.com/photo-1561225277-462311465df3?w=600&q=80&fit=crop', 1, 1),
   (25, 25, 'https://images.unsplash.com/photo-1539606494565-02e568638d91?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
   (26, 26, 'https://images.unsplash.com/photo-1650477021184-6fe8ef5b846e?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
   (27, 27, 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80&fit=crop', 1, 1),
-  (28, 28, 'https://images.unsplash.com/photo-1571204829887-3b8d69e4094d?w=600&q=80&fit=crop', 1, 1),
+  (28, 28, 'https://images.unsplash.com/photo-1766589140087-173546c80344?w=600&q=80&fit=crop', 1, 1),
   (29, 29, 'https://images.unsplash.com/photo-1563630440878-c25af103219a?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
   (30, 30, 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=80&fit=crop', 1, 1),
   (31, 31, 'https://images.unsplash.com/photo-1598934475133-46b0ee0b1476?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
-  (32, 32, 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=600&q=80&fit=crop', 1, 1),
+  (32, 32, 'https://images.unsplash.com/photo-1563630440878-c25af103219a?w=600&q=80&fit=crop', 1, 1),
   (33, 33, 'https://images.unsplash.com/photo-1542895324-076f3fb6c2cb?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
   (34, 34, 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=80&fit=crop', 1, 1),
   (35, 35, 'https://images.unsplash.com/photo-1585409944718-79b9463b5c0b?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
-  (36, 36, 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=600&q=80&fit=crop', 1, 1),
-  (37, 37, 'https://images.unsplash.com/photo-1571204829887-3b8d69e4094d?w=600&q=80&fit=crop', 1, 1),
+  (36, 36, 'https://images.unsplash.com/photo-1565195712699-0e12ad9d5ff9?w=600&q=80&fit=crop', 1, 1),
+  (37, 37, 'https://images.unsplash.com/photo-1613140506142-277c6241b858?w=600&q=80&fit=crop', 1, 1),
   (38, 38, 'https://images.unsplash.com/photo-1613140506142-277c6241b858?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
   (39, 39, 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=80&fit=crop', 1, 1),
   (40, 40, 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=600&q=80&fit=crop', 1, 1),
-  (41, 41, 'https://images.unsplash.com/photo-1571204829887-3b8d69e4094d?w=600&q=80&fit=crop', 1, 1),
+  (41, 41, 'https://images.unsplash.com/photo-1583552188783-709c90220745?w=600&q=80&fit=crop', 1, 1),
   (42, 42, 'https://images.unsplash.com/photo-1583552188783-709c90220745?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
   (43, 43, 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=80&fit=crop', 1, 1),
   (44, 44, 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=600&q=80&fit=crop', 1, 1),
-  (45, 45, 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=600&q=80&fit=crop', 1, 1),
-  (46, 46, 'https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
-  (47, 47, 'https://images.unsplash.com/photo-1618183479302-1e0aa382c36b?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
-  (48, 48, 'https://images.unsplash.com/photo-1600788907416-456578634209?w=600&q=80&fit=crop', 1, 1),
+  (45, 45, 'https://images.unsplash.com/photo-1597822738124-151fb72dcb79?w=600&q=80&fit=crop', 1, 1),
+  (46, 46, 'https://images.unsplash.com/photo-1567291612096-635b1896679a?w=600&q=80&fit=crop', 1, 1),
+  (47, 47, 'https://images.unsplash.com/photo-1568665270275-c08c0cc8a8ae?w=600&q=80&fit=crop', 1, 1),
+  (48, 48, 'https://images.unsplash.com/photo-1770646743342-bcfcacd50f42?w=600&q=80&fit=crop', 1, 1),
   (49, 49, 'https://images.unsplash.com/photo-1623274545361-63e9d95e4643?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
-  (50, 50, 'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=600&q=80&fit=crop', 1, 1),
-  (51, 51, 'https://images.unsplash.com/photo-1636391945755-4e260dd880cb?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
-  (52, 52, 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=600&q=80&fit=crop', 1, 1),
+  (50, 50, 'https://images.unsplash.com/photo-1630509971092-0ee2807aab9b?w=600&q=80&fit=crop', 1, 1),
+  (51, 51, 'https://images.unsplash.com/photo-1769267163818-02071257c551?w=600&q=80&fit=crop', 1, 1),
+  (52, 52, 'https://images.unsplash.com/photo-1545754605-208c9e7c7053?w=600&q=80&fit=crop', 1, 1),
   (53, 53, 'https://images.unsplash.com/photo-1687771454203-97d0b08bbeb2?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1),
   (54, 54, 'https://images.unsplash.com/photo-1594035900144-17151c9910af?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=600', 1, 1);
 -- =====================================================
@@ -758,12 +758,6 @@ CREATE TRIGGER `tr_orders_after_update_status_history`
 AFTER UPDATE ON `orders`
 FOR EACH ROW
 BEGIN
-    -- Ghi lịch sử trạng thái
-    IF OLD.`status` <> NEW.`status` THEN
-        INSERT INTO `order_status_history` (`order_id`, `old_status`, `new_status`, `changed_note`, `changed_at`)
-        VALUES (NEW.`id`, OLD.`status`, NEW.`status`, NULL, NOW());
-    END IF;
-
     -- *** QUAN TRỌNG: NẾU ĐƠN BỊ HỦY -> HOÀN LẠI TỒN KHO & MÃ GIẢM GIÁ ***
     IF OLD.`status` <> 'CANCELED' AND NEW.`status` = 'CANCELED' THEN
         

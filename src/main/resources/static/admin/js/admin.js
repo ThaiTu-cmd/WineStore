@@ -76,9 +76,10 @@ const API = {
       ...this._opts("PUT", d),
     });
     if (!response.ok) {
-      throw new Error("Khong the cap nhat don hang");
+      const errText = await response.text().catch(() => "Khong the cap nhat don hang");
+      throw new Error(errText || "Khong the cap nhat don hang");
     }
-    return response.json();
+    return response.text().catch(() => null);
   },
   async deleteOrder(id) {
     const response = await fetch(`${DB_CONFIG.apiBase}/api/orders/${id}`, {

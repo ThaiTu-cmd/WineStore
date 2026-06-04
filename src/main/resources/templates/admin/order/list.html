@@ -174,22 +174,30 @@
       const confirmAction = {
         id: null,
         async doConfirm() {
-          await API.updateOrder(this.id, { status: "processing" });
-          Modal.close("confirmModalOverlay");
-          allOrders = allOrders.map((o) => o.id === this.id ? { ...o, status: "processing" } : o);
-          renderOrders(allOrders);
-          Utils.toast("Đã xác nhận đơn hàng thành công!");
+          try {
+            await API.updateOrder(this.id, { status: "processing" });
+            Modal.close("confirmModalOverlay");
+            allOrders = allOrders.map((o) => o.id === this.id ? { ...o, status: "processing" } : o);
+            renderOrders(allOrders);
+            Utils.toast("Đã xác nhận đơn hàng thành công!");
+          } catch (e) {
+            Utils.toast("Xác nhận thất bại: " + e.message, "error");
+          }
         },
       };
 
       const rejectAction = {
         id: null,
         async doReject() {
-          await API.updateOrder(this.id, { status: "cancelled" });
-          Modal.close("rejectModalOverlay");
-          allOrders = allOrders.map((o) => o.id === this.id ? { ...o, status: "cancelled" } : o);
-          renderOrders(allOrders);
-          Utils.toast("Đã từ chối đơn hàng!");
+          try {
+            await API.updateOrder(this.id, { status: "cancelled" });
+            Modal.close("rejectModalOverlay");
+            allOrders = allOrders.map((o) => o.id === this.id ? { ...o, status: "cancelled" } : o);
+            renderOrders(allOrders);
+            Utils.toast("Đã từ chối đơn hàng!");
+          } catch (e) {
+            Utils.toast("Từ chối thất bại: " + e.message, "error");
+          }
         },
       };
 

@@ -238,6 +238,16 @@
   border-color: var(--color-danger);
 }
 
+.detail-btn-receive {
+  border-color: #86efac;
+  color: var(--color-green);
+}
+
+.detail-btn-receive:hover {
+  background: #f0fdf4;
+  border-color: var(--color-green);
+}
+
 /* Status Timeline */
 .timeline {
   position: relative;

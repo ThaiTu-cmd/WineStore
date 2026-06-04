@@ -4,7 +4,9 @@ import com.doan.WineStore.dto.response.admin.OrderDetailResponse;
 import com.doan.WineStore.dto.response.admin.PageResponse;
 import com.doan.WineStore.dto.response.admin.OrderListItemResponse;
 import com.doan.WineStore.entity.OrderEntity;
+import com.doan.WineStore.entity.OrderStatusHistoryEntity;
 import com.doan.WineStore.repository.OrderRepository;
+import com.doan.WineStore.repository.OrderStatusHistoryRepository;
 import com.doan.WineStore.service.admin.AdminOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,9 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderStatusHistoryRepository orderStatusHistoryRepository;
 
     @Override
     public PageResponse<OrderListItemResponse> getOrders(int page) {
@@ -46,7 +51,32 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         OrderEntity entity = orderRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found"));
         if (data.containsKey("status")) {
-            entity.setStatus((String) data.get("status"));
+            String oldStatus = entity.getStatus();
+            String newStatus = (String) data.get("status");
+            entity.setStatus(newStatus);
+
+            String note;
+            switch (newStatus != null ? newStatus.toLowerCase(Locale.ROOT) : "") {
+                case "processing":
+                    note = "Đơn hàng đã được xác nhận";
+                    break;
+                case "shipping":
+                    note = "Đơn hàng đang được giao";
+                    break;
+                case "completed":
+                    note = "Đơn hàng đã hoàn thành";
+                    break;
+                case "cancelled":
+                    note = "Đơn hàng đã bị hủy";
+                    break;
+                default:
+                    note = "Trạng thái thay đổi thành " + (newStatus != null ? newStatus : "");
+                    break;
+            }
+
+            OrderStatusHistoryEntity history = new OrderStatusHistoryEntity(
+                    entity.getId(), oldStatus, newStatus, note);
+            orderStatusHistoryRepository.save(history);
         }
         if (data.containsKey("subtotal")) {
             entity.setSubtotal(new BigDecimal(data.get("subtotal").toString()));

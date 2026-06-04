@@ -94,8 +94,8 @@
           populateDistricts(data.districts || []);
         })
         .catch(function () {
-          clearSelect(provinceEl);
-          clearSelect(wardEl);
+          switchToTextFallback('addrProvince', 'Nhập quận/huyện');
+          switchToTextFallback('addrWard', 'Nhập phường/xã');
         });
     });
 
@@ -165,6 +165,21 @@
     el.innerHTML = '<option value="">-- Chọn --</option>';
   }
 
+  function switchToTextFallback(elId, placeholder) {
+    var el = document.getElementById(elId);
+    if (!el || el.tagName !== 'SELECT') return;
+    var parent = el.parentElement;
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.className = el.className;
+    input.name = el.name;
+    input.id = el.id;
+    input.required = el.required;
+    input.placeholder = placeholder;
+    input.autocomplete = 'off';
+    parent.replaceChild(input, el);
+  }
+
   function setAddressByNames(cityName, districtName, wardName) {
     var cityEl = document.getElementById('addrCity');
     var provinceEl = document.getElementById('addrProvince');
@@ -193,10 +208,21 @@
     }
     if (!found) return;
 
+    if (districtName && provinceEl && provinceEl.tagName === 'INPUT') {
+      provinceEl.value = districtName;
+    }
+    if (wardName && wardEl && wardEl.tagName === 'INPUT') {
+      wardEl.value = wardName;
+    }
+
     var evt = new Event('change', { bubbles: true });
     cityEl.dispatchEvent(evt);
 
     var checkDistricts = setInterval(function () {
+      if (provinceEl && provinceEl.tagName === 'INPUT') {
+        clearInterval(checkDistricts);
+        return;
+      }
       if (provinceEl.options.length > 1) {
         clearInterval(checkDistricts);
         for (var i = 0; i < provinceEl.options.length; i++) {
@@ -205,6 +231,10 @@
             var de = new Event('change', { bubbles: true });
             provinceEl.dispatchEvent(de);
             var checkWards = setInterval(function () {
+              if (wardEl && wardEl.tagName === 'INPUT') {
+                clearInterval(checkWards);
+                return;
+              }
               if (wardEl.options.length > 1) {
                 clearInterval(checkWards);
                 for (var j = 0; j < wardEl.options.length; j++) {

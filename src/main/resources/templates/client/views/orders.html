@@ -75,7 +75,7 @@
                       <span class="order-date" th:text="${#temporals.format(order.createdAt, 'dd/MM/yyyy HH:mm')}">01/01/2025</span>
                     </div>
                     <div class="order-card-right">
-                      <span class="order-status" th:classappend="'order-status-' + ${order.status.toLowerCase()}" th:text="${order.status}">pending</span>
+                      <span class="order-status" th:classappend="'order-status-' + ${order.status.toLowerCase()}" th:text="${order.status == 'pending' ? 'Chờ xác nhận' : order.status == 'processing' ? 'Xác nhận' : order.status == 'shipping' ? 'Đang giao' : order.status == 'completed' ? 'Hoàn thành' : order.status == 'cancelled' ? 'Đã hủy' : order.status}">Chờ xác nhận</span>
                       <span class="order-payment" th:classappend="${order.paymentStatus.name() == 'PAID' ? 'payment-paid' : 'payment-unpaid'}" th:text="${order.paymentStatus.name() == 'PAID' ? 'Đã thanh toán' : 'Chưa thanh toán'}">UNPAID</span>
                     </div>
                   </div>
@@ -100,7 +100,7 @@
 
                   <div class="order-card-footer">
                     <a th:href="@{/orders/{id}(id=${order.id})}" class="order-btn order-btn-detail"><i class="ti ti-eye"></i> Chi tiết</a>
-                    <button type="button" class="order-btn order-btn-receive" th:if="${order.status != null and order.status.toLowerCase() == 'shipping'}" th:data-id="${order.id}" th:data-code="${order.orderCode}" onclick="showReceiveConfirm(this)"><i class="ti ti-check"></i> Xác nhận đã nhận hàng</button>
+                    <button type="button" class="order-btn order-btn-receive" th:if="${order.status != null and (order.status.toLowerCase() == 'processing' or order.status.toLowerCase() == 'shipping')}" th:data-id="${order.id}" th:data-code="${order.orderCode}" onclick="showReceiveConfirm(this)"><i class="ti ti-check"></i> Đã nhận hàng</button>
                     <button type="button" class="order-btn order-btn-cancel" th:if="${order.status != null and order.status.toLowerCase() != 'completed' and order.status.toLowerCase() != 'cancelled' and order.status.toLowerCase() != 'shipping'}" th:data-id="${order.id}" th:data-code="${order.orderCode}" onclick="showCancelConfirm(this)"><i class="ti ti-ban"></i> Hủy đơn</button>
                   </div>
                 </div>
@@ -152,11 +152,11 @@
           <div style="font-size:0.85rem;color:var(--color-text-muted);margin-bottom:4px">
             Bạn đã nhận được đơn hàng <strong id="receiveOrderCode" style="color:var(--color-grey-800)"></strong>?
           </div>
-          <div style="font-size:0.8rem;color:var(--color-grey-400)">Sau khi xác nhận, đơn hàng sẽ chuyển sang trạng thái hoàn thành.</div>
+          <div style="font-size:0.8rem;color:var(--color-danger)">Xác nhận này không thể thu hồi!</div>
         </div>
         <div class="modal-footer" style="display:flex;gap:8px;justify-content:center">
           <button class="btn btn-outline" onclick="hideReceiveConfirm()" style="flex:1">Để sau</button>
-          <button class="btn btn-success" onclick="confirmReceiveOrder()" style="flex:1">Xác nhận</button>
+          <button class="btn btn-success" onclick="confirmReceiveOrder()" style="flex:1;background-color:#28a745;border-color:#28a745;color:#fff">Xác nhận</button>
         </div>
       </div>
     </div>

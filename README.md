@@ -64,7 +64,7 @@ src/main/java/com/doan/WineStore/
 ### 1. Tạo database
 
 ```sql
-CREATE DATABASE WineStore CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Sử dụng file WineStoreDB.sql có trong thư mục của đồ án
 ```
 
 ### 2. Cấu hình

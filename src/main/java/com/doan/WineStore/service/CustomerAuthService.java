@@ -35,20 +35,20 @@ public class CustomerAuthService {
 
     public String login(String email, String password, HttpSession session) {
         if (email == null || email.isBlank() || password == null || password.isBlank()) {
-            return "Vui long nhap day du thong tin dang nhap.";
+            return "Vui lòng nhập đầy đủ thông tin đăng nhập.";
         }
 
         User user = userRepository.findByEmail(email.trim()).orElse(null);
         if (user == null) {
-            return "Email hoac mat khau khong dung.";
+            return "Tài khoản chưa đăng ký.";
         }
 
         if (user.getStatus() == Status.INACTIVE || user.getStatus() == Status.LOCKED) {
-            return "Tai khoan da bi vo hieu hoa.";
+            return "Tài khoản đã bị vô hiệu hóa.";
         }
 
         if (!passwordEncoder.matches(password, user.getPasswordHash())) {
-            return "Email hoac mat khau khong dung.";
+            return "Email hoặc mật khẩu không đúng.";
         }
 
         session.setAttribute("user", Map.of(
@@ -69,13 +69,13 @@ public class CustomerAuthService {
 
     public String updateProfile(Long userId, String fullName, String email, String phone, HttpSession session) {
         User user = userRepository.findById(userId).orElse(null);
-        if (user == null) return "Nguoi dung khong ton tai.";
+        if (user == null) return "Người dùng không tồn tại.";
 
-        if (fullName == null || fullName.isBlank()) return "Vui long nhap ho va ten.";
-        if (email == null || email.isBlank()) return "Vui long nhap email.";
+        if (fullName == null || fullName.isBlank()) return "Vui lòng nhập họ và tên.";
+        if (email == null || email.isBlank()) return "Vui lòng nhập email.";
 
         if (!email.equals(user.getEmail()) && userRepository.findByEmail(email.trim()).isPresent()) {
-            return "Email nay da duoc su dung.";
+            return "Email này đã được sử dụng.";
         }
 
         user.setFullName(fullName.trim());
@@ -97,16 +97,16 @@ public class CustomerAuthService {
 
     public String changePassword(Long userId, String currentPassword, String newPassword, String confirmPassword) {
         User user = userRepository.findById(userId).orElse(null);
-        if (user == null) return "Nguoi dung khong ton tai.";
+        if (user == null) return "Người dùng không tồn tại.";
 
         if (!passwordEncoder.matches(currentPassword, user.getPasswordHash())) {
-            return "Mat khau hien tai khong dung.";
+            return "Mật khẩu hiện tại không đúng.";
         }
 
-        if (newPassword == null || newPassword.isBlank()) return "Vui long nhap mat khau moi.";
-        if (confirmPassword == null || confirmPassword.isBlank()) return "Vui long nhap lai mat khau moi.";
-        if (!newPassword.equals(confirmPassword)) return "Mat khau xac nhan khong khop.";
-        if (newPassword.length() < 8) return "Mat khau phai co it nhat 8 ky tu.";
+        if (newPassword == null || newPassword.isBlank()) return "Vui lòng nhập mật khẩu mới.";
+        if (confirmPassword == null || confirmPassword.isBlank()) return "Vui lòng nhập lại mật khẩu mới.";
+        if (!newPassword.equals(confirmPassword)) return "Mật khẩu xác nhận không khớp.";
+        if (newPassword.length() < 8) return "Mật khẩu phải có ít nhất 8 ký tự.";
 
         user.setPasswordHash(passwordEncoder.encode(newPassword));
         userRepository.save(user);
@@ -116,17 +116,17 @@ public class CustomerAuthService {
 
     @Transactional
     public String register(String firstName, String lastName, String email, String phone, String password, String confirmPassword) {
-        if (firstName == null || firstName.isBlank()) return "Vui long nhap ho.";
-        if (lastName == null || lastName.isBlank()) return "Vui long nhap ten.";
-        if (email == null || email.isBlank()) return "Vui long nhap email.";
-        if (password == null || password.isBlank()) return "Vui long nhap mat khau.";
-        if (confirmPassword == null || confirmPassword.isBlank()) return "Vui long nhap lai mat khau.";
+        if (firstName == null || firstName.isBlank()) return "Vui lòng nhập họ.";
+        if (lastName == null || lastName.isBlank()) return "Vui lòng nhập tên.";
+        if (email == null || email.isBlank()) return "Vui lòng nhập email.";
+        if (password == null || password.isBlank()) return "Vui lòng nhập mật khẩu.";
+        if (confirmPassword == null || confirmPassword.isBlank()) return "Vui lòng nhập lại mật khẩu.";
 
-        if (!password.equals(confirmPassword)) return "Mat khau xac nhan khong khop.";
-        if (password.length() < 8) return "Mat khau phai co it nhat 8 ky tu.";
+        if (!password.equals(confirmPassword)) return "Mật khẩu xác nhận không khớp.";
+        if (password.length() < 8) return "Mật khẩu phải có ít nhất 8 ký tự.";
 
         if (userRepository.findByEmail(email.trim()).isPresent()) {
-            return "Email nay da duoc dang ky.";
+            return "Email này đã được đăng ký.";
         }
 
         User user = new User(
@@ -144,10 +144,10 @@ public class CustomerAuthService {
 
     @Transactional
     public String forgotPassword(String email) {
-        if (email == null || email.isBlank()) return "Vui long nhap email.";
+        if (email == null || email.isBlank()) return "Vui lòng nhập email.";
 
         User user = userRepository.findByEmail(email.trim()).orElse(null);
-        if (user == null) return "Email nay chua duoc dang ky.";
+        if (user == null) return "Email này chưa được đăng ký.";
 
         String otp = String.format("%06d", random.nextInt(999999));
         LocalDateTime expiry = LocalDateTime.now().plusMinutes(5);
@@ -161,32 +161,32 @@ public class CustomerAuthService {
     }
 
     public String verifyOtp(String email, String otp) {
-        if (email == null || email.isBlank()) return "Vui long nhap email.";
-        if (otp == null || otp.isBlank()) return "Vui long nhap ma OTP.";
+        if (email == null || email.isBlank()) return "Vui lòng nhập email.";
+        if (otp == null || otp.isBlank()) return "Vui lòng nhập mã OTP.";
 
         PasswordResetToken token = tokenRepository
             .findByEmailAndOtpAndUsedFalseAndExpiryDateAfter(email.trim(), otp.trim(), LocalDateTime.now())
             .orElse(null);
 
-        if (token == null) return "Ma OTP khong dung hoac da het han.";
+        if (token == null) return "Mã OTP không đúng hoặc đã hết hạn.";
         return null;
     }
 
     @Transactional
     public String resetPassword(String email, String token, String newPassword, String confirmPassword) {
-        if (newPassword == null || newPassword.isBlank()) return "Vui long nhap mat khau moi.";
-        if (confirmPassword == null || confirmPassword.isBlank()) return "Vui long nhap lai mat khau moi.";
-        if (!newPassword.equals(confirmPassword)) return "Mat khau xac nhan khong khop.";
-        if (newPassword.length() < 8) return "Mat khau phai co it nhat 8 ky tu.";
+        if (newPassword == null || newPassword.isBlank()) return "Vui lòng nhập mật khẩu mới.";
+        if (confirmPassword == null || confirmPassword.isBlank()) return "Vui lòng nhập lại mật khẩu mới.";
+        if (!newPassword.equals(confirmPassword)) return "Mật khẩu xác nhận không khớp.";
+        if (newPassword.length() < 8) return "Mật khẩu phải có ít nhất 8 ký tự.";
 
         PasswordResetToken resetToken = tokenRepository
             .findByEmailAndOtpAndUsedFalseAndExpiryDateAfter(email.trim(), token.trim(), LocalDateTime.now())
             .orElse(null);
 
-        if (resetToken == null) return "Ma OTP khong dung hoac da het han. Vui long thu lai.";
+        if (resetToken == null) return "Mã OTP không đúng hoặc đã hết hạn. Vui lòng thử lại.";
 
         User user = userRepository.findByEmail(email.trim()).orElse(null);
-        if (user == null) return "Nguoi dung khong ton tai.";
+        if (user == null) return "Người dùng không tồn tại.";
 
         user.setPasswordHash(passwordEncoder.encode(newPassword));
         userRepository.save(user);
