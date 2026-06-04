@@ -5,12 +5,10 @@ import com.doan.WineStore.dto.response.admin.PageResponse;
 import com.doan.WineStore.dto.response.admin.OrderListItemResponse;
 import com.doan.WineStore.service.admin.AdminOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/api/orders")
@@ -28,7 +26,20 @@ public class OrderAdminApiController {
         return adminOrderService.getOrderById(id);
     }
 
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateOrder(@PathVariable Long id, @RequestBody Map<String, Object> data) {
+        adminOrderService.updateOrder(id, data);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteOrder(@PathVariable Long id) {
+        adminOrderService.deleteOrder(id);
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleBadRequest(IllegalArgumentException ex) {
         return ex.getMessage();
     }

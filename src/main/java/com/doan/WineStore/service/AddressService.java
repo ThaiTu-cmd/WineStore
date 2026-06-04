@@ -65,6 +65,7 @@ public class AddressService {
         addr.setPostalCode(postalCode);
         addr.setType(type);
         addr.setIsDefault(isDefault != null && isDefault);
+        addr.setDefaultUserGuard(isDefault != null && isDefault ? true : null);
         AddressEntity saved = addressRepository.save(addr);
         log.info("Updated address id={} for userId={}", id, userId);
         return saved;
@@ -82,8 +83,22 @@ public class AddressService {
         return true;
     }
 
+    @Transactional
+    public void setDefault(Long id, Long userId) {
+        clearOtherDefaults(userId);
+        AddressEntity addr = addressRepository.findByIdAndUserIdAndDeletedAtIsNull(id, userId);
+        if (addr == null) {
+            log.warn("Set default failed: address id={} not found for userId={}", id, userId);
+            return;
+        }
+        addr.setIsDefault(true);
+        addr.setDefaultUserGuard(true);
+        addressRepository.save(addr);
+        log.info("Set default address id={} for userId={}", id, userId);
+    }
+
     private void clearOtherDefaults(Long userId) {
         addressRepository.findByUserIdOrderByIsDefaultDesc(userId)
-                .forEach(a -> { a.setIsDefault(false); addressRepository.save(a); });
+                .forEach(a -> { a.setIsDefault(false); a.setDefaultUserGuard(null); addressRepository.save(a); });
     }
 }

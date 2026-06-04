@@ -53,7 +53,7 @@ public class AddressEntity {
     private LocalDateTime deletedAt;
 
     @Column(name = "default_user_guard")
-    private Boolean defaultUserGuard = false;
+    private Boolean defaultUserGuard;
 
     public AddressEntity() {}
 
@@ -71,6 +71,7 @@ public class AddressEntity {
         this.postalCode = postalCode;
         this.type = type;
         this.isDefault = isDefault;
+        this.defaultUserGuard = isDefault != null && isDefault ? true : null;
     }
 
     public Long getId() { return id; }

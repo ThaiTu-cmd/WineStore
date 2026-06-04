@@ -72,7 +72,7 @@
                   <div class="address-detail" th:text="${addr.fullAddress}">Địa chỉ</div>
                 </div>
                 <div class="address-actions">
-                  <button class="action-btn star" th:if="${!addr.isDefault}" title="Đặt mặc định" th:onclick="'openEditModal(' + ${addr.id} + ')'"><i class="ti ti-star"></i></button>
+                  <button class="action-btn star" th:if="${!addr.isDefault}" title="Đặt mặc định" th:data-id="${addr.id}" onclick="setDefaultAddress(this)"><i class="ti ti-star"></i></button>
                   <button class="action-btn edit" title="Chỉnh sửa" th:onclick="'openEditModal(' + ${addr.id} + ')'"><i class="ti ti-pencil"></i></button>
                   <button class="action-btn delete" title="Xóa" th:onclick="'confirmDelete(' + ${addr.id} + ')'"><i class="ti ti-trash"></i></button>
                 </div>
@@ -249,6 +249,20 @@
       function confirmDelete(id) {
         document.getElementById('deleteId').value = id;
         openModal('deleteModal');
+      }
+
+      function setDefaultAddress(btn) {
+        var id = btn.dataset.id;
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.action = '/WineStore/address/set-default';
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'id';
+        input.value = id;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
       }
 
       document.querySelectorAll('.notify').forEach(function(n) {

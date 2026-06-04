@@ -354,7 +354,8 @@ const Utils = {
   statusBadge(s) {
     const map = {
       completed: ["badge-success", "✓ Hoàn thành"],
-      pending: ["badge-warning", "⏳ Chờ xử lý"],
+      pending: ["badge-warning", "⏳ Chờ xác nhận"],
+      processing: ["badge-info", "🔄 Xác nhận"],
       shipping: ["badge-info", "🚚 Đang giao"],
       cancelled: ["badge-danger", "✗ Đã hủy"],
     };

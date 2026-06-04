@@ -17,24 +17,9 @@
             <div class="topbar-breadcrumb">Quản lý đơn hàng</div>
           </div>
           <div class="topbar-right">
-            <button
-              class="icon-btn"
-              title="Cài đặt"
-              onclick="toggleLogoutDropdown()"
-            >
-              ⚙️
-            </button>
-            <div
-              class="dropdown-menu"
-              id="logoutDropdown"
-              style="display: none"
-            >
-              <button
-                class="dropdown-item dropdown-item-logout"
-                onclick="logout()"
-              >
-                Đăng xuất
-              </button>
+            <button class="icon-btn" title="Cài đặt" onclick="toggleLogoutDropdown()">⚙️</button>
+            <div class="dropdown-menu" id="logoutDropdown" style="display: none">
+              <button class="dropdown-item dropdown-item-logout" onclick="logout()">Đăng xuất</button>
             </div>
           </div>
         </header>
@@ -52,20 +37,12 @@
               <div class="toolbar">
                 <div class="search-box">
                   <span class="search-icon">🔎</span>
-                  <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Tìm mã đơn, tên khách..."
-                    oninput="filterOrders()"
-                  />
+                  <input type="text" id="searchInput" placeholder="Tìm mã đơn, tên khách..." oninput="filterOrders()" />
                 </div>
-                <select
-                  class="select-filter"
-                  id="statusFilter"
-                  onchange="filterOrders()"
-                >
+                <select class="select-filter" id="statusFilter" onchange="filterOrders()">
                   <option value="">Tất cả trạng thái</option>
-                  <option value="pending">Chờ xử lý</option>
+                  <option value="pending">Chờ xác nhận</option>
+                  <option value="processing">Xác nhận</option>
                   <option value="shipping">Đang giao</option>
                   <option value="completed">Hoàn thành</option>
                   <option value="cancelled">Đã hủy</option>
@@ -79,26 +56,16 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Order Code</th>
-                    <th>Username</th>
-                    <th>User ID</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th>Mã đơn</th>
+                    <th>Khách hàng</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
                   </tr>
                 </thead>
                 <tbody id="ordersBody">
                   <tr>
-                    <td
-                      colspan="7"
-                      style="
-                        text-align: center;
-                        padding: 40px;
-                        color: var(--text-muted);
-                      "
-                    >
-                      Đang tải...
-                    </td>
+                    <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">Đang tải...</td>
                   </tr>
                 </tbody>
               </table>
@@ -110,38 +77,32 @@
       </div>
     </div>
 
-    <!-- DELETE CONFIRM MODAL -->
-    <div class="modal-overlay" id="deleteModalOverlay">
+    <!-- CONFIRM MODAL -->
+    <div class="modal-overlay" id="confirmModalOverlay">
       <div class="modal modal-sm">
-        <div
-          class="modal-body"
-          style="padding: 32px 28px 20px; text-align: center"
-        >
-          <div class="confirm-icon">🗑️</div>
-          <div class="confirm-title">Xác nhận xóa đơn hàng</div>
-          <div class="confirm-text">
-            Bạn đang xóa đơn hàng<br /><strong id="deleteTargetLabel"></strong
-            ><br />Hành động này không thể hoàn tác!
-          </div>
-          <div class="countdown-bar">
-            <div class="countdown-fill" id="countdownFill"></div>
-          </div>
-          <div class="countdown-label" id="countdownLabel">
-            Vui lòng chờ 10 giây...
-          </div>
+        <div class="modal-body" style="padding: 32px 28px 20px; text-align: center">
+          <div class="confirm-icon">✅</div>
+          <div class="confirm-title">Xác nhận đơn hàng</div>
+          <div class="confirm-text">Bạn có chắc muốn xác nhận đơn hàng<br /><strong id="confirmTargetLabel"></strong>?</div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-outline" onclick="DeleteConfirm.hide()">
-            Hủy
-          </button>
-          <button
-            class="btn btn-danger"
-            id="confirmDeleteBtn"
-            onclick="DeleteConfirm.confirm()"
-            disabled
-          >
-            Xác nhận xóa
-          </button>
+          <button class="btn btn-outline" onclick="Modal.close('confirmModalOverlay')">Hủy</button>
+          <button class="btn btn-success" id="confirmYesBtn" onclick="confirmAction.doConfirm()">Xác nhận</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REJECT MODAL -->
+    <div class="modal-overlay" id="rejectModalOverlay">
+      <div class="modal modal-sm">
+        <div class="modal-body" style="padding: 32px 28px 20px; text-align: center">
+          <div class="confirm-icon" style="color:var(--danger)">🗙</div>
+          <div class="confirm-title">Từ chối đơn hàng</div>
+          <div class="confirm-text">Bạn có chắc muốn từ chối đơn hàng<br /><strong id="rejectTargetLabel"></strong>?</div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" onclick="Modal.close('rejectModalOverlay')">Hủy</button>
+          <button class="btn btn-danger" id="rejectYesBtn" onclick="rejectAction.doReject()">Từ chối</button>
         </div>
       </div>
     </div>
@@ -154,44 +115,45 @@
       let totalElements = 0;
 
       async function loadOrders(page = 0) {
-        const response = await API.getOrders(page);
-        allOrders = response.content || [];
-        currentPage = response.page || 0;
-        totalPages = response.totalPages || 0;
-        totalElements = response.totalElements || 0;
-        renderOrders(allOrders);
-        Utils.renderPagination(
-          "pagination",
-          currentPage,
-          totalPages,
-          loadOrders,
-        );
+        try {
+          const response = await API.getOrders(page);
+          allOrders = response.content || [];
+          currentPage = response.page || 0;
+          totalPages = response.totalPages || 0;
+          totalElements = response.totalElements || 0;
+          renderOrders(allOrders);
+          Utils.renderPagination("pagination", currentPage, totalPages, loadOrders);
+        } catch (e) {
+          document.getElementById("ordersBody").innerHTML =
+            `<tr><td colspan="6" style="text-align:center;padding:40px;color:red">Lỗi tải dữ liệu: ${e.message}</td></tr>`;
+        }
       }
 
       function renderOrders(list) {
-        document.getElementById("orderCount").textContent =
-          `${totalElements} đơn`;
+        const btn = (label, cls, click) => `<button class="btn btn-sm ${cls}" onclick="${click}">${label}</button>`;
+        document.getElementById("orderCount").textContent = `${totalElements} đơn`;
         document.getElementById("ordersBody").innerHTML = list.length
           ? list
-              .map(
-                (o) => `
-        <tr>
+              .map((o) => {
+                const code = (o.order_code || o.orderCode || "").replace(/'/g, "\\'");
+                const canConfirm = o.status === "pending";
+                return `<tr>
           <td class="td-mono">#${o.id || 0}</td>
           <td class="td-mono"><strong>${o.order_code || o.orderCode || ''}</strong></td>
           <td>${o.username || 'N/A'}</td>
-          <td class="td-mono">${o.user_id || o.userId || '-'}</td>
           <td style="font-weight:700;color:var(--primary)">${Utils.formatCurrency(o.total || 0)}</td>
           <td>${Utils.statusBadge(o.status || '')}</td>
           <td>
             <div class="action-group">
-              <a href="/admin/order/detail?id=${o.id}" class="btn btn-sm btn-outline">👁 View</a>
-              <button class="btn btn-sm btn-danger" onclick="confirmDelete(${o.id},'${(o.order_code || o.orderCode || '').replace(/'/g, "\\'")}')">🗑</button>
+              <a href="${APP_CONTEXT_PATH}/admin/order/detail?id=${o.id}" class="btn btn-sm btn-outline">👁 Xem</a>
+              ${canConfirm ? btn('Xác nhận', 'btn-success', `showConfirm(${o.id},'${code}')`) : ''}
+              ${canConfirm ? btn('Từ chối', 'btn-danger', `showReject(${o.id},'${code}')`) : ''}
             </div>
           </td>
-        </tr>`,
-              )
+        </tr>`;
+              })
               .join("")
-          : `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted)">Không tìm thấy đơn hàng nào</td></tr>`;
+          : `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">Không tìm thấy đơn hàng nào</td></tr>`;
       }
 
       function filterOrders() {
@@ -206,24 +168,44 @@
               (!st || o.status === st),
           ),
         );
-        Utils.renderPagination(
-          "pagination",
-          currentPage,
-          totalPages,
-          loadOrders,
-        );
+        Utils.renderPagination("pagination", currentPage, totalPages, loadOrders);
       }
 
-      function confirmDelete(id, code) {
-        DeleteConfirm.show(`"${code}"`, async () => {
-          await API.deleteOrder(id);
-          allOrders = allOrders.filter((o) => o.id !== id);
+      const confirmAction = {
+        id: null,
+        async doConfirm() {
+          await API.updateOrder(this.id, { status: "processing" });
+          Modal.close("confirmModalOverlay");
+          allOrders = allOrders.map((o) => o.id === this.id ? { ...o, status: "processing" } : o);
           renderOrders(allOrders);
-          Utils.toast(`Đã xóa đơn hàng ${code}`);
-        });
+          Utils.toast("Đã xác nhận đơn hàng thành công!");
+        },
+      };
+
+      const rejectAction = {
+        id: null,
+        async doReject() {
+          await API.updateOrder(this.id, { status: "cancelled" });
+          Modal.close("rejectModalOverlay");
+          allOrders = allOrders.map((o) => o.id === this.id ? { ...o, status: "cancelled" } : o);
+          renderOrders(allOrders);
+          Utils.toast("Đã từ chối đơn hàng!");
+        },
+      };
+
+      function showConfirm(id, code) {
+        confirmAction.id = id;
+        document.getElementById("confirmTargetLabel").textContent = code;
+        Modal.open("confirmModalOverlay");
       }
 
-      document.addEventListener("DOMContentLoaded", loadOrders);
+      function showReject(id, code) {
+        rejectAction.id = id;
+        document.getElementById("rejectTargetLabel").textContent = code;
+        Modal.open("rejectModalOverlay");
+      }
+
+      document.addEventListener("DOMContentLoaded", () => loadOrders());
     </script>
   </body>
 </html>

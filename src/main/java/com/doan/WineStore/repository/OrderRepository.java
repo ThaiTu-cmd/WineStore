@@ -36,7 +36,13 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
                    o.user_id AS userId,
                    o.total_amount AS total,
                    LOWER(o.status) AS status,
-                   o.created_at AS createdAt
+                   o.created_at AS createdAt,
+                   o.shipping_address_id AS shippingAddressId,
+                   o.payment_method_id AS paymentMethodId,
+                   o.shipping_method_id AS shippingMethodId,
+                   o.discount_code_id AS discountCodeId,
+                   o.subtotal AS subtotal,
+                   o.total_amount AS totalAmount
             FROM orders o
             LEFT JOIN users u ON u.id = o.user_id
             WHERE o.id = :id
@@ -72,5 +78,11 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
         java.math.BigDecimal getTotal();
         String getStatus();
         java.time.LocalDateTime getCreatedAt();
+        Long getShippingAddressId();
+        Long getPaymentMethodId();
+        Long getShippingMethodId();
+        Long getDiscountCodeId();
+        java.math.BigDecimal getSubtotal();
+        java.math.BigDecimal getTotalAmount();
     }
 }

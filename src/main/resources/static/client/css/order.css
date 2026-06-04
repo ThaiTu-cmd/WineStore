@@ -515,6 +515,8 @@
 .order-btn:hover { border-color:var(--color-green); color:var(--color-green); }
 .order-btn-cancel { border-color:#fca5a5; color:var(--color-danger); }
 .order-btn-cancel:hover { background:#fef2f2; border-color:var(--color-danger); }
+.order-btn-receive { border-color:#86efac; color:var(--color-green); }
+.order-btn-receive:hover { background:#f0fdf4; border-color:var(--color-green); }
 .order-btn:disabled { opacity:0.4; cursor:not-allowed; }
 
 @media (max-width: 700px) {

@@ -40,7 +40,7 @@
       <main class="main-content">
         <div class="card">
           <div class="card-header">
-            <div class="card-title"><i class="ti ti-shopping-bag"></i> Đơn hàng</div>
+
           </div>
           <div class="card-body">
             <div th:if="${orderSuccess != null}" class="notify notify-success">
@@ -55,7 +55,7 @@
             <div class="order-tabs">
               <button class="order-tab active" data-filter="all" onclick="filterByTab(this)">Tất cả</button>
               <button class="order-tab" data-filter="pending" onclick="filterByTab(this)">Chờ xác nhận</button>
-              <button class="order-tab" data-filter="processing" onclick="filterByTab(this)">Đang xử lý</button>
+               <button class="order-tab" data-filter="processing" onclick="filterByTab(this)">Xác nhận</button>
               <button class="order-tab" data-filter="shipping" onclick="filterByTab(this)">Đang giao</button>
               <button class="order-tab" data-filter="completed" onclick="filterByTab(this)">Hoàn thành</button>
               <button class="order-tab" data-filter="cancelled" onclick="filterByTab(this)">Đã hủy</button>
@@ -100,7 +100,8 @@
 
                   <div class="order-card-footer">
                     <a th:href="@{/orders/{id}(id=${order.id})}" class="order-btn order-btn-detail"><i class="ti ti-eye"></i> Chi tiết</a>
-                    <button type="button" class="order-btn order-btn-cancel" th:if="${order.status != null and order.status.toLowerCase() != 'completed' and order.status.toLowerCase() != 'cancelled'}" th:data-id="${order.id}" th:data-code="${order.orderCode}" onclick="showCancelConfirm(this)"><i class="ti ti-ban"></i> Hủy đơn</button>
+                    <button type="button" class="order-btn order-btn-receive" th:if="${order.status != null and order.status.toLowerCase() == 'shipping'}" th:data-id="${order.id}" th:data-code="${order.orderCode}" onclick="showReceiveConfirm(this)"><i class="ti ti-check"></i> Xác nhận đã nhận hàng</button>
+                    <button type="button" class="order-btn order-btn-cancel" th:if="${order.status != null and order.status.toLowerCase() != 'completed' and order.status.toLowerCase() != 'cancelled' and order.status.toLowerCase() != 'shipping'}" th:data-id="${order.id}" th:data-code="${order.orderCode}" onclick="showCancelConfirm(this)"><i class="ti ti-ban"></i> Hủy đơn</button>
                   </div>
                 </div>
               </div>
@@ -138,12 +139,35 @@
       </div>
     </div>
 
+    <!-- Receive Confirmation Modal -->
+    <div class="modal-backdrop" id="receiveModal">
+      <div class="modal-box" style="max-width:420px">
+        <div class="modal-header">
+          <span class="modal-title"><i class="ti ti-check-circle" style="color:var(--color-success);margin-right:8px"></i>Xác nhận đã nhận hàng</span>
+          <button class="modal-close" onclick="hideReceiveConfirm()"><i class="ti ti-x"></i></button>
+        </div>
+        <div class="modal-body" style="text-align:center;padding:32px 24px">
+          <div style="font-size:48px;margin-bottom:16px">📦</div>
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:8px">Xác nhận đã nhận hàng</div>
+          <div style="font-size:0.85rem;color:var(--color-text-muted);margin-bottom:4px">
+            Bạn đã nhận được đơn hàng <strong id="receiveOrderCode" style="color:var(--color-grey-800)"></strong>?
+          </div>
+          <div style="font-size:0.8rem;color:var(--color-grey-400)">Sau khi xác nhận, đơn hàng sẽ chuyển sang trạng thái hoàn thành.</div>
+        </div>
+        <div class="modal-footer" style="display:flex;gap:8px;justify-content:center">
+          <button class="btn btn-outline" onclick="hideReceiveConfirm()" style="flex:1">Để sau</button>
+          <button class="btn btn-success" onclick="confirmReceiveOrder()" style="flex:1">Xác nhận</button>
+        </div>
+      </div>
+    </div>
+
     <div th:replace="~{client/fragments/footer :: footer}"></div>
     <div th:replace="~{client/fragments/contact :: contact}"></div>
 
     <script th:src="@{/client/js/app.js}"></script>
     <script>
       var pendingCancelId = null;
+      var pendingReceiveId = null;
 
       function filterByTab(btn) {
         document.querySelectorAll('.order-tab').forEach(function(t) { t.classList.remove('active'); });
@@ -166,6 +190,32 @@
           var matchSearch = !q || (code && code.textContent.toLowerCase().includes(q));
           c.style.display = (matchStatus && matchSearch) ? '' : 'none';
         });
+      }
+
+      function showReceiveConfirm(btn) {
+        pendingReceiveId = btn.dataset.id;
+        document.getElementById('receiveOrderCode').textContent = btn.dataset.code;
+        document.getElementById('receiveModal').classList.add('open');
+      }
+
+      function hideReceiveConfirm() {
+        pendingReceiveId = null;
+        document.getElementById('receiveModal').classList.remove('open');
+      }
+
+      function confirmReceiveOrder() {
+        if (!pendingReceiveId) return;
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.action = '/WineStore/orders/confirm-received';
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'id';
+        input.value = pendingReceiveId;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        hideReceiveConfirm();
+        form.submit();
       }
 
       function showCancelConfirm(btn) {
@@ -196,6 +246,10 @@
 
       document.getElementById('cancelModal').addEventListener('click', function(e) {
         if (e.target === this) hideCancelConfirm();
+      });
+
+      document.getElementById('receiveModal').addEventListener('click', function(e) {
+        if (e.target === this) hideReceiveConfirm();
       });
 
       document.querySelectorAll('.notify').forEach(function(n) {

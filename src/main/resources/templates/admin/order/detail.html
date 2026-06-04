@@ -1,9 +1,9 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Order Detail �?" WineStore Admin</title>
+    <title>Chi tiết đơn hàng - WineStore Admin</title>
     <link rel="stylesheet" th:href="@{/admin/css/style.css?v=1}" />
   </head>
   <body>
@@ -46,199 +46,72 @@
       <div class="main-wrap">
         <header class="topbar">
           <div class="topbar-info">
-            <div class="topbar-title" id="topbarTitle">Order Detail</div>
-            <div class="topbar-breadcrumb">Orders �?' Chi tiết �'ơn hàng</div>
+            <div class="topbar-title" id="topbarTitle">Chi tiết đơn hàng</div>
+            <div class="topbar-breadcrumb">Đơn hàng - Chi tiết</div>
           </div>
           <div class="topbar-right">
-            <button
-              class="icon-btn"
-              title="Cài �'ặt"
-              onclick="toggleLogoutDropdown()"
-            >
-              �sT️
-            </button>
+            <button class="icon-btn" title="Cài đặt" onclick="toggleLogoutDropdown()">⚙️</button>
             <div class="dropdown-menu" id="logoutDropdown" style="display: none">
-              <button
-                class="dropdown-item dropdown-item-logout"
-                onclick="logout()"
-              >
-                Đăng xuất
-              </button>
+              <button class="dropdown-item dropdown-item-logout" onclick="logout()">Đăng xuất</button>
             </div>
           </div>
         </header>
-        <div style="padding: 22px">
-                <div class="form-group">
-                  <label class="form-label">Status *</label>
-                  <select class="form-control" id="editStatus">
-                    <option value="pending">⏳ Pending �?" Chờ xử lý</option>
-                    <option value="shipping">�Yss Shipping �?" Đang giao</option>
-                    <option value="completed">�o" Completed �?" Hoàn thành</option>
-                    <option value="cancelled">�o- Cancelled �?" Đã hủy</option>
-                  </select>
-                </div>
+        <div class="page-wrap">
+          <div class="page-header">
+            <div>
+              <div class="page-title" id="detailTitle">Chi tiết đơn hàng</div>
+              <div class="page-subtitle" id="detailCreated"></div>
+            </div>
+            <div id="detailStatusBadge"></div>
+          </div>
 
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label class="form-label">Subtotal (VNĐ)</label>
-                    <input
-                      class="form-control"
-                      type="number"
-                      id="editSubtotal"
-                      min="0"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Total Amount (VNĐ)</label>
-                    <input
-                      class="form-control"
-                      type="number"
-                      id="editTotal"
-                      min="0"
-                    />
-                  </div>
-                </div>
-
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label class="form-label">Shipping Address ID</label>
-                    <input
-                      class="form-control"
-                      type="number"
-                      id="editShippingAddr"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Payment Method ID</label>
-                    <input
-                      class="form-control"
-                      type="number"
-                      id="editPayMethod"
-                    />
-                  </div>
-                </div>
-
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label class="form-label">Shipping Method ID</label>
-                    <input
-                      class="form-control"
-                      type="number"
-                      id="editShipMethod"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Discount Code ID</label>
-                    <input
-                      class="form-control"
-                      type="text"
-                      id="editDiscountId"
-                      placeholder="Đ�f tr�'ng nếu không có"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  class="btn btn-primary btn-lg"
-                  style="width: 100%; margin-top: 6px"
-                  id="saveBtn"
-                  onclick="saveOrder()"
-                >
-                  �Y'� Lưu thay �'�.i
-                </button>
-              </div>
+          <div class="card">
+            <div class="card-header"><strong>Thông tin đơn hàng</strong></div>
+            <div class="card-body">
+              <div class="detail-grid" id="detailGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:22px"></div>
             </div>
           </div>
-          <!-- /grid-2 -->
         </div>
       </div>
     </div>
 
     <script th:src="@{/admin/js/admin.js}"></script>
     <script>
-      let currentOrderId = null;
-
       async function loadDetail() {
         const params = new URLSearchParams(location.search);
-        const id = parseInt(params.get("id")) || 1;
-        currentOrderId = id;
+        const id = parseInt(params.get("id"));
+        if (!id) return;
 
         const d = await API.getOrderById(id);
         if (!d) return;
 
-        // Topbar / titles
         document.getElementById("topbarTitle").textContent = d.order_code;
-        document.getElementById("detailTitle").textContent =
-          `Đơn hàng: ${d.order_code}`;
-        document.getElementById("detailCreated").textContent =
-          `Ngày tạo: ${d.created_at}`;
-        document.getElementById("detailStatusBadge").innerHTML =
-          Utils.statusBadge(d.status);
+        document.getElementById("detailTitle").textContent = "Đơn hàng: " + d.order_code;
+        document.getElementById("detailCreated").textContent = "Ngày tạo: " + d.created_at;
+        document.getElementById("detailStatusBadge").innerHTML = Utils.statusBadge(d.status);
 
-        // Info grid
         const fields = [
-          ["ID", String(d.id)],
-          ["Order Code", d.order_code],
-          ["User ID", String(d.user_id)],
-          ["Shipping Addr. ID", String(d.shipping_address_id)],
-          ["Payment Method ID", String(d.payment_method_id)],
-          ["Shipping Method ID", String(d.shipping_method_id)],
-          [
-            "Discount Code ID",
-            d.discount_code_id ? String(d.discount_code_id) : "�?" (không có)",
-          ],
-          ["Subtotal", Utils.formatCurrency(d.subtotal)],
-          ["Total Amount", Utils.formatCurrency(d.total_amount)],
-          ["Status", d.status],
-          ["Created At", d.created_at],
+          ["Mã đơn hàng", d.order_code],
+          ["Khách hàng", d.username || "N/A"],
+          ["Tổng tiền", Utils.formatCurrency(d.total || 0)],
+          ["Trạng thái", d.status],
+          ["Mã giảm giá", d.discount_code_id ? String(d.discount_code_id) : "Không có"],
+          ["Tạm tính", Utils.formatCurrency(d.subtotal || 0)],
+          ["Thành tiền", Utils.formatCurrency(d.total_amount || 0)],
+          ["Ngày tạo", d.created_at],
         ];
 
         document.getElementById("detailGrid").innerHTML = fields
-          .map(
-            ([l, v]) => `
+          .map(([l, v]) => `
     <div class="detail-field">
       <div class="detail-field-label">${l}</div>
       <div class="detail-field-value">${v}</div>
     </div>
-  `,
-          )
+  `)
           .join("");
-
-        // Pre-fill edit form
-        document.getElementById("editStatus").value = d.status;
-        document.getElementById("editSubtotal").value = d.subtotal;
-        document.getElementById("editTotal").value = d.total_amount;
-        document.getElementById("editShippingAddr").value =
-          d.shipping_address_id;
-        document.getElementById("editPayMethod").value = d.payment_method_id;
-        document.getElementById("editShipMethod").value = d.shipping_method_id;
-        document.getElementById("editDiscountId").value =
-          d.discount_code_id ?? "";
-      }
-
-      async function saveOrder() {
-        const btn = document.getElementById("saveBtn");
-        btn.disabled = true;
-        btn.textContent = "⏳ Đang lưu...";
-        const data = {
-          status: document.getElementById("editStatus").value,
-          subtotal: +document.getElementById("editSubtotal").value,
-          total_amount: +document.getElementById("editTotal").value,
-          shipping_address_id:
-            +document.getElementById("editShippingAddr").value,
-          payment_method_id: +document.getElementById("editPayMethod").value,
-          shipping_method_id: +document.getElementById("editShipMethod").value,
-          discount_code_id:
-            document.getElementById("editDiscountId").value || null,
-        };
-        await API.updateOrder(currentOrderId, data);
-        Utils.toast("Đã cập nhật �'ơn hàng thành công!");
-        btn.disabled = false;
-        btn.innerHTML = "�Y'� Lưu thay �'�.i";
       }
 
       document.addEventListener("DOMContentLoaded", loadDetail);
     </script>
   </body>
 </html>
-

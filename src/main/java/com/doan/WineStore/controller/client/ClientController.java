@@ -276,14 +276,19 @@ public class ClientController {
         if (userMap == null) return "redirect:/auth/login";
         Long userId = (Long) userMap.get("id");
 
-        AddressEntity saved = addressService.save(userId, fullName, phone, addressLine1, addressLine2,
-                city, province, country, postalCode, type, isDefault);
-        if (saved != null) {
-            log.info("Address added: id={} for userId={}", saved.getId(), userId);
-            redirectAttributes.addFlashAttribute("addressSuccess", "Thêm địa chỉ mới thành công!");
-        } else {
-            log.warn("Address add failed for userId={}", userId);
-            redirectAttributes.addFlashAttribute("addressError", "Thêm địa chỉ thất bại!");
+        try {
+            AddressEntity saved = addressService.save(userId, fullName, phone, addressLine1, addressLine2,
+                    city, province, country, postalCode, type, isDefault);
+            if (saved != null) {
+                log.info("Address added: id={} for userId={}", saved.getId(), userId);
+                redirectAttributes.addFlashAttribute("addressSuccess", "Thêm địa chỉ mới thành công!");
+            } else {
+                log.warn("Address add failed (null) for userId={}", userId);
+                redirectAttributes.addFlashAttribute("addressError", "Thêm địa chỉ thất bại!");
+            }
+        } catch (Exception e) {
+            log.error("Address add error for userId={}: {}", userId, e.getMessage(), e);
+            redirectAttributes.addFlashAttribute("addressError", "Lỗi: " + e.getMessage());
         }
         return "redirect:/address";
     }
@@ -342,6 +347,22 @@ public class ClientController {
         return "redirect:/address";
     }
 
+    @PostMapping("/address/set-default")
+    public String setDefaultAddress(
+            @RequestParam Long id,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
+        if (userMap == null) return "redirect:/auth/login";
+        Long userId = (Long) userMap.get("id");
+
+        addressService.setDefault(id, userId);
+        log.info("Address set default: id={} for userId={}", id, userId);
+        redirectAttributes.addFlashAttribute("addressSuccess", "Đã đặt làm địa chỉ mặc định!");
+        return "redirect:/address";
+    }
+
     @PostMapping("/checkout/place-order")
     public String placeOrder(
             @RequestParam Long addressId,
@@ -391,6 +412,27 @@ public class ClientController {
         order.setUpdatedAt(LocalDateTime.now());
         orderRepository.save(order);
         redirectAttributes.addFlashAttribute("orderSuccess", "Đã hủy đơn hàng thành công!");
+        return "redirect:/orders";
+    }
+
+    @PostMapping("/orders/confirm-received")
+    public String confirmReceived(@RequestParam Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        Map<String, Object> userMap = (Map<String, Object>) session.getAttribute("user");
+        if (userMap == null) return "redirect:/auth/login";
+        Long userId = (Long) userMap.get("id");
+        OrderEntity order = orderRepository.findById(id).orElse(null);
+        if (order == null || !order.getUserId().equals(userId)) {
+            redirectAttributes.addFlashAttribute("orderError", "Không tìm thấy đơn hàng!");
+            return "redirect:/orders";
+        }
+        if (!"shipping".equalsIgnoreCase(order.getStatus())) {
+            redirectAttributes.addFlashAttribute("orderError", "Đơn hàng không ở trạng thái đang giao!");
+            return "redirect:/orders";
+        }
+        order.setStatus("completed");
+        order.setUpdatedAt(LocalDateTime.now());
+        orderRepository.save(order);
+        redirectAttributes.addFlashAttribute("orderSuccess", "Đã xác nhận nhận hàng thành công!");
         return "redirect:/orders";
     }
 
