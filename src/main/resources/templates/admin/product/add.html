@@ -120,6 +120,11 @@
                 </div>
 
                 <div class="form-group">
+                  <label class="form-label">Thương hiệu</label>
+                  <input class="form-control" id="fBrand" placeholder="Nhập thương hiệu..." />
+                </div>
+
+                <div class="form-group">
                   <label class="form-label">Mô tả ngắn</label>
                   <textarea class="form-control" id="fShortDesc" rows="2" placeholder="Mô tả ngắn gọn (tối đa 500 ký tự)..."></textarea>
                 </div>
@@ -246,7 +251,7 @@
 
       async function initPage() {
         try {
-          const catsResponse = await API.getCategories();
+          const catsResponse = await API.getCategories(0, 999);
           const cats = catsResponse.content || [];
           const sel = document.getElementById("fCategory");
           cats.forEach((c) => {
@@ -281,6 +286,7 @@
               document.getElementById("fCategory").value = p.category_id ?? p.categoryId ?? "";
               document.getElementById("fPrice").value = p.price || 0;
               document.getElementById("fOldPrice").value = p.old_price ?? p.oldPrice ?? "";
+              document.getElementById("fBrand").value = p.brand || "";
               document.getElementById("fStock").value = p.stock_quantity ?? p.stockQuantity ?? 0;
               document.getElementById("fShortDesc").value = p.short_description ?? p.shortDescription ?? "";
               document.getElementById("fDesc").value = p.description || "";
@@ -302,6 +308,16 @@
             }
           } catch (e) {
             Utils.toast("Không thể tải sản phẩm: " + (e?.message || ""), "error");
+            editMode = false;
+            editId = null;
+            document.getElementById("topbarTitle").textContent = "Thêm sản phẩm";
+            document.getElementById("topbarBreadcrumb").textContent = "Products / Thêm mới";
+            document.getElementById("pageTitle").textContent = "Thêm sản phẩm mới";
+            document.getElementById("modeTag").textContent = "Chế độ: Thêm mới";
+            document.getElementById("modeTag").className = "badge badge-success";
+            document.getElementById("submitIcon").textContent = "\uD83D\uDCBE";
+            document.getElementById("submitLabel").textContent = "Lưu sản phẩm";
+            document.getElementById("editStatsCard").style.display = "none";
           }
         }
       }
@@ -314,18 +330,19 @@
         const images = getImages();
         const data = {
           name: document.getElementById("fName").value.trim(),
-          categoryId: +document.getElementById("fCategory").value || undefined,
+          brand: document.getElementById("fBrand").value.trim() || undefined,
+          category_id: +document.getElementById("fCategory").value || undefined,
           price: +document.getElementById("fPrice").value || 0,
-          oldPrice: +document.getElementById("fOldPrice").value || undefined,
-          stockQuantity: +document.getElementById("fStock").value || 0,
-          shortDescription: document.getElementById("fShortDesc").value.trim(),
+          old_price: +document.getElementById("fOldPrice").value || undefined,
+          stock_quantity: +document.getElementById("fStock").value || 0,
+          short_description: document.getElementById("fShortDesc").value.trim(),
           description: document.getElementById("fDesc").value.trim(),
-          imageUrl: images[0] || undefined,
-          isActive: document.getElementById("fActive").checked,
+          image_url: images[0] || undefined,
+          is_active: document.getElementById("fActive").checked,
           images: images.length ? images : undefined,
         };
 
-        if (!data.name || !data.categoryId || !data.price) {
+        if (!data.name || !data.category_id || !data.price) {
           Utils.toast("Vui lòng điền đầy đủ thông tin bắt buộc (Tên, Danh mục, Giá)!", "error");
           submitLabel.textContent = original;
           return;
@@ -338,13 +355,8 @@
           } else {
             await API.createProduct(data);
             Utils.toast("Đã thêm sản phẩm mới thành công!");
-            ["fName", "fPrice", "fOldPrice", "fStock", "fShortDesc", "fDesc", "fImage"].forEach((id) => {
-              document.getElementById(id).value = "";
-            });
-            document.getElementById("fCategory").value = "";
-            document.getElementById("fActive").checked = true;
-            document.getElementById("imageList").innerHTML = '<div style="color:var(--text-muted);font-size:13px;padding:8px 0">Chưa có ảnh nào</div>';
           }
+          setTimeout(() => { window.location.href = "list"; }, 1000);
         } catch (error) {
           Utils.toast(error?.message || "Không thể lưu sản phẩm", "error");
         }

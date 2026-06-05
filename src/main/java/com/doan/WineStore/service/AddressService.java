@@ -78,8 +78,9 @@ public class AddressService {
             log.warn("Delete failed: address id={} not found for userId={}", id, userId);
             return false;
         }
-        addressRepository.delete(addr);
-        log.info("Deleted address id={} for userId={}", id, userId);
+        addr.setDeletedAt(java.time.LocalDateTime.now());
+        addressRepository.save(addr);
+        log.info("Soft-deleted address id={} for userId={}", id, userId);
         return true;
     }
 

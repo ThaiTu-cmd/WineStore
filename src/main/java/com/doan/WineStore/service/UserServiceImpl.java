@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
+                .filter(u -> u.getDeletedAt() == null)
                 .map(this::toResponse)
                 .toList();
     }
@@ -86,10 +87,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new UserNotFoundException("User not found");
-        }
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        user.setDeletedAt(java.time.LocalDateTime.now());
+        userRepository.save(user);
     }
 
     private UserResponse toResponse(User user) {

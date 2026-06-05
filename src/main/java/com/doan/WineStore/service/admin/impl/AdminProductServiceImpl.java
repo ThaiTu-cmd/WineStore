@@ -84,22 +84,20 @@ public class AdminProductServiceImpl implements AdminProductService {
 
     private void saveImages(Long productId, ProductUpsertRequest request) {
         List<String> images = request.getImages();
-        if (images == null || images.isEmpty()) {
-            if (request.getImageUrl() != null) {
-                productImageRepository.deleteByProductId(productId);
-                ProductImageEntity img = new ProductImageEntity(productId, request.getImageUrl(), true, 0);
-                productImageRepository.save(img);
+        if (images != null && !images.isEmpty()) {
+            productImageRepository.deleteByProductId(productId);
+            List<ProductImageEntity> entities = new ArrayList<>();
+            for (int i = 0; i < images.size(); i++) {
+                String url = images.get(i);
+                if (url == null || url.isBlank()) continue;
+                entities.add(new ProductImageEntity(productId, url.trim(), i == 0, i));
             }
-            return;
+            productImageRepository.saveAll(entities);
+        } else if (request.getImageUrl() != null) {
+            productImageRepository.deleteByProductId(productId);
+            ProductImageEntity img = new ProductImageEntity(productId, request.getImageUrl(), true, 0);
+            productImageRepository.save(img);
         }
-        productImageRepository.deleteByProductId(productId);
-        List<ProductImageEntity> entities = new ArrayList<>();
-        for (int i = 0; i < images.size(); i++) {
-            String url = images.get(i);
-            if (url == null || url.isBlank()) continue;
-            entities.add(new ProductImageEntity(productId, url.trim(), i == 0, i));
-        }
-        productImageRepository.saveAll(entities);
     }
 
     @Override
